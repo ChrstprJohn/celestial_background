@@ -2,7 +2,12 @@
 
 Discover NASA's Astronomy Picture of the Day from your birthday.
 
-Built with Vite, React, Tailwind CSS, Axios, and GSAP. Includes a responsive landing page, accessible date form, real NASA integration, image/video results, and loading/error states.
+Built with Vite, React, Tailwind CSS, Axios, and GSAP. The galaxy-themed homepage contains a hero, an Explore CTA that scrolls to a service section, and a footer. The birthday card opens `/birthday`, with a date form on the left and the original NASA image on the right (stacked on mobile). Add future service cards to the `services` list in `src/App.jsx` and provide their dedicated pages.
+
+Production hosting should serve `index.html` for application routes such as `/birthday` so direct links and refreshes work. Vite handles this locally.
+
+Image results can be downloaded at the source resolution and format. The app fetches the original image bytes and saves them without cropping, decoration, added text, or re-encoding. Video entries display their original media instead. If an image host prevents download, the page provides a retry button and a link to open and save the original.
+
 
 ## Start locally
 
