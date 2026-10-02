@@ -55,9 +55,11 @@ Birthday headings cap at 68px on desktop and use clamp(52px, 14vw, 64px) on mobi
 
 ## Layout
 
-Home consists of hero with Explore, discoveries with one birthday service, and footer. Explore scrolls to discoveries; the service opens /birthday.
+Home consists of hero with Explore, discoveries with Birthday sky and Moon on your day services, and footer. Explore scrolls to discoveries; the services open /birthday and /moon.
 
 Birthday uses a maximum 1140px workspace with .9fr 1.1fr columns and 40–100px fluid gap. Controls sit left and image/download right. Below 768px, columns stack with 24px gutters. Image width caps at 480px and display height at 460px; object-fit: contain preserves the full composition. Caption and compact Download share a wrapping row. Source and credit share a separate row beneath a thin rule.
+
+Moon uses the same desktop workspace and columns, with date controls left and an unframed square Moon stage right. The result caps at 480px and centers its date, serif phase title, illumination, reference caption, and source links beneath the sphere. Below 768px, controls stack above the result with 24px gutters and a 36px gap; the Moon stage caps at 360px.
 
 ## Elevation & Depth
 
@@ -73,6 +75,8 @@ Find my sky is a content-width lavender action, at least 164×48px. Download is 
 
 Downloads save original NASA file bytes, resolution, and format. No compositing or collectible generation. Failed previews/downloads offer the original-image link. Video dates retain media or a NASA source link.
 
+Moon reuses the visible date label, native date field, inline errors, and content-width lavender action. Its canvas renders a locally textured phase visualization with no decorative frame. Preparing/error feedback occupies the stage; an outlined Try again action recovers a failed texture load. Date, phase, and illumination remain outside the canvas, with a quiet noon UTC / simplified north-up caption and source links. Result updates announce politely and move focus to the result; mobile scrolling respects reduced motion. The homepage Moon card uses a decorative crescent without interactive canvas controls.
+
 The starfield pauses when hidden and becomes static under reduced motion. Entry motion uses expo.out, 18px displacement, 1s duration, and .09s stagger. Reduced motion also disables smooth scrolling.
 
 ## Do's and Don'ts
@@ -80,5 +84,5 @@ The starfield pauses when hidden and becomes static under reduced motion. Entry 
 - Preserve original photos; place date, title, and credit outside them.
 - Keep the birthday task compact and NASA source visible.
 - Maintain keyboard focus, request feedback, recovery, and responsive wrapping.
-- Keep only the available birthday service on home.
+- Keep only available discoveries on home: Birthday sky and Moon on your day.
 - Do not restore collectible cards, decorative borders, filler sections, or text overlays.

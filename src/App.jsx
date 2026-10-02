@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, CalendarDays, LoaderCircle, Orbit, Telescope } from 'lucide-react'
 import gsap from 'gsap'
 import axios from 'axios'
@@ -6,10 +6,14 @@ import { fetchApod } from './lib/apod.js'
 import { ARCHIVE_START, nasaToday, validateDate } from './lib/dates.js'
 import BirthdayImage from './BirthdayImage.jsx'
 import Starfield from './Starfield.jsx'
+import MoonVisual from './MoonVisual.jsx'
+
+const MoonPage = lazy(() => import('./MoonPage.jsx'))
 
 const galaxyImage = 'https://assets.science.nasa.gov/content/dam/science/cds/apod/apod/2024/january/ngc1232b_vlt_3969.jpg?w=1000&h=1100&fit=clip'
 const services = [
-  { title: 'Birthday sky', description: 'See NASA’s image from the day you were born.', href: '/birthday' },
+  { title: 'Birthday sky', description: 'See NASA’s image from the day you were born.', href: '/birthday', action: 'Find your sky', art: 'galaxy' },
+  { title: 'Moon on your day', description: 'Discover the Moon’s phase on a day that matters.', href: '/moon', action: 'Find your Moon', art: 'moon' },
 ]
 
 function EmptyPreview() {
@@ -35,12 +39,12 @@ function LandingPage() {
       <section id="services" className="services-section" aria-labelledby="services-title" tabIndex={-1}>
         <h2 id="services-title">Discoveries</h2>
         <div className="services-grid">
-          {services.map(({ title, description, href }) => (
+          {services.map(({ title, description, href, action, art }) => (
             <a key={href} href={href} className="service-card">
-              <div className="service-art" aria-hidden="true">
-                <img className="service-photo" src={galaxyImage} alt="" loading="lazy" />
+              <div className={`service-art${art === 'moon' ? ' service-art-moon' : ''}`} aria-hidden="true">
+                {art === 'moon' ? <MoonVisual fraction={.218} waxing decorative /> : <img className="service-photo" src={galaxyImage} alt="" loading="lazy" />}
               </div>
-              <div className="service-copy"><h3>{title}</h3><p>{description}</p><span>Find your sky <ArrowRight size={18} aria-hidden="true" /></span></div>
+              <div className="service-copy"><h3>{title}</h3><p>{description}</p><span>{action} <ArrowRight size={18} aria-hidden="true" /></span></div>
             </a>
           ))}
         </div>
@@ -131,9 +135,12 @@ function BirthdayPage() {
 export default function App() {
   const root = useRef(null)
   const isBirthday = /^\/birthday\/?$/.test(window.location.pathname)
+  const isMoon = /^\/moon\/?$/.test(window.location.pathname)
+  const isDiscovery = isBirthday || isMoon
 
   useEffect(() => {
-    document.title = isBirthday ? 'Birthday sky — Celestial' : 'Celestial — Among the stars'
+    document.title = isBirthday ? 'Birthday sky — Celestial' : isMoon ? 'Moon on your day — Celestial' : 'Celestial — Among the stars'
+    if (isMoon) return
     const context = gsap.context(() => {
       const media = gsap.matchMedia()
       media.add('(prefers-reduced-motion: no-preference)', () => {
@@ -141,17 +148,17 @@ export default function App() {
       })
     }, root)
     return () => context.revert()
-  }, [isBirthday])
+  }, [isBirthday, isMoon])
 
   return (
     <div ref={root} className="site-shell">
       <Starfield />
-      <a href={isBirthday ? '#birthday' : '#services'} className="skip-link">{isBirthday ? 'Skip to birthday lookup' : 'Skip to discoveries'}</a>
+      <a href={isBirthday ? '#birthday' : isMoon ? '#moon-form' : '#services'} className="skip-link">{isBirthday ? 'Skip to birthday lookup' : isMoon ? 'Skip to Moon lookup' : 'Skip to discoveries'}</a>
       <header className="site-header">
         <a className="wordmark" href="/" aria-label="Celestial home"><Orbit size={27} strokeWidth={1.2} aria-hidden="true" /><span>celestial</span></a>
-        <nav aria-label="Main navigation"><a href={isBirthday ? '/#services' : '#services'}>Discoveries <ArrowUpRight size={15} aria-hidden="true" /></a></nav>
+        <nav aria-label="Main navigation"><a href={isDiscovery ? '/#services' : '#services'}>Discoveries <ArrowUpRight size={15} aria-hidden="true" /></a></nav>
       </header>
-      <main>{isBirthday ? <BirthdayPage /> : <LandingPage />}</main>
+      <main>{isBirthday ? <BirthdayPage /> : isMoon ? <Suspense fallback={<p className="moon-route-loading" role="status">Opening your Moon…</p>}><MoonPage /></Suspense> : <LandingPage />}</main>
       <footer className="site-footer"><span>celestial</span><a href="https://science.nasa.gov/apod/" target="_blank" rel="noreferrer">Imagery via NASA APOD <ArrowUpRight size={13} aria-hidden="true" /></a><span>Independent project · Galaxy: ESO / VLT</span></footer>
     </div>
   )

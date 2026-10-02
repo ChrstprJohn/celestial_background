@@ -95,6 +95,30 @@ h2 { font-size: clamp(40px, 4vw, 56px); line-height: 1.1; }
 .media-note { font-size: 13px; line-height: 1.8; color: #c2c5d8; margin-top: 20px; }
 .result-video { width: 100%; aspect-ratio: 16 / 9; border: 0; }
 .video-result { padding: 25px 0; }
+.moon-workspace { max-width: 1140px; margin-inline: auto; min-height: calc(100svh - 178px); display: grid; grid-template-columns: .9fr 1.1fr; align-items: center; gap: clamp(40px, 7vw, 100px); padding: 40px 40px 72px; }
+.moon-controls { max-width: 380px; padding-bottom: 20px; }
+.moon-controls h1 { font-size: clamp(56px, 5vw, 68px); line-height: 1.08; }
+.moon-description { font-size: 14px; color: #b5bbd0; line-height: 1.8; margin-top: 20px; max-width: 30ch; }
+.moon-form { margin-top: 33px; scroll-margin-top: 24px; }
+.moon-form label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 11px; }
+.moon-result { width: 100%; max-width: 480px; justify-self: center; text-align: center; scroll-margin-top: 24px; }
+.moon-result:focus { outline: none; }
+.moon-figure { margin: 0; }
+.moon-stage { position: relative; width: 100%; aspect-ratio: 1; }
+.moon-canvas { display: block; width: 100%; height: auto; }
+.moon-preview-status { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; color: #b5bbd0; font-size: 13px; }
+.moon-retry { display: inline-flex; align-items: center; gap: 8px; background: #101528; color: #ded8fa; border: 1px solid #4c5270; border-radius: 6px; min-height: 44px; padding: 0 15px; font-size: 12px; }
+.moon-retry:hover { border-color: #9a91cf; }
+.moon-figure figcaption { margin-top: 16px; }
+.moon-figure .result-date { font-size: 12px; }
+.moon-figure h2 { font-size: clamp(32px, 3.5vw, 40px); line-height: 1.2; }
+.moon-illumination { margin-top: 9px; font-size: 13px; color: #b5bbd0; font-variant-numeric: tabular-nums; }
+.moon-reference { margin-top: 27px; font-size: 11px; line-height: 1.8; color: #a4abc2; }
+.moon-sources { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 20px; margin-top: 10px; }
+.moon-sources a { display: inline-flex; align-items: center; gap: 4px; color: #b5bbd0; font-size: 11px; }
+.moon-route-loading { min-height: calc(100svh - 178px); display: grid; place-items: center; color: #b5bbd0; }
+.service-art-moon { background: #070b17; }
+.service-art-moon .moon-stage { width: 240px; max-width: 85%; }
 .loading-icon { animation: spin 1s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 @media (max-width: 767px) {
@@ -118,6 +142,13 @@ h2 { font-size: clamp(40px, 4vw, 56px); line-height: 1.1; }
   .birthday-form { margin-top: 25px; }
   .date-input-wrap input { font-size: 16px; }
   .image-workspace { max-width: 480px; }
+  .moon-workspace { grid-template-columns: 1fr; gap: 36px; padding: 30px 24px 55px; }
+  .moon-controls { max-width: 420px; width: 100%; margin-inline: auto; padding-bottom: 0; }
+  .moon-controls h1 { font-size: clamp(52px, 14vw, 64px); }
+  .moon-description { font-size: 13px; margin-top: 16px; }
+  .moon-form { margin-top: 25px; }
+  .moon-stage:not(.moon-stage-decorative) { max-width: 360px; margin-inline: auto; }
+  .service-art-moon .moon-stage { width: 225px; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

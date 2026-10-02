@@ -1,0 +1,8 @@
+{
+  "asset": "moon-surface.jpg",
+  "source": "https://cdn.jsdelivr.net/gh/mrdoob/three.js@r150/examples/textures/planets/moon_1024.jpg",
+  "upstream": "https://github.com/mrdoob/three.js/blob/r150/examples/textures/planets/moon_1024.jpg",
+  "upstreamLicense": "https://github.com/mrdoob/three.js/blob/r150/LICENSE",
+  "retrieved": "2026-10-03",
+  "usage": "Unmodified lunar surface map, projected and illuminated locally. The rendered result is a simplified visualization, not a date-specific photograph."
+}
