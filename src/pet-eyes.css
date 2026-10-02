@@ -1,0 +1,4 @@
+.pet-eyes { position: absolute; inset: 0; pointer-events: none; }
+.pet-eye { position: absolute; transform: translate(-50%, -50%); border-radius: 50%; overflow: hidden; display: grid; place-items: center; }
+.pet-pupil { position: relative; display: block; width: 55%; height: 55%; border-radius: 50%; background: radial-gradient(ellipse at 35% 25%, #3d2d72, #151338 70%); }
+.pet-pupil::after { content: ''; position: absolute; width: 20%; height: 17%; top: 17%; left: 23%; border-radius: 50%; background: #fff8ee; opacity: .92; }

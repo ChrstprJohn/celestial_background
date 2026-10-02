@@ -1,0 +1,33 @@
+{
+  "provider": "Built-in image_gen; runtime does not expose the underlying model name",
+  "constraint_delivery": "main-prompt constraints",
+  "samples": [
+    {
+      "label": "A1",
+      "direction": "Night owl — nighttime observation and curiosity",
+      "corner": "lower-left",
+      "intended_gaze": "right",
+      "colors": {
+        "body": "#c9c1f0",
+        "mask": "#51436e",
+        "background": "#070b17"
+      },
+      "filename": "A1-night-owl-right.png",
+      "prompt": "Create one complete full-bleed 1:1 square image, approximately 1536 x 1536.\nBackground: fill the entire square with solid midnight navy #070b17, uniform in every open area.\nSubject: one extremely simplified, cute baby owl, a curious calm night-sky companion. A round squat merged head/body shape and two rounded wing lobes, one broad continuous double-lobed facial mask. No ear tufts or sharp beak.\nComplexity: 4-7 large soft geometric shapes, one continuous outer silhouette. Two simple slightly oval eyes placed within the broad mask; subtly offset both eyes towards the viewer's RIGHT, a small head yaw to the RIGHT as if attentively watching a pointer to its right. Keep both eyes visible, the overall character upright. No mouth needed. Readable at 32 x 32.\nColor: exactly two subject colors: lavender #c9c1f0 body and deep muted violet #51436e broad continuous facial mask. Eyes reuse lavender. Exactly these two semantic subject colors and the midnight navy background. No extra colors.\nComposition: emerge from the LOWER LEFT, occupy 85-95% of the square. Both rounded wings visible; subtle bottom/left cropping can support the corner emergence. Do not center.\nStyle: ultra-clean graphic simplicity, soft heavy rounded forms, baby-like proportions, endearing quiet personality. Add an extremely, extremely subtle, almost imperceptible sense of depth through a barely-there neo-skeuomorphic treatment.\nConstraints: no text, watermark, frame, cards, extra subjects, props, scenery, stars, outlines, fine lines, sharp tips, costumes, texture, decorative marks, photorealistic material, glossy hotspots, strong three-dimensional rendering, external cast shadows, backdrop gradient or vignette."
+    },
+    {
+      "label": "A2",
+      "direction": "Night owl — nighttime observation and curiosity",
+      "corner": "lower-right",
+      "intended_gaze": "left",
+      "colors": {
+        "body": "#c9c1f0",
+        "mask": "#51436e",
+        "background": "#070b17"
+      },
+      "filename": "A2-night-owl-left.png",
+      "prompt": "Create one complete full-bleed 1:1 square image, approximately 1536 x 1536.\nBackground: fill the entire square with solid midnight navy #070b17, uniform in every open area.\nSubject: one extremely simplified, cute baby owl, a curious calm night-sky companion. A round squat merged head/body shape and two rounded wing lobes, one broad continuous double-lobed facial mask. No ear tufts or sharp beak.\nComplexity: 4-7 large soft geometric shapes, one continuous outer silhouette. Two simple slightly oval eyes placed within the broad mask; subtly offset both eyes towards the viewer's LEFT, a small head yaw to the LEFT as if attentively watching a pointer to its right. Keep both eyes visible, the overall character upright. No mouth needed. Readable at 32 x 32.\nColor: exactly two subject colors: lavender #c9c1f0 body and deep muted violet #51436e broad continuous facial mask. Eyes reuse lavender. Exactly these two semantic subject colors and the midnight navy background. No extra colors.\nComposition: emerge from the LOWER RIGHT, occupy 85-95% of the square. Both rounded wings visible; subtle bottom/right cropping can support the corner emergence. Do not center.\nStyle: ultra-clean graphic simplicity, soft heavy rounded forms, baby-like proportions, endearing quiet personality. Add an extremely, extremely subtle, almost imperceptible sense of depth through a barely-there neo-skeuomorphic treatment.\nConstraints: no text, watermark, frame, cards, extra subjects, props, scenery, stars, outlines, fine lines, sharp tips, costumes, texture, decorative marks, photorealistic material, glossy hotspots, strong three-dimensional rendering, external cast shadows, backdrop gradient or vignette."
+    }
+  ],
+  "note": "Preview concepts only. Independent generations, not a consistent animation sprite set. Images preserved without retouching. Website unchanged."
+}

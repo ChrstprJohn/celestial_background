@@ -23,7 +23,8 @@
     "lucide-react": "1.50.0",
     "react": "19.3.0",
     "react-dom": "19.3.0",
-    "tailwindcss": "4.3.3"
+    "tailwindcss": "4.3.3",
+    "three": "^0.186.1"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",

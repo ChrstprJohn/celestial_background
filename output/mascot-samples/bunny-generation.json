@@ -1,0 +1,34 @@
+{
+  "provider": "built-in image_gen",
+  "underlying_model": "not exposed",
+  "subject": "Moon bunny",
+  "color_mapping": {
+    "background": "#070b17",
+    "body": "#f3f0e9",
+    "inner_ears_and_eyes": "#716393"
+  },
+  "samples": [
+    {
+      "id": "B1",
+      "prompt": "A single ultra simple baby bunny on a solid midnight navy #070b17 background. Square 1:1 canvas, approximately 1536 by 1536 pixels. The baby bunny has a round squat head/body silhouette and TWO broad long ears with visibly blunt rounded ends. Cream #f3f0e9 main body; muted violet #716393 inner-ear regions and simple two eyes. Use ONLY these two subject colors plus the solid midnight navy background. Tiny eyes are slightly oval and directionally offset toward the viewer's RIGHT, while both remain visible and readable. Slight head yaw toward the viewer's RIGHT, with the overall body upright. Continuous silhouette constructed from 4-7 large soft shapes; the one defining feature is the paired ears. The character is very large, occupies 85-95% of the canvas, emerges from the LOWER-LEFT corner, and is looking toward the viewer's RIGHT. Both ears are entirely visible, including their blunt rounded ends. Friendly, quiet, soft, clean. Add an extremely, extremely subtle, almost imperceptible sense of depth through a barely-there neo-skeuomorphic treatment. No props, no stars, no text, no texture, no outlines, no costume, no gloss, no dramatic 3D, no cast shadows.",
+      "assigned_corner": "lower-left",
+      "gaze": "right",
+      "dimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "output_filename": "B1-moon-bunny-right.png"
+    },
+    {
+      "id": "B2",
+      "prompt": "A single ultra simple baby bunny on a solid midnight navy #070b17 background. Square 1:1 canvas, approximately 1536 by 1536 pixels. The baby bunny has a round squat head/body silhouette and TWO broad long ears with visibly blunt rounded ends. Cream #f3f0e9 main body; muted violet #716393 inner-ear regions and simple two eyes. Use ONLY these two subject colors plus the solid midnight navy background. Tiny eyes are slightly oval and directionally offset toward the viewer's LEFT, while both remain visible and readable. Slight head yaw toward the viewer's LEFT, with the overall body upright. Continuous silhouette constructed from 4-7 large soft shapes; the one defining feature is the paired ears. The character is very large, occupies 85-95% of the canvas, emerges from the LOWER-RIGHT corner, and is looking toward the viewer's LEFT. Both ears are entirely visible, including their blunt rounded ends. Friendly, quiet, soft, clean. Add an extremely, extremely subtle, almost imperceptible sense of depth through a barely-there neo-skeuomorphic treatment. No props, no stars, no text, no texture, no outlines, no costume, no gloss, no dramatic 3D, no cast shadows.",
+      "assigned_corner": "lower-right",
+      "gaze": "left",
+      "dimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "output_filename": "B2-moon-bunny-left.png"
+    }
+  ]
+}

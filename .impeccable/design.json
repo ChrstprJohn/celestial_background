@@ -3,6 +3,16 @@
   "generatedAt": "2026-10-02T15:34:22.6510835Z",
   "title": "Design System: Celestial",
   "extensions": {
+    "layout": {
+      "pageWidth": "1440px",
+      "pageGutter": "clamp(24px, 5vw, 76px)",
+      "mobileGutter": "24px",
+      "workspaceColumns": ".9fr 1.1fr",
+      "workspaceGap": "clamp(40px, 7vw, 100px)",
+      "desktopResultMaxWidth": "640px",
+      "alignment": "Header, Discoveries, discovery workspaces, and footer share outer content edges; desktop results align right. All discovery columns align at the top so titles stay anchored at the upper left.",
+      "discoveriesColumns": "4 from 1200px; 2 from 600–1199px; 1 below 600px"
+    },
     "focus": {
       "fieldOffset": "3px",
       "value": "outline:2px solid #c9c1f0;outline-offset:5px"

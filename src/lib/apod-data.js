@@ -11,7 +11,7 @@ export function selectApod(payload, date) {
   const entries = Array.isArray(payload) ? payload : [payload]
   const entry = entries.find((item) => item?.date === date)
   if (!entry || !entry.title || !['image', 'video'].includes(entry.media_type)) {
-    throw new Error('NASA has no entry available for that date. Try another day.')
+    throw Object.assign(new Error('NASA has no entry available for that date. Try another day.'), { code: 'APOD_NOT_FOUND' })
   }
   return entry
 }

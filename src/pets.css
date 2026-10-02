@@ -1,0 +1,42 @@
+.pets-page { max-width: var(--page-width); margin-inline: auto; min-height: calc(100svh - 182px); padding: 36px var(--page-gutter) 60px; }
+.pets-intro { width: 100%; }
+.pets-intro .back-link { margin-bottom: 36px; }
+.pets-heading-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 30px; }
+.pets-heading-row h1 { font-size: var(--discovery-title-size); line-height: var(--discovery-title-leading); }
+.pets-heading-row p { margin-top: 17px; color: #b5bbd0; font-size: 14px; line-height: 1.8; }
+.pets-pause { display: inline-flex; gap: 9px; align-items: center; justify-content: center; flex-shrink: 0; min-height: 44px; padding: 0 15px; border: 1px solid #4c5270; border-radius: 6px; background: #101528; color: #ded8fa; font-size: 12px; }
+.pets-pause:hover { border-color: #9a91cf; background: #1a2036; }
+.pets-gallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 26px; margin-top: 40px; scroll-margin-top: 24px; border-radius: 14px; }
+.pets-gallery:focus-visible { outline-offset: 12px; }
+.cosmic-pet { margin: 0; min-width: 0; overflow: hidden; border: 1px solid #33394f; border-radius: 14px; background: #101528; transition: border-color .2s ease; }
+.cosmic-pet:hover { border-color: #9a91cf; }
+.pet-portrait { position: relative; width: 100%; aspect-ratio: 1; user-select: none; background: radial-gradient(ellipse at 50% 68%, #1b1c37, #0b1021 74%); }
+.pet-portrait > img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.pet-portrait[data-status="loading"] > img, .pet-portrait[data-status="error"] > img { visibility: hidden; }
+.pet-portrait:not([data-status="ready"]) .pet-eyes { visibility: hidden; }
+.pet-loading, .pet-load-error { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #b5bbd0; font-size: 13px; }
+.pet-load-error { flex-direction: column; gap: 16px; }
+.pet-load-error button { display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px; border: 1px solid #4c5270; border-radius: 6px; background: #101528; color: #ded8fa; font-size: 12px; }
+.cosmic-pet figcaption { padding: 23px 26px 26px; border-top: 1px solid #282e44; }
+.cosmic-pet h2 { font-size: 32px; line-height: 1.15; }
+.pet-card-actions { display: flex; justify-content: flex-end; margin-top: 19px; }
+.pet-download { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 42px; padding: 0 14px; border: 1px solid #4c5270; background: #101528; color: #ded8fa; font-size: 12px; line-height: 1; border-radius: 6px; transition: border-color .2s ease, background .2s ease; }
+.pet-download:hover { border-color: #9a91cf; background: #1a2036; }
+.pet-download:disabled { opacity: .55; }
+.cosmic-pet figcaption p { margin-top: 10px; font-size: 13px; color: #b5bbd0; line-height: 1.75; max-width: 31ch; min-height: 3.5em; }
+.cosmic-pet figcaption .pet-download-error { color: #ffb4aa; font-size: 12px; min-height: 0; }
+.pets-hint { margin-top: 48px; text-align: center; color: #a4abc2; font-size: 12px; line-height: 1.8; }
+.pets-touch-hint { display: none; }
+.pets-keyboard-hint { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.pets-gallery:focus-visible + .pets-hint .pets-keyboard-hint { position: static; display: block; width: auto; height: auto; margin: 6px 0 0; clip-path: none; white-space: normal; }
+@media (pointer: coarse) { .pets-mouse-hint { display: none; } .pets-touch-hint { display: inline; } }
+@media (min-width: 600px) and (max-width: 1023px) { .pets-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 767px) {
+  .pets-page { padding: 26px 24px 44px; }
+  .pets-intro .back-link { margin-bottom: 28px; }
+  .pets-heading-row { align-items: flex-start; flex-direction: column; gap: 22px; }
+  .pets-heading-row p { font-size: 13px; max-width: 28ch; }
+  .pets-gallery { gap: 22px; margin-top: 30px; }
+  .pets-hint { margin-top: 32px; }
+}
+@media (max-width: 599px) { .pets-gallery { grid-template-columns: 1fr; max-width: 360px; margin-inline: auto; } }

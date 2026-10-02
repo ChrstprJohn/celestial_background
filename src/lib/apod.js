@@ -42,7 +42,7 @@ export async function fetchApod(date, signal) {
     if (axios.isCancel(error)) throw error
     if (error.response?.status === 429) throw new Error('NASA is receiving too many requests. Wait a minute, then try again.')
     if ([401, 403].includes(error.response?.status)) throw new Error('NASA could not authorize this request. Check your API key configuration.')
-    if (error.response?.status === 404) throw new Error('NASA has no entry available for that date. Try another day.')
+    if (error.response?.status === 404) throw Object.assign(new Error('NASA has no entry available for that date. Try another day.'), { code: 'APOD_NOT_FOUND' })
     if (error.code === 'ECONNABORTED') throw new Error('NASA took a little too long to respond. Please try again.')
     if (error.code === 'ERR_NETWORK') throw new Error('We could not reach NASA. Check your connection and try again.')
     if (error.response) throw new Error('NASA’s archive is temporarily unavailable. Please try again shortly.')

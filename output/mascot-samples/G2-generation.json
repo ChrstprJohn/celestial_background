@@ -1,0 +1,39 @@
+{
+  "provider": "built-in image_gen",
+  "underlying_model": "not exposed",
+  "subject": "Living ringed planet",
+  "prompt": "A 3 by 3 directional study showing NINE copies of the SAME cute living RINGED PLANET, arranged evenly across a single square 1:1 image approximately 1536 by 1536 pixels. Solid midnight navy #070b17 background throughout, with no visible dividers, labels, frames, or cards. Each cell contains the same literal astronomy being: a softly rounded lavender #c9c1f0 planet sphere, with one broad pale cyan #b8dfe5 elliptical Saturn ring encircling it; the ring wraps behind the sphere and passes visibly in front, establishing an instantly recognizable ringed-planet silhouette. Two expressive cream #f3f0e9 oval eyes, each with a dark-indigo #30274f pupil, and one tiny friendly curved dark-indigo mouth. It feels alive, adorable, calm, celestial. Simple graphic shape language using 4-7 soft broad forms. A single broad subtle violet #716393 band crosses the sphere surface. Add an extremely, extremely subtle, almost imperceptible sense of depth through a barely-there neo-skeuomorphic treatment. In every cell keep the character identity, face structure, colors, ring design, and scale identical; each full planet and its ENTIRE RING silhouette is visible with clean space around every edge. The character occupies approximately 75-85% of its cell. ONLY eye pupils move to indicate gaze direction. The body, sphere, ring, eye whites, and mouth remain stationary and identical in position and geometry in all nine cells. No facial yaw, no sphere rotation, no ring rotation, no body translation. Exact nine gaze directions in reading order: TOP ROW looks upper-left, straight up, upper-right; MIDDLE ROW looks left, directly forward at the viewer, right; BOTTOM ROW looks lower-left, straight down, lower-right. Move both pupils clearly together toward the specified direction, keep both eyes readable. Center sample has both pupils centered. No animal, no animal features, no costume. No text, no watermark, no scene stars, no extra objects, no props, no textures, no realistic materials, no gloss, no dramatic lighting, no cast shadows. Cosmic identity is conveyed directly by the ringed planet shape.",
+  "dimensions": {
+    "width": 1254,
+    "height": 1254
+  },
+  "output_filename": "G2-orbit-planet-gaze-study.png",
+  "corner": "centered inside each cell; study occupies 3x3 square canvas",
+  "gaze_order": [
+    [
+      "upper-left",
+      "up",
+      "upper-right"
+    ],
+    [
+      "left",
+      "forward",
+      "right"
+    ],
+    [
+      "lower-left",
+      "down",
+      "lower-right"
+    ]
+  ],
+  "color_mapping": {
+    "background": "#070b17",
+    "sphere": "#c9c1f0",
+    "ring": "#b8dfe5",
+    "eye_whites": "#f3f0e9",
+    "pupils_and_mouth": "#30274f",
+    "surface_band": "#716393"
+  },
+  "directional_motion": "Only pupils move; sphere and ring stationary",
+  "generated_once": true
+}

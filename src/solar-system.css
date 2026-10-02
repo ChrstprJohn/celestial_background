@@ -1,0 +1,65 @@
+.solar-workspace { max-width: var(--page-width); margin-inline: auto; min-height: calc(100svh - 178px); display: grid; grid-template-columns: clamp(280px, 36%, 460px) minmax(0, 1fr); grid-template-areas: "intro model" "details model"; grid-template-rows: auto 1fr; align-items: start; gap: 24px clamp(32px, 5vw, 72px); padding: 40px var(--page-gutter) 40px; }
+.planet-sidebar { grid-area: intro; min-width: 0; position: relative; z-index: 1; }
+.planet-details { grid-area: details; min-width: 0; position: relative; z-index: 1; }
+.planet-sidebar .back-link { margin-bottom: 36px; }
+.planet-introduction h1 { font-size: var(--discovery-title-size); line-height: var(--discovery-title-leading); }
+.planet-introduction h1:focus { outline: none; }
+.planet-subtitle { font-family: var(--font-display); font-size: 34px; font-style: italic; color: #c9c1f0; line-height: 1.15; margin-top: 9px; text-wrap: balance; }
+.planet-description { max-width: 32ch; color: #b5bbd0; font-size: 14px; line-height: 1.8; margin-top: 17px; }
+.planet-selector-label { margin: 28px 0 12px; font-size: 13px; font-weight: 500; }
+.planet-list { display: flex; flex-wrap: wrap; gap: 8px; }
+.planet-choice { display: flex; align-items: center; gap: 7px; min-height: 44px; padding: 7px 12px; border: 1px solid #282e44; border-radius: 999px; background: transparent; color: #b5bbd0; text-align: left; font-size: 12px; transition: color .2s, background .2s; }
+.planet-choice:hover { color: #f3f0e9; background: #101528; }
+.planet-choice.is-selected { background: #101528; border-color: #3f4664; color: #ded8fa; }
+.planet-thumbnail { width: 20px; height: 20px; flex: 0 0 20px; border-radius: 50%; background-size: auto 100%; background-position: 40% center; box-shadow: inset -8px -2px 8px rgba(0, 0, 0, .7); }
+.planet-showcase { grid-area: model; min-width: 0; width: 100%; scroll-margin-top: 24px; }
+.planet-showcase:focus { outline: none; }
+.planet-viewer { position: relative; min-width: 0; width: 100%; }
+.planet-stage { position: relative; height: clamp(440px, calc(100svh - 220px), 700px); width: 100%; touch-action: none; cursor: grab; }
+.planet-stage:active { cursor: grabbing; }
+.planet-stage canvas { position: absolute; max-width: none; display: block; pointer-events: none; }
+.planet-stage:focus-visible { outline-offset: -6px; border-radius: 6px; }
+.planet-stage-feedback { position: absolute; inset: 0 0 48px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 14px; padding: 24px; text-align: center; font-size: 13px; color: #b5bbd0; }
+.planet-error-help { font-size: 11px; line-height: 1.6; }
+.planet-loading-orbit { width: 30px; height: 30px; border: 1px solid #3f4664; border-top-color: #c9c1f0; border-radius: 50%; animation: spin 1.2s linear infinite; }
+.planet-view-controls { position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 8px 14px; padding-block: 4px 16px; }
+.planet-drag-hint { color: #a4abc2; font-size: 10px; text-align: center; }
+.planet-drag-hint span { padding-inline: 5px; }
+.planet-control-buttons { display: inline-flex; gap: 3px; }
+.planet-control-buttons button { display: grid; place-items: center; width: 36px; height: 36px; background: transparent; border: 1px solid transparent; border-radius: 6px; color: #c9c1f0; }
+.planet-control-buttons button:hover { border-color: #3f4664; background: #101528; }
+.planet-control-buttons button:disabled { cursor: default; opacity: .4; }
+.planet-control-buttons button:disabled:hover { border-color: transparent; background: transparent; }
+.planet-facts { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 0; padding: 14px 0; border-top: 1px solid #282e44; gap: 14px 16px; }
+.planet-facts dt { font-size: 12px; color: #b5bbd0; margin-bottom: 7px; }
+.planet-facts dd { margin: 0; font-family: var(--font-display); font-size: 25px; line-height: 1.15; font-variant-numeric: tabular-nums; }
+.planet-text-button { min-height: 44px; display: inline-flex; align-items: center; gap: 12px; background: transparent; border: 0; color: #c9c1f0; font-size: 12px; padding: 0; }
+.planet-text-button:hover { color: #f3f0e9; }
+.planet-sources { padding-top: 12px; border-top: 1px solid #282e44; color: #a4abc2; font-size: 10px; line-height: 1.8; }
+.planet-sources > div { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 9px; }
+.planet-sources a { display: inline-flex; align-items: center; gap: 4px; }
+.service-planet-preview { width: 100%; height: 100%; pointer-events: none; }
+.service-planet-preview .planet-stage { height: 280px; }
+.service-planet-preview .planet-viewer { height: 100%; }
+.planet-story { margin-top: 22px; position: relative; z-index: 1; }
+.planet-story summary { display: flex; align-items: center; gap: 12px; width: fit-content; min-height: 44px; list-style: none; cursor: pointer; color: #c9c1f0; font-size: 12px; }
+.planet-story summary::-webkit-details-marker { display: none; }
+.planet-story[open] summary svg { transform: rotate(180deg); }
+.planet-story > p { color: #b5bbd0; font-size: 12px; line-height: 1.8; margin-top: 8px; text-wrap: pretty; }
+.planet-details .planet-story { margin: 8px 0 20px; }
+@media (max-width: 767px) {
+  .solar-workspace { grid-template-columns: 1fr; grid-template-areas: "intro" "model" "details"; grid-template-rows: auto; gap: 24px; padding: 30px 24px 55px; }
+  .planet-sidebar { max-width: 420px; width: 100%; margin-inline: auto; padding-bottom: 0; }
+  .planet-details { max-width: 480px; width: 100%; margin-inline: auto; }
+  .planet-sidebar .back-link { margin-bottom: 28px; }
+  .planet-subtitle { font-size: 30px; }
+  .planet-description { font-size: 13px; margin-top: 17px; max-width: 28ch; }
+  .planet-selector-label { margin-top: 25px; }
+  .planet-showcase { max-width: 480px; justify-self: center; }
+  .planet-stage { height: clamp(280px, 85vw, 390px); }
+  .planet-view-controls { gap: 4px 10px; padding-bottom: 19px; }
+  .planet-control-buttons button { width: 34px; }
+  .planet-facts dd { font-size: 25px; }
+  .planet-story { margin-top: 0; }
+  .service-planet-preview .planet-stage { height: 255px; }
+}

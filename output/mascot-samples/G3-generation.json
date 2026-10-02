@@ -1,0 +1,41 @@
+{
+  "id": "G3",
+  "provider": "built-in image_gen",
+  "underlying_model": "not exposed",
+  "prompt": "A square nine-pose directional study arranged in a spacious 3 by 3 grid on a seamless solid midnight navy #070b17 background. No dividers, cards, labels, or text. Every cell contains exactly the SAME cute little cosmic comet buddy, with absolutely identical body geometry, body orientation, tail position, scale, palette and relative placement within each cell. The body must remain identical in every cell and in exactly the same local position: do not rotate, translate, reshape or move the comet body or its tail. The character is a cosmic being, not an animal or a costume. Its head is round lavender #c9c1f0. A compact rounded tail made of 2–3 broad soft lobes in pale cyan #b7e6ee and violet #9b8cda trails behind it toward the upper-left, identically in every cell. Two expressive cream #f5efd9 eyes contain deep indigo #28234e pupils, and a tiny smile sits below. Only the pupils change their gaze direction between cells, while the same front-facing head and all other shapes remain fixed. Top row, from left to right: pupils look upper-left, up, upper-right. Middle row: pupils look left, neutral directly forward, right. Bottom row: pupils look lower-left, down, lower-right. Make the eight gaze directions clearly distinguishable through pupil positions. Same eye sizes and eye outlines in all cells; both eyes always visible. Simple clean graphic shapes, soft rounded curves, full silhouette visible with generous margins around each character. No scenery, stars, extra objects, realistic materials, dramatic lighting or cast shadows. Add an extremely, extremely subtle, almost imperceptible sense of depth through a barely-there neo-skeuomorphic treatment. Square 1:1 image, approximately 1536 by 1536 pixels.",
+  "colors": {
+    "head": "#c9c1f0",
+    "tail_pale_cyan": "#b7e6ee",
+    "tail_violet": "#9b8cda",
+    "eyes_cream": "#f5efd9",
+    "pupils_and_smile": "#28234e",
+    "background": "#070b17"
+  },
+  "dimensions": {
+    "width": 1254,
+    "height": 1254
+  },
+  "layout": {
+    "grid": "3x3",
+    "rows": [
+      [
+        "upper-left",
+        "up",
+        "upper-right"
+      ],
+      [
+        "left",
+        "neutral forward",
+        "right"
+      ],
+      [
+        "lower-left",
+        "down",
+        "lower-right"
+      ]
+    ],
+    "body": "fixed geometry, orientation and local position in every cell; only pupils move"
+  },
+  "output_filename": "G3-comet-gaze-study.png",
+  "original_file": "C:\\Users\\picar\\.codex\\generated_images\\01a0fd9e-cd6e-7242-973f-59b839afd09b\\exec-3fb1beba-fa90-48da-8bac-2de4f942c8e3.png"
+}
