@@ -1,0 +1,424 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-02T13:32:12.089Z",
+  "title": "Design System: Celestial",
+  "extensions": {
+    "colorMeta": {
+      "forest": {
+        "role": "primary",
+        "displayName": "forest",
+        "tonalRamp": [
+          "oklch(15.00% 0.03399 168.79)",
+          "oklch(26.43% 0.03399 168.79)",
+          "oklch(37.86% 0.03399 168.79)",
+          "oklch(49.29% 0.03399 168.79)",
+          "oklch(60.71% 0.03399 168.79)",
+          "oklch(72.14% 0.03399 168.79)",
+          "oklch(83.57% 0.03399 168.79)",
+          "oklch(95.00% 0.03399 168.79)"
+        ]
+      },
+      "forest-hover": {
+        "role": "primary",
+        "displayName": "forest hover",
+        "tonalRamp": [
+          "oklch(15.00% 0.04203 155.61)",
+          "oklch(26.43% 0.04203 155.61)",
+          "oklch(37.86% 0.04203 155.61)",
+          "oklch(49.29% 0.04203 155.61)",
+          "oklch(60.71% 0.04203 155.61)",
+          "oklch(72.14% 0.04203 155.61)",
+          "oklch(83.57% 0.04203 155.61)",
+          "oklch(95.00% 0.04203 155.61)"
+        ]
+      },
+      "cream": {
+        "role": "neutral",
+        "displayName": "cream",
+        "tonalRamp": [
+          "oklch(15.00% 0.00801 98.88)",
+          "oklch(26.43% 0.00801 98.88)",
+          "oklch(37.86% 0.00801 98.88)",
+          "oklch(49.29% 0.00801 98.88)",
+          "oklch(60.71% 0.00801 98.88)",
+          "oklch(72.14% 0.00801 98.88)",
+          "oklch(83.57% 0.00801 98.88)",
+          "oklch(95.00% 0.00801 98.88)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "ink",
+        "tonalRamp": [
+          "oklch(15.00% 0.02543 162.85)",
+          "oklch(26.43% 0.02543 162.85)",
+          "oklch(37.86% 0.02543 162.85)",
+          "oklch(49.29% 0.02543 162.85)",
+          "oklch(60.71% 0.02543 162.85)",
+          "oklch(72.14% 0.02543 162.85)",
+          "oklch(83.57% 0.02543 162.85)",
+          "oklch(95.00% 0.02543 162.85)"
+        ]
+      },
+      "body-muted": {
+        "role": "neutral",
+        "displayName": "body muted",
+        "tonalRamp": [
+          "oklch(15.00% 0.02448 140.84)",
+          "oklch(26.43% 0.02448 140.84)",
+          "oklch(37.86% 0.02448 140.84)",
+          "oklch(49.29% 0.02448 140.84)",
+          "oklch(60.71% 0.02448 140.84)",
+          "oklch(72.14% 0.02448 140.84)",
+          "oklch(83.57% 0.02448 140.84)",
+          "oklch(95.00% 0.02448 140.84)"
+        ]
+      },
+      "help-muted": {
+        "role": "neutral",
+        "displayName": "help muted",
+        "tonalRamp": [
+          "oklch(15.00% 0.03047 133.19)",
+          "oklch(26.43% 0.03047 133.19)",
+          "oklch(37.86% 0.03047 133.19)",
+          "oklch(49.29% 0.03047 133.19)",
+          "oklch(60.71% 0.03047 133.19)",
+          "oklch(72.14% 0.03047 133.19)",
+          "oklch(83.57% 0.03047 133.19)",
+          "oklch(95.00% 0.03047 133.19)"
+        ]
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "rule",
+        "tonalRamp": [
+          "oklch(15.00% 0.01449 128.64)",
+          "oklch(26.43% 0.01449 128.64)",
+          "oklch(37.86% 0.01449 128.64)",
+          "oklch(49.29% 0.01449 128.64)",
+          "oklch(60.71% 0.01449 128.64)",
+          "oklch(72.14% 0.01449 128.64)",
+          "oklch(83.57% 0.01449 128.64)",
+          "oklch(95.00% 0.01449 128.64)"
+        ]
+      },
+      "field-border": {
+        "role": "neutral",
+        "displayName": "field border",
+        "tonalRamp": [
+          "oklch(15.00% 0.02335 134.97)",
+          "oklch(26.43% 0.02335 134.97)",
+          "oklch(37.86% 0.02335 134.97)",
+          "oklch(49.29% 0.02335 134.97)",
+          "oklch(60.71% 0.02335 134.97)",
+          "oklch(72.14% 0.02335 134.97)",
+          "oklch(83.57% 0.02335 134.97)",
+          "oklch(95.00% 0.02335 134.97)"
+        ]
+      },
+      "focus": {
+        "role": "primary",
+        "displayName": "focus",
+        "tonalRamp": [
+          "oklch(15.00% 0.05179 145.68)",
+          "oklch(26.43% 0.05179 145.68)",
+          "oklch(37.86% 0.05179 145.68)",
+          "oklch(49.29% 0.05179 145.68)",
+          "oklch(60.71% 0.05179 145.68)",
+          "oklch(72.14% 0.05179 145.68)",
+          "oklch(83.57% 0.05179 145.68)",
+          "oklch(95.00% 0.05179 145.68)"
+        ]
+      },
+      "serif-accent": {
+        "role": "primary",
+        "displayName": "serif accent",
+        "tonalRamp": [
+          "oklch(15.00% 0.04801 139.66)",
+          "oklch(26.43% 0.04801 139.66)",
+          "oklch(37.86% 0.04801 139.66)",
+          "oklch(49.29% 0.04801 139.66)",
+          "oklch(60.71% 0.04801 139.66)",
+          "oklch(72.14% 0.04801 139.66)",
+          "oklch(83.57% 0.04801 139.66)",
+          "oklch(95.00% 0.04801 139.66)"
+        ]
+      },
+      "link-green": {
+        "role": "primary",
+        "displayName": "link green",
+        "tonalRamp": [
+          "oklch(15.00% 0.04951 140.73)",
+          "oklch(26.43% 0.04951 140.73)",
+          "oklch(37.86% 0.04951 140.73)",
+          "oklch(49.29% 0.04951 140.73)",
+          "oklch(60.71% 0.04951 140.73)",
+          "oklch(72.14% 0.04951 140.73)",
+          "oklch(83.57% 0.04951 140.73)",
+          "oklch(95.00% 0.04951 140.73)"
+        ]
+      },
+      "error": {
+        "role": "error",
+        "displayName": "error",
+        "tonalRamp": [
+          "oklch(15.00% 0.11557 30.90)",
+          "oklch(26.43% 0.11557 30.90)",
+          "oklch(37.86% 0.11557 30.90)",
+          "oklch(49.29% 0.11557 30.90)",
+          "oklch(60.71% 0.11557 30.90)",
+          "oklch(72.14% 0.11557 30.90)",
+          "oklch(83.57% 0.11557 30.90)",
+          "oklch(95.00% 0.11557 30.90)"
+        ]
+      },
+      "white": {
+        "role": "neutral",
+        "displayName": "white",
+        "tonalRamp": [
+          "oklch(15.00% 0.00000 89.88)",
+          "oklch(26.43% 0.00000 89.88)",
+          "oklch(37.86% 0.00000 89.88)",
+          "oklch(49.29% 0.00000 89.88)",
+          "oklch(60.71% 0.00000 89.88)",
+          "oklch(72.14% 0.00000 89.88)",
+          "oklch(83.57% 0.00000 89.88)",
+          "oklch(95.00% 0.00000 89.88)"
+        ]
+      },
+      "media-night": {
+        "role": "neutral",
+        "displayName": "media night",
+        "tonalRamp": [
+          "oklch(15.00% 0.01210 237.38)",
+          "oklch(26.43% 0.01210 237.38)",
+          "oklch(37.86% 0.01210 237.38)",
+          "oklch(49.29% 0.01210 237.38)",
+          "oklch(60.71% 0.01210 237.38)",
+          "oklch(72.14% 0.01210 237.38)",
+          "oklch(83.57% 0.01210 237.38)",
+          "oklch(95.00% 0.01210 237.38)"
+        ]
+      },
+      "fallback-ground": {
+        "role": "neutral",
+        "displayName": "fallback ground",
+        "tonalRamp": [
+          "oklch(15.00% 0.01779 120.69)",
+          "oklch(26.43% 0.01779 120.69)",
+          "oklch(37.86% 0.01779 120.69)",
+          "oklch(49.29% 0.01779 120.69)",
+          "oklch(60.71% 0.01779 120.69)",
+          "oklch(72.14% 0.01779 120.69)",
+          "oklch(83.57% 0.01779 120.69)",
+          "oklch(95.00% 0.01779 120.69)"
+        ]
+      },
+      "selection": {
+        "role": "neutral",
+        "displayName": "selection",
+        "tonalRamp": [
+          "oklch(15.00% 0.02240 132.55)",
+          "oklch(26.43% 0.02240 132.55)",
+          "oklch(37.86% 0.02240 132.55)",
+          "oklch(49.29% 0.02240 132.55)",
+          "oklch(60.71% 0.02240 132.55)",
+          "oklch(72.14% 0.02240 132.55)",
+          "oklch(83.57% 0.02240 132.55)",
+          "oklch(95.00% 0.02240 132.55)"
+        ]
+      },
+      "selection-ink": {
+        "role": "neutral",
+        "displayName": "selection ink",
+        "tonalRamp": [
+          "oklch(15.00% 0.03322 159.16)",
+          "oklch(26.43% 0.03322 159.16)",
+          "oklch(37.86% 0.03322 159.16)",
+          "oklch(49.29% 0.03322 159.16)",
+          "oklch(60.71% 0.03322 159.16)",
+          "oklch(72.14% 0.03322 159.16)",
+          "oklch(83.57% 0.03322 159.16)",
+          "oklch(95.00% 0.03322 159.16)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Main landing heading."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section headings."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "NASA result title."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Introductory prose."
+      },
+      "story": {
+        "displayName": "Story",
+        "purpose": "NASA explanation."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Visible form labels."
+      },
+      "button": {
+        "displayName": "Button",
+        "purpose": "Primary action."
+      },
+      "help": {
+        "displayName": "Help",
+        "purpose": "Archive bounds and credits."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "hero-copy",
+        "value": "24px; 1.15s; expo.out; stagger 0.1s",
+        "purpose": "Coordinated first-load reveal."
+      },
+      {
+        "name": "photo-reveal",
+        "value": "clip-path: inset(0 0 100% 0); 1.5s; start 0.12s",
+        "purpose": "Reveal the astronomy print."
+      },
+      {
+        "name": "photo-settle",
+        "value": "scale: 1.08; 1.6s; start 0.12s",
+        "purpose": "Settle the print image."
+      },
+      {
+        "name": "result",
+        "value": "18px; 0.7s; expo.out",
+        "purpose": "Introduce a fetched result."
+      },
+      {
+        "name": "button-hover",
+        "value": "background 0.2s ease",
+        "purpose": "Primary-action feedback."
+      },
+      {
+        "name": "loader",
+        "value": "spin 1s linear infinite",
+        "purpose": "Pending request feedback."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "0.01ms",
+        "purpose": "Skip GSAP and smooth scrolling; shorten CSS animation."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "mobile",
+        "value": "767px (max-width)"
+      },
+      {
+        "name": "tablet",
+        "value": "1023px (max-width)"
+      },
+      {
+        "name": "large",
+        "value": "1600px (min-width)"
+      }
+    ],
+    "focus": {
+      "value": "outline:2px solid #506b51;outline-offset:5px",
+      "fieldOffset": "3px"
+    },
+    "imageOverlay": {
+      "value": "linear-gradient(transparent, rgb(6 12 14 / .78))",
+      "position": "45% 0 0"
+    }
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Submit the selected birthday.",
+      "html": "<button class=\"ds-primary\">Find my sky <svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><path d=\"M5 12h14m-6-6 6 6-6 6\"/></svg></button>",
+      "css": ".ds-primary{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:54px;padding:0 19px;border:0;border-radius:6px;background:#273f36;color:#fff;font:500 13px 'DM Sans',sans-serif;cursor:pointer;transition:background .2s ease}.ds-primary:not(:disabled):hover{background:#3f5948}.ds-primary:disabled{opacity:.65;cursor:wait}.ds-primary:focus-visible{outline:2px solid #506b51;outline-offset:5px}"
+    },
+    {
+      "name": "Text Button",
+      "kind": "button",
+      "refersTo": "button-text",
+      "description": "Alternative action for today’s sky.",
+      "html": "<button class=\"ds-text\">Just exploring? See today’s sky</button>",
+      "css": ".ds-text{background:none;border:0;padding:0;color:#455b41;font:400 12px 'DM Sans',sans-serif;cursor:pointer}.ds-text:not(:disabled):hover{text-decoration:underline;text-underline-offset:4px}.ds-text:disabled{opacity:.65;cursor:wait}.ds-text:focus-visible{outline:2px solid #506b51;outline-offset:5px}"
+    },
+    {
+      "name": "Birthday Field",
+      "kind": "input",
+      "refersTo": "date-field",
+      "description": "Native date control with visible label.",
+      "html": "<label class=\"ds-date-label\" for=\"ds-date\">When did your story begin?</label><div class=\"ds-field\"><input id=\"ds-date\" type=\"date\" min=\"1995-06-16\" /></div>",
+      "css": ".ds-date-label{display:block;font:600 13px 'DM Sans',sans-serif;color:#27372f;margin-bottom:12px}.ds-field{border:1px solid #bec8b9;border-radius:6px;min-height:54px;padding:0 14px;display:flex;align-items:center}.ds-field input{width:100%;border:0;background:transparent;color:#27372f;font:400 13px 'DM Sans',sans-serif;font-variant-numeric:tabular-nums;padding:13px 0;color-scheme:light;caret-color:#273f36}.ds-field:focus-within{outline:2px solid #506b51;outline-offset:3px}.ds-field input:focus-visible{outline:none}"
+    },
+    {
+      "name": "Navigation",
+      "kind": "nav",
+      "description": "Quiet wordmark and section link.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-wordmark\" href=\"#\">celestial</a><a href=\"#about\">The idea</a></nav>",
+      "css": ".ds-nav{display:flex;align-items:center;justify-content:space-between;min-height:83px;border-bottom:1px solid #d9ded4;color:#27372f;font:500 13px 'DM Sans',sans-serif}.ds-nav a{color:inherit;text-decoration:none;text-underline-offset:5px}.ds-nav .ds-wordmark{font-size:27px;letter-spacing:-.045em}.ds-nav a:hover{text-decoration:underline}.ds-nav a:focus-visible{outline:2px solid #506b51;outline-offset:5px}"
+    },
+    {
+      "name": "Media Fallback",
+      "kind": "custom",
+      "refersTo": "media-fallback",
+      "description": "Preserve useful context when NASA media cannot load.",
+      "html": "<div class=\"ds-fallback\"><p>This image is available on NASA’s website.</p><a href=\"https://science.nasa.gov/apod/\">View it on NASA</a></div>",
+      "css": ".ds-fallback{min-height:300px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:35px;background:#e8ecdf;color:#27372f;text-align:center;font:400 14px 'DM Sans',sans-serif}.ds-fallback p{margin:0}.ds-fallback a{color:inherit;text-underline-offset:5px}.ds-fallback a:focus-visible{outline:2px solid #506b51;outline-offset:5px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Editorial Sky",
+    "overview": "\n**Creative North Star: \"The Editorial Sky\"**\n\nCelestial pairs the quiet clarity of an editorial page with the scale and color of authentic astronomy photography. Warm cream space, forest controls, a large serif voice, and restrained sans-serif details make a personal date feel inviting and easy to explore.\n\nThe interface stays calm around the photograph. Generous spacing and thin rules organize the page; real NASA imagery supplies its richest color and depth. Motion introduces the copy and image once and respects reduced-motion preferences.",
+    "keyCharacteristics": [
+      "Warm cream ground and forest actions.",
+      "Instrument Serif display type with DM Sans interface text.",
+      "Authentic astronomy photography with visible source and credit.",
+      "Flat surfaces, thin dividers, and gently curved controls.",
+      "Responsive editorial columns that stack on mobile."
+    ],
+    "rules": [
+      {
+        "name": "The Photograph Color Rule",
+        "body": "Let authentic astronomy imagery provide the vivid color; keep interface surfaces within the cream and green palette.",
+        "section": "colors"
+      },
+      {
+        "name": "The Two Voices Rule",
+        "body": "Use Instrument Serif for expressive headings and photograph statements; use DM Sans for controls, prose, dates, navigation, and credits.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat Surface Rule",
+        "body": "Preserve the current flat surfaces and thin dividers when extending the interface.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do use cream surfaces, forest actions, and restrained green text around astronomy imagery.",
+      "Do pair Instrument Serif headings with DM Sans controls and prose.",
+      "Do preserve visible keyboard focus, labelled date entry, inline errors, and reduced-motion behavior.",
+      "Do show authentic NASA imagery, source links, and available credits.",
+      "Do stack the editorial columns and date controls at the implemented responsive widths."
+    ],
+    "donts": [
+      "Don't replace authentic astronomy photography with a simulated star scene or fabricated result.",
+      "Don't add shadows or rounded media cards to the existing flat editorial surfaces.",
+      "Don't hide the archive limit, failed-media explanation, or source attribution.",
+      "Don't require animation to reveal or access content.",
+      "Don't repeat the returned NASA title in an additional result label."
+    ]
+  }
+}
