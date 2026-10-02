@@ -1,0 +1,33 @@
+{
+  "provider": "built-in image_gen",
+  "underlying_model": "not exposed",
+  "colors": {
+    "main_body": "#a7b7df",
+    "muzzle_and_eyes": "#423754",
+    "background": "#070b17"
+  },
+  "samples": [
+    {
+      "id": "C1",
+      "prompt": "A single ultra simple baby bear cub, with Ursa Major reflected through the bear species only. Round squat head and body silhouette with TWO broad circular ears, both ears fully visible. The main body is muted periwinkle #a7b7df, with deep violet #423754 used for one broad muzzle region and two simple tiny eyes. ONLY these two subject colors, against a solid midnight navy #070b17 background. Eyes are slightly oval and offset toward the viewer's RIGHT, remain visible and clearly readable. A slight head yaw toward the viewer's RIGHT, upright overall. A continuous silhouette assembled from 4–7 large soft shapes. One defining feature: the paired round ears. The bear emerges from the lower-left corner of the image and looks to the RIGHT, with a large character filling 85–95% of the square canvas. Both ears remain visible. No props, stars, constellation drawings, text, texture, outlines, costume, gloss, dramatic 3D, cast shadows, extra nose, or mouth. Add an extremely, extremely subtle, almost imperceptible sense of depth through a barely-there neo-skeuomorphic treatment. Square 1:1 composition, approximately 1536 by 1536 pixels.",
+      "corner": "lower-left",
+      "gaze": "right",
+      "dimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "output_filename": "C1-ursa-bear-right.png"
+    },
+    {
+      "id": "C2",
+      "prompt": "A single ultra simple baby bear cub, with Ursa Major reflected through the bear species only. Round squat head and body silhouette with TWO broad circular ears, both ears fully visible. The main body is muted periwinkle #a7b7df, with deep violet #423754 used for one broad muzzle region and two simple tiny eyes. ONLY these two subject colors, against a solid midnight navy #070b17 background. Eyes are slightly oval and offset toward the viewer's LEFT, remain visible and clearly readable. A slight head yaw toward the viewer's LEFT, upright overall. A continuous silhouette assembled from 4–7 large soft shapes. One defining feature: the paired round ears. The bear emerges from the lower-right corner of the image and looks to the LEFT, with a large character filling 85–95% of the square canvas. Both ears remain visible. No props, stars, constellation drawings, text, texture, outlines, costume, gloss, dramatic 3D, cast shadows, extra nose, or mouth. Add an extremely, extremely subtle, almost imperceptible sense of depth through a barely-there neo-skeuomorphic treatment. Square 1:1 composition, approximately 1536 by 1536 pixels.",
+      "corner": "lower-right",
+      "gaze": "left",
+      "dimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "output_filename": "C2-ursa-bear-left.png"
+    }
+  ]
+}

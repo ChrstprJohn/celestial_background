@@ -1,0 +1,5 @@
+tooling/
+composition/.hyperframes/
+composition/renders/
+qa/
+*.raw.mp4

@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1920, height=1080">
+<title>Celestial — Among the stars</title>
+<script src="assets/gsap.min.js"></script>
+<style>
+@font-face{font-family:'Instrument Serif';src:url('assets/fonts/instrument-serif-latin-400-normal.woff2')} 
+@font-face{font-family:'Instrument Serif';font-style:italic;src:url('assets/fonts/instrument-serif-latin-400-italic.woff2')}
+@font-face{font-family:'DM Sans';font-weight:400;src:url('assets/fonts/dm-sans-latin-400-normal.woff2')}
+@font-face{font-family:'DM Sans';font-weight:500;src:url('assets/fonts/dm-sans-latin-500-normal.woff2')}
+*{box-sizing:border-box}html,body{margin:0;background:#070b17;color:#f3f0e9;font-family:'DM Sans',sans-serif}#root{position:relative;width:100%;height:100%;overflow:hidden;background:#070b17}
+.sky{position:absolute;inset:-80px;pointer-events:none}.star{position:absolute;border-radius:50%;background:#c9c1f0}
+.clip{position:absolute;inset:0}.scene{position:absolute;inset:0;perspective:1800px}
+.brand{position:absolute;left:112px;top:70px;display:flex;align-items:center;gap:15px;font-size:36px;font-weight:500;letter-spacing:-.03em}
+.brand svg{width:40px;height:40px;color:#c9c1f0}.folio{position:absolute;right:112px;top:82px;color:#b5bbd0;font-size:21px}
+.copy{position:absolute;left:112px;top:322px;width:570px}.copy h1{font-family:'Instrument Serif',serif;font-weight:400;font-size:103px;line-height:1.18;letter-spacing:-.025em;margin:0}.copy h1 em{font-weight:400;color:#c9c1f0}.copy p{font-size:26px;line-height:1.65;color:#b5bbd0;margin:32px 0 0}.copy .title-line{display:block}
+.laptop{position:absolute;transform-style:preserve-3d}.lid{position:relative;padding:18px 18px 20px;border:2px solid #4c5270;border-radius:25px 25px 10px 10px;background:#101528;box-shadow:12px 32px 55px #03050e99}.camera{position:absolute;left:50%;top:7px;width:5px;height:5px;border-radius:50%;background:#79819a}.screen{position:relative;overflow:hidden;background:#070b17}.screen img{width:100%;height:100%;object-fit:contain;display:block}.screen .second{position:absolute;inset:0}.lid .screen{aspect-ratio:3/2;border-radius:6px}.base{position:relative;margin-left:-4%;width:108%;height:26px;background:linear-gradient(180deg,#8890a5,#343a4d 58%,#101528);border-radius:2px 2px 55% 55%;box-shadow:0 24px 32px #02040a77}.base:before{content:'';position:absolute;left:43%;top:0;width:14%;height:7px;background:#252b3e;border-radius:0 0 12px 12px}
+.tablet{position:absolute;padding:20px;border:2px solid #4c5270;border-radius:32px;background:#101528;box-shadow:18px 32px 45px #03050e99}.tablet .screen{aspect-ratio:1024/1366;border-radius:15px}.tablet:before{content:'';position:absolute;left:50%;top:8px;width:5px;height:5px;border-radius:50%;background:#79819a}
+.phone{position:absolute;padding:10px;border:2px solid #59627b;border-radius:38px;background:#101528;box-shadow:14px 25px 42px #03050e99}.phone .screen{aspect-ratio:390/844;border-radius:26px}.phone:after{content:'';position:absolute;left:36%;right:36%;top:16px;height:12px;border-radius:12px;background:#070b17}.phone:before{content:'';position:absolute;left:33%;right:33%;bottom:17px;height:3px;border-radius:4px;background:#c9c1f0}
+.pointer{position:absolute;width:29px;height:37px;z-index:5;filter:drop-shadow(2px 3px 3px #03050e99)}.tap{position:absolute;width:48px;height:48px;border-radius:50%;border:2px solid #c9c1f0;z-index:4}
+#intro-laptop{left:738px;top:187px;width:1040px}#intro-copy{top:344px;width:560px}
+#birthday-laptop{left:748px;top:188px;width:1030px}#birthday-copy{top:347px;width:540px}
+#moon-tablet{left:1090px;top:124px;width:586px}#moon-phone{left:816px;top:388px;width:259px}#moon-copy{top:350px;width:620px}
+#planet-laptop{left:728px;top:188px;width:1050px}#planet-copy{top:333px;width:570px}
+#final-heading{position:absolute;left:112px;top:166px;width:1540px;font:400 87px/1.1 'Instrument Serif',serif;letter-spacing:-.025em;margin:0}#final-heading em{color:#c9c1f0}#final-laptop{left:202px;top:368px;width:878px}#final-tablet{left:1230px;top:347px;width:428px}#final-phone{left:983px;top:498px;width:235px}#final-caption{position:absolute;left:112px;bottom:62px;font-size:22px;color:#b5bbd0;margin:0}
+.scene img{user-select:none}
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="celestial" data-width="1920" data-height="1080" data-start="0" data-duration="22">
+<div id="sky" class="sky" aria-hidden="true"></div>
+<div class="brand"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="16" cy="16" r="4"/><path d="M6 22C1 17 6 6 14 3M20 3c10 2 13 14 7 20M21 28C12 32 4 29 3 23"/><circle cx="15" cy="3" r="2.5"/><circle cx="27" cy="24" r="2.5"/><circle cx="4" cy="23" r="2.5"/></svg><span>celestial</span></div>
+<div class="folio">Among the stars</div>
+
+<section id="intro" class="clip" data-start="0" data-duration="3.3" data-track-index="1"><div class="scene">
+<div id="intro-copy" class="copy"><h1><span class="title-line">Your place</span><span class="title-line">among the</span><em class="title-line">stars.</em></h1></div>
+<div id="intro-laptop" class="laptop"><div class="lid"><span class="camera"></span><div class="screen"><img src="assets/screens/desktop-home.png" alt="Celestial homepage on a laptop"></div></div><div class="base"></div></div>
+</div></section>
+
+<section id="birthday" class="clip" data-start="3.3" data-duration="4.4" data-track-index="1"><div class="scene">
+<div id="birthday-copy" class="copy"><h1><span class="title-line">A day.</span><em class="title-line">A whole sky.</em></h1><p>Birthday sky</p></div>
+<div id="birthday-laptop" class="laptop"><div class="lid"><span class="camera"></span><div class="screen"><img src="assets/screens/desktop-birthday.png" alt="Birthday sky with a real NASA archive image"></div></div><div class="base"></div></div>
+</div></section>
+
+<section id="moon" class="clip" data-start="7.7" data-duration="4.8" data-track-index="1"><div class="scene">
+<div id="moon-copy" class="copy"><h1><span class="title-line">The Moon,</span><em class="title-line">on your day.</em></h1><p>A familiar world.</p><p style="margin-top:0">A moment that’s yours.</p></div>
+<div id="moon-tablet" class="tablet"><div class="screen"><img src="assets/screens/tablet-moon-before.png" alt="Moon lookup before choosing a date"><img id="moon-after" class="second" src="assets/screens/tablet-moon.png" alt="Moon phase after choosing January 25, 2024"></div></div>
+<div id="moon-phone" class="phone"><div class="screen"><img src="assets/screens/phone-home.png" alt="Responsive Celestial homepage on a phone"></div></div>
+<svg id="moon-cursor" class="pointer" viewBox="0 0 29 37"><path d="M2 2v28l8-7 5 11 6-3-5-11h10z" fill="#f3f0e9" stroke="#070b17" stroke-width="2"/></svg><div id="moon-tap" class="tap"></div>
+</div></section>
+
+<section id="planets" class="clip" data-start="12.5" data-duration="5" data-track-index="1"><div class="scene">
+<div id="planet-copy" class="copy"><h1><span class="title-line">Eight worlds.</span><em class="title-line">Get a little</em><em class="title-line">closer.</em></h1></div>
+<div id="planet-laptop" class="laptop"><div class="lid"><span class="camera"></span><div class="screen"><img src="assets/screens/desktop-saturn.png" alt="Saturn in the interactive Solar System"><img id="earth-after" class="second" src="assets/screens/desktop-earth.png" alt="Earth after selecting the planet"></div></div><div class="base"></div></div>
+<svg id="planet-cursor" class="pointer" viewBox="0 0 29 37"><path d="M2 2v28l8-7 5 11 6-3-5-11h10z" fill="#f3f0e9" stroke="#070b17" stroke-width="2"/></svg><div id="planet-tap" class="tap"></div>
+</div></section>
+
+<section id="ensemble" class="clip" data-start="17.5" data-duration="4.5" data-track-index="1"><div class="scene">
+<h1 id="final-heading">Find the sky on a day <em>that matters.</em></h1>
+<div id="final-laptop" class="laptop"><div class="lid"><span class="camera"></span><div class="screen"><img src="assets/screens/desktop-home.png" alt="Celestial on desktop"></div></div><div class="base"></div></div>
+<div id="final-tablet" class="tablet"><div class="screen"><img src="assets/screens/tablet-moon.png" alt="Moon visualization on a tablet"></div></div>
+<div id="final-phone" class="phone"><div class="screen"><img src="assets/screens/phone-pets.png" alt="Cosmic pet on a phone"></div></div>
+<p id="final-caption">Birthday sky · Moon on your day · Cosmic shuffle · Solar System · Cosmic pets</p>
+</div></section>
+
+<audio id="music" src="assets/music/celestial-ambient.wav" data-start="0" data-duration="22" data-track-index="10" data-volume="0.7" data-fade-in="0.7" data-fade-out="1.5"></audio>
+<audio id="soft-reveal" src="assets/sfx/impactSoft_medium_001.ogg" data-start="3.3" data-duration="0.18" data-track-index="11" data-volume="0.28"></audio>
+<audio id="moon-click" src="assets/sfx/click2.ogg" data-start="9.6" data-duration="0.06" data-track-index="12" data-volume="0.24"></audio>
+<audio id="earth-click" src="assets/sfx/click2.ogg" data-start="14.8" data-duration="0.06" data-track-index="13" data-volume="0.24"></audio>
+</div>
+<script>
+const sky=document.getElementById('sky');let seed=417;function random(){seed=(seed*16807)%2147483647;return(seed-1)/2147483646}
+for(let i=0;i<135;i++){const s=document.createElement('span');s.className='star';const size=random()*1.8+.7;s.style.cssText=`left:${random()*100}%;top:${random()*100}%;width:${size}px;height:${size}px;opacity:${random()*.48+.18}`;sky.appendChild(s)}
+const tl=gsap.timeline({paused:true});
+tl.fromTo('#sky',{x:0,y:0},{x:-28,y:15,duration:22,ease:'none'},0);
+function reveal(copy,device,t,end){
+ tl.fromTo(copy,{opacity:0,y:27},{opacity:1,y:0,duration:.72,ease:'expo.out'},t+.08);
+ tl.fromTo(device,{opacity:0,y:60,rotationY:-5,rotationX:2,scale:.95},{opacity:1,y:0,rotationY:0,rotationX:0,scale:1,duration:1.03,ease:'power3.out'},t);
+ tl.to(device,{scale:1.018,duration:end-t-1.1,ease:'none'},t+1.05);
+ tl.to([copy,device],{opacity:0,duration:.22,ease:'power1.in'},end-.22);
+}
+reveal('#intro-copy','#intro-laptop',0,3.3);reveal('#birthday-copy','#birthday-laptop',3.3,7.7);
+tl.fromTo('#moon-copy',{opacity:0,x:-28},{opacity:1,x:0,duration:.7,ease:'expo.out'},7.78);
+tl.fromTo('#moon-tablet',{opacity:0,y:50,rotationY:-6},{opacity:1,y:0,rotationY:0,duration:.9,ease:'power3.out'},7.7);
+tl.fromTo('#moon-phone',{opacity:0,x:-50,rotation:-3},{opacity:1,x:0,rotation:0,duration:.85,ease:'power3.out'},8.02);
+tl.set('#moon-after',{opacity:0},0);tl.set('#moon-cursor',{opacity:0,x:1310,y:548},0);tl.set('#moon-tap',{opacity:0,x:1298,y:354},0);
+tl.to('#moon-cursor',{opacity:1,duration:.15},8.85);tl.to('#moon-cursor',{x:1320,y:378,duration:.65,ease:'power2.inOut'},8.95);
+tl.fromTo('#moon-tap',{opacity:.7,scale:.55},{opacity:0,scale:1.6,duration:.45,ease:'power2.out'},9.6);
+tl.to('#moon-after',{opacity:1,duration:.35,ease:'power2.out'},9.65);tl.to('#moon-cursor',{opacity:0,duration:.25},10.2);
+tl.to(['#moon-copy','#moon-tablet','#moon-phone'],{opacity:0,duration:.22},12.28);
+reveal('#planet-copy','#planet-laptop',12.5,17.5);
+tl.set('#earth-after',{opacity:0},0);tl.set('#planet-cursor',{opacity:0,x:1220,y:650},0);tl.set('#planet-tap',{opacity:0,x:797,y:547},0);
+tl.to('#planet-cursor',{opacity:1,duration:.15},13.95);tl.to('#planet-cursor',{x:817,y:568,duration:.62,ease:'power2.inOut'},14.12);
+tl.fromTo('#planet-tap',{opacity:.7,scale:.55},{opacity:0,scale:1.6,duration:.45,ease:'power2.out'},14.8);
+tl.to('#earth-after',{opacity:1,duration:.4},14.85);tl.to('#planet-cursor',{opacity:0,duration:.25},15.45);
+tl.fromTo('#final-heading',{opacity:0,y:24},{opacity:1,y:0,duration:.7,ease:'expo.out'},17.55);
+tl.fromTo('#final-laptop',{opacity:0,y:75,rotationY:-5},{opacity:1,y:0,rotationY:0,duration:1.05,ease:'power3.out'},17.6);
+tl.fromTo('#final-tablet',{opacity:0,x:65,rotation:3},{opacity:1,x:0,rotation:0,duration:.9,ease:'power3.out'},17.8);
+tl.fromTo('#final-phone',{opacity:0,y:70,rotation:-4},{opacity:1,y:0,rotation:0,duration:.85,ease:'power3.out'},18.08);
+tl.fromTo('#final-caption',{opacity:0},{opacity:1,duration:.65},18.5);
+window.__timelines=window.__timelines||{};window.__timelines.celestial=tl;
+</script>
+</body>
+</html>

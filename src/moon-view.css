@@ -1,0 +1,14 @@
+.moon-result .moon-stage:not(.moon-stage-decorative) {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  max-width: none;
+  height: clamp(320px, calc(100svh - 370px), 520px);
+  aspect-ratio: auto;
+}
+
+@media (max-width: 767px) {
+  .moon-result .moon-stage:not(.moon-stage-decorative) {
+    height: clamp(280px, 85vw, 390px);
+  }
+}

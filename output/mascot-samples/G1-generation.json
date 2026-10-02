@@ -1,0 +1,38 @@
+{
+  "label": "G1",
+  "direction": "Living nebula spirit — literal galaxy cloud with broad spiral region",
+  "provider": "Built-in image_gen; underlying model not exposed",
+  "dimensions": [
+    1254,
+    1254
+  ],
+  "filename": "G1-nebula-gaze-study.png",
+  "palette": [
+    "#070b17",
+    "#716393",
+    "#c9c1f0",
+    "pale cyan",
+    "cream",
+    "dark indigo"
+  ],
+  "layout": [
+    [
+      "upper-left",
+      "up",
+      "upper-right"
+    ],
+    [
+      "left",
+      "neutral",
+      "right"
+    ],
+    [
+      "lower-left",
+      "down",
+      "lower-right"
+    ]
+  ],
+  "behavior": "Stationary body; only pupils track full circle of cursor directions",
+  "prompt": "Create a square approximately 1536 x 1536 visual study with a precisely spaced 3 x 3 grid of NINE instances of the SAME adorable galaxy-nebula spirit. No text, labels, divider lines, frames or cards. Solid midnight navy #070b17 background across the entire square.\nThe character is a living tiny nebula, literally a cosmic being: a rounded soft cloud silhouette made from 4-5 broad rounded lobes, compact like a little floating galaxy cloud. Its broad body contains softly blended violet #716393, starlight lavender #c9c1f0 and cool pale cyan nebula coloration, with just a few tiny cream star points INSIDE its body, never scattered in the scene. One simple broad curled galaxy-swirl region inside the lower body. TWO large friendly cream oval eyes with clearly separate dark indigo round pupils. Tiny gentle smile. No animal anatomy, no astronaut suit, no ears, no props. Make it simple, readable, charming and clearly GALAXY themed, suitable to the calm astronomy mood.\nALL NINE instances have EXACTLY identical stationary body shape, cloud lobes, body orientation, scale, color regions, face/eye sockets and position within their respective equal grid cells. Only the black-indigo PUPILS move inside the fixed eyes, showing the mascot watching a mouse from a fixed place. DO NOT rotate, tilt, translate, stretch or turn the body. Do not change expression or add arms or legs. Eyes stay attached and visible. Maintain the same face identity throughout.\nPupil direction mapping by row:\nTOP ROW: upper-left, straight up, upper-right.\nMIDDLE ROW: straight left, neutral looking at viewer (pupils centered), straight right.\nBOTTOM ROW: lower-left, straight down, lower-right.\nThese represent eight directions around the mascot plus neutral; the whole body stays fixed. Make the pupil direction distinct and anatomically consistent, with matching direction in both eyes. Every character fully visible with comfortable margin; no cropped cloud lobes. One character per equal grid cell, visually aligned. Ultra-clean graphic treatment, very gentle cosmic softness. Add an extremely, extremely subtle, almost imperceptible sense of depth through a barely-there neo-skeuomorphic treatment.\nConstraints: no text, arrows, watermarks, borders, extra characters, scenery, decorative background stars, costumes, outlines, noise texture, photorealistic materials, glossy hotspots or dramatic 3D.",
+  "note": "Visual concept study, preserved unmodified. Not a production sprite sheet. User explicitly requested directional examples and literal galaxy appearance, overriding original single-character, color-count and crop defaults. Website unchanged."
+}
