@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useRef, useState } from 'react'
+﻿import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, CalendarDays, LoaderCircle, Orbit, Telescope } from 'lucide-react'
 import gsap from 'gsap'
 import axios from 'axios'
@@ -22,7 +22,7 @@ const PlanetScene = lazy(() => import('./PlanetScene.jsx'))
 
 const services = [
   { title: 'Birthday sky', description: 'See NASA’s image from the day you were born.', href: '/birthday', action: 'Find your sky', art: 'galaxy' },
-  { title: 'Moon on your day', description: 'Discover the Moon’s phase on a day that matters.', href: '/moon', action: 'Find your Moon', art: 'moon' },
+  { title: 'Moon phase', description: 'See the Moon’s phase for any date you choose.', href: '/moon', action: 'Find your Moon', art: 'moon' },
   { title: 'Cosmic shuffle', description: 'A different corner of the universe with every click.', href: '/shuffle', action: 'Surprise me', art: 'shuffle' },
   { title: 'Solar System', description: 'Eight worlds. Get a little closer to each one.', href: '/solar-system', action: 'Explore the planets', art: 'planets' },
   { title: 'Cosmic pets', description: 'Meet a little collection of curious cosmic companions.', href: '/pets', action: 'Meet the pets', art: 'pets' },
@@ -57,6 +57,25 @@ function EmptyPreview({ loading = false }) {
   )
 }
 
+function ShowcaseSection() {
+  return (
+    <section className="showcase-section" aria-labelledby="showcase-title">
+      <h2 id="showcase-title" className="showcase-title">See it come alive.</h2>
+      <div className="showcase-video-wrap">
+        <video
+          className="showcase-video"
+          src="/brag.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          aria-label="Celestial showcase video"
+        />
+      </div>
+    </section>
+  )
+}
+
 function LandingPage() {
   return (
     <>
@@ -69,8 +88,10 @@ function LandingPage() {
         </div>
       </section>
 
+      <ShowcaseSection />
+
       <section id="services" className="services-section" aria-labelledby="services-title" tabIndex={-1}>
-        <h2 id="services-title">Discoveries</h2>
+        <h2 id="services-title">Explore</h2>
         <div className="services-grid">
           {services.map(({ title, description, href, action, art }) => (
             <a key={href} href={href} className="service-card">
@@ -137,7 +158,7 @@ function BirthdayPage() {
   return (
     <section className="birthday-workspace" aria-labelledby="birthday-title">
       <div className="birthday-controls">
-        <a className="back-link" href="/#services"><ArrowLeft size={16} aria-hidden="true" /> All discoveries</a>
+        <a className="back-link" href="/#services"><ArrowLeft size={16} aria-hidden="true" /> Explore</a>
         <h1 id="birthday-title">Your birthday.<br /><em>Your sky.</em></h1>
         <p className="birthday-description">A little piece of the universe, from your first day.</p>
         <div id="birthday" className="birthday-form" aria-busy={loading}>
@@ -172,7 +193,7 @@ export default function App() {
   const isDiscovery = isBirthday || isMoon || isShuffle || isSolar || isPets
 
   useEffect(() => {
-    document.title = isBirthday ? 'Birthday sky — Celestial' : isMoon ? 'Moon on your day — Celestial' : isShuffle ? 'Cosmic shuffle — Celestial' : isSolar ? 'Solar System — Celestial' : isPets ? 'Cosmic pets — Celestial' : 'Celestial — Among the stars'
+    document.title = isBirthday ? 'Birthday sky — Celestial' : isMoon ? 'Moon phase — Celestial' : isShuffle ? 'Cosmic shuffle — Celestial' : isSolar ? 'Solar System — Celestial' : isPets ? 'Cosmic pets — Celestial' : 'Celestial — Among the stars'
     if (isMoon || isShuffle || isSolar || isPets) return
     const context = gsap.context(() => {
       const media = gsap.matchMedia()
@@ -186,13 +207,13 @@ export default function App() {
   return (
     <div ref={root} className="site-shell">
       <Starfield />
-      <a href={isBirthday ? '#birthday' : isMoon ? '#moon-form' : isShuffle ? '#shuffle-button' : isSolar ? '#planet-showcase' : isPets ? '#pets-gallery' : '#services'} className="skip-link">{isBirthday ? 'Skip to birthday lookup' : isMoon ? 'Skip to Moon lookup' : isShuffle ? 'Skip to shuffle' : isSolar ? 'Skip to planet showcase' : isPets ? 'Skip to pets' : 'Skip to discoveries'}</a>
+      <a href={isBirthday ? '#birthday' : isMoon ? '#moon-form' : isShuffle ? '#shuffle-button' : isSolar ? '#planet-showcase' : isPets ? '#pets-gallery' : '#services'} className="skip-link">{isBirthday ? 'Skip to birthday lookup' : isMoon ? 'Skip to Moon lookup' : isShuffle ? 'Skip to shuffle' : isSolar ? 'Skip to planet showcase' : isPets ? 'Skip to pets' : 'Skip to explore'}</a>
       <header className="site-header">
         <a className="wordmark" href="/" aria-label="Celestial home"><Orbit size={27} strokeWidth={1.2} aria-hidden="true" /><span>celestial</span></a>
-        <nav aria-label="Main navigation"><a href={isDiscovery ? '/#services' : '#services'}>Discoveries <ArrowUpRight size={15} aria-hidden="true" /></a></nav>
+        <nav aria-label="Main navigation"><a href={isDiscovery ? '/#services' : '#services'}>Explore <ArrowUpRight size={15} aria-hidden="true" /></a></nav>
       </header>
       <main>{isBirthday ? <BirthdayPage /> : isMoon ? <Suspense fallback={<p className="moon-route-loading" role="status">Opening your Moon…</p>}><MoonPage /></Suspense> : isShuffle ? <Suspense fallback={<p className="moon-route-loading" role="status">Opening Cosmic shuffle…</p>}><ShufflePage /></Suspense> : isSolar ? <Suspense fallback={<p className="moon-route-loading" role="status">Opening the Solar System…</p>}><SolarSystemPage /></Suspense> : isPets ? <Suspense fallback={<p className="moon-route-loading" role="status">The pets are arriving…</p>}><PetsPage /></Suspense> : <LandingPage />}</main>
-      <footer className="site-footer"><span>celestial</span>{isPets ? <span>Little companions, made for Celestial.</span> : <a href="https://science.nasa.gov/apod/" target="_blank" rel="noreferrer">Imagery via NASA APOD <ArrowUpRight size={13} aria-hidden="true" /></a>}<span>{isPets ? 'Independent project' : 'Independent project · Galaxy: ESO / VLT'}</span></footer>
+      <footer className="site-footer"><span className="footer-wordmark"><Orbit size={27} strokeWidth={1.2} aria-hidden="true" /><span>celestial</span></span>{isPets && <span>Little companions, made for Celestial.</span>}<span>{isPets ? 'Independent project' : 'Independent project · Galaxy: ESO / VLT'}</span></footer>
     </div>
   )
 }

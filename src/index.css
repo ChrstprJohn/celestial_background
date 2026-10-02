@@ -60,8 +60,10 @@ h2 { font-size: clamp(40px, 4vw, 56px); line-height: 1.1; }
 .service-copy > p { margin-top: 12px; font-size: 13px; line-height: 1.75; color: #b5bbd0; max-width: 30ch; }
 .service-copy > span { margin-top: 27px; display: flex; align-items: center; justify-content: space-between; color: #c9c1f0; font-size: 12px; font-weight: 500; }
 .site-footer { max-width: var(--page-width); margin-inline: auto; padding: 27px var(--page-gutter) 31px; border-top: 1px solid #282e44; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px; font-size: 11px; color: #a4abc2; }
-.site-footer > span:first-child { font-size: 17px; color: #dddbe7; letter-spacing: -.03em; }
+.site-footer > span:first-child { font-size: 25px; color: #dddbe7; letter-spacing: -.03em; }
 .site-footer a { display: inline-flex; align-items: center; gap: 5px; }
+.footer-wordmark { display: inline-flex; align-items: center; gap: 8px; }
+.footer-wordmark svg { color: #c9c1f0; }
 .birthday-workspace { max-width: var(--page-width); margin-inline: auto; min-height: calc(100svh - 178px); display: grid; grid-template-columns: .9fr 1.1fr; align-items: start; gap: clamp(40px, 7vw, 100px); padding: 40px var(--page-gutter) 72px; }
 .birthday-controls { max-width: 380px; padding-bottom: 20px; }
 .back-link { display: inline-flex; align-items: center; gap: 9px; font-size: 12px; color: #b5bbd0; margin-bottom: 32px; }
@@ -137,6 +139,10 @@ h2 { font-size: clamp(40px, 4vw, 56px); line-height: 1.1; }
 .shuffle-button { margin-top: 30px; }
 .loading-icon { animation: spin 1s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
+.showcase-section { max-width: var(--page-width); margin-inline: auto; padding: 0 var(--page-gutter) 100px; }
+.showcase-title { display: none; }
+.showcase-video-wrap { border: 1px solid #2b3047; border-radius: 14px; overflow: hidden; background: #0b1021; }
+.showcase-video { display: block; width: 100%; height: auto; }
 @media (min-width: 600px) and (max-width: 1199px) {
   .services-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .service-card { width: 100%; }
@@ -155,6 +161,8 @@ h2 { font-size: clamp(40px, 4vw, 56px); line-height: 1.1; }
   .hero-copy > p { font-size: 13px; max-width: 27ch; margin: 22px auto 0; }
   .galaxy-scene { width: 140vw; right: -40%; opacity: .38; }
   .services-section { padding: 60px 24px 70px; }
+  .showcase-section { padding: 0 24px 70px; }
+  .showcase-title { display: block; margin-bottom: 36px; text-align: center; }
   .service-art { height: 255px; }
   .service-copy { padding: 23px; }
   .site-footer { margin-inline: 24px; padding-inline: 0; gap: 16px; }

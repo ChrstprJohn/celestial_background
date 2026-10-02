@@ -28,7 +28,7 @@ export default function SolarSystemPage() {
   return (
     <section className="solar-workspace" aria-label="Solar System showcase">
       <aside className="planet-sidebar">
-        <a className="back-link" href="/#services"><ArrowLeft size={16} aria-hidden="true" /> All discoveries</a>
+        <a className="back-link" href="/#services"><ArrowLeft size={16} aria-hidden="true" /> Explore</a>
         <div className="planet-introduction" aria-live="polite" aria-atomic="true">
           <h1>{planet.name}</h1>
           <p className="planet-subtitle">{planet.subtitle}</p>
