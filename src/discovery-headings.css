@@ -1,0 +1,16 @@
+.site-shell .birthday-controls h1,
+.site-shell .moon-controls h1,
+.site-shell .shuffle-controls h1,
+.site-shell .planet-introduction h1 {
+  font-size: clamp(56px, 6vw, 80px);
+  line-height: 1.08;
+}
+
+@media (max-width: 767px) {
+  .site-shell .birthday-controls h1,
+  .site-shell .moon-controls h1,
+  .site-shell .shuffle-controls h1,
+  .site-shell .planet-introduction h1 {
+    font-size: clamp(52px, 12vw, 68px);
+  }
+}

@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useRef, useState } from 'react'
-import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, CalendarDays, LoaderCircle, Orbit, Telescope } from 'lucide-react'
+import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, CalendarDays, Orbit, Telescope } from 'lucide-react'
 import gsap from 'gsap'
 import axios from 'axios'
 import { fetchApod } from './lib/apod.js'
@@ -7,6 +7,7 @@ import { ARCHIVE_START, nasaToday, validateDate } from './lib/dates.js'
 import BirthdayImage from './BirthdayImage.jsx'
 import Starfield from './Starfield.jsx'
 import MoonVisual from './MoonVisual.jsx'
+import './discovery-headings.css'
 
 const MoonPage = lazy(() => import('./MoonPage.jsx'))
 
@@ -63,7 +64,6 @@ function VideoResult({ entry }) {
 }
 
 function BirthdayPage() {
-  const resultRef = useRef(null)
   const request = useRef(null)
   const [date, setDate] = useState('')
   const [loading, setLoading] = useState(false)
@@ -73,22 +73,11 @@ function BirthdayPage() {
 
   useEffect(() => () => request.current?.abort(), [])
 
-  useEffect(() => {
-    if (!result) return
-    resultRef.current?.focus({ preventScroll: true })
-    if (window.matchMedia('(max-width: 767px)').matches) {
-      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-      resultRef.current?.scrollIntoView({ behavior: reducedMotion ? 'instant' : 'smooth', block: 'start' })
-    }
-  }, [result])
-
-  async function discover(event) {
-    event.preventDefault()
-    const selectedDate = new FormData(event.currentTarget).get('birthdate')
+  async function discover(selectedDate) {
     setDate(selectedDate)
-    const validation = validateDate(selectedDate, today)
-    if (validation) { setError(validation); return }
     request.current?.abort()
+    const validation = validateDate(selectedDate, today)
+    if (validation) { setError(validation); setLoading(false); return }
     const controller = new AbortController()
     request.current = controller
     setLoading(true)
@@ -109,17 +98,16 @@ function BirthdayPage() {
         <a className="back-link" href="/#services"><ArrowLeft size={16} aria-hidden="true" /> All discoveries</a>
         <h1 id="birthday-title">Your birthday.<br /><em>Your sky.</em></h1>
         <p className="birthday-description">A little piece of the universe, from your first day.</p>
-        <form id="birthday" className="birthday-form" onSubmit={discover} noValidate aria-busy={loading}>
+        <div id="birthday" className="birthday-form" aria-busy={loading}>
           <label htmlFor="birthdate">Your birthday</label>
-          <div className="date-input-wrap"><CalendarDays size={19} strokeWidth={1.5} aria-hidden="true" /><input id="birthdate" name="birthdate" type="date" required min={ARCHIVE_START} max={today} value={date} onChange={(event) => { setDate(event.target.value); setError('') }} aria-describedby={error ? 'date-help lookup-error' : 'date-help'} aria-invalid={Boolean(error)} disabled={loading} /></div>
+          <div className="date-input-wrap"><CalendarDays size={19} strokeWidth={1.5} aria-hidden="true" /><input id="birthdate" name="birthdate" type="date" required min={ARCHIVE_START} max={today} value={date} onChange={(event) => discover(event.target.value)} aria-describedby={error ? 'date-help lookup-error' : 'date-help'} aria-invalid={Boolean(error)} /></div>
           <p id="date-help" className="date-help">Available from June 16, 1995.</p>
-          <button className="primary-button lookup-button" type="submit" disabled={loading}>{loading ? <>Finding your sky <LoaderCircle className="loading-icon" size={18} aria-hidden="true" /></> : <>Find my sky <ArrowRight size={18} aria-hidden="true" /></>}</button>
           {error && <p id="lookup-error" className="form-error" role="alert">{error}</p>}
-          <p className="sr-only" role="status">{loading ? 'Looking up NASA’s picture for your selected date.' : ''}</p>
-        </form>
+          <p className="date-help" role="status">{loading ? 'Looking up NASA’s picture for your selected date…' : ''}</p>
+        </div>
       </div>
 
-      <div ref={resultRef} className="image-workspace" role="region" aria-label="Birthday image preview" tabIndex={-1} aria-busy={loading}>
+      <div className="image-workspace" role="region" aria-label="Birthday image preview" tabIndex={-1} aria-busy={loading}>
         {result ? <>
           {result.mediaType === 'image' && result.image ? <BirthdayImage key={result.date} entry={result} /> : <VideoResult entry={result} />}
           <div className="result-attribution">
