@@ -1,0 +1,25 @@
+.playground-fieldset { border: 0; padding: 0; margin: 24px 0 0; min-width: 0; }
+.playground-fieldset legend { margin-bottom: 12px; font-size: 13px; font-weight: 500; }
+.palette-selector { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; }
+.palette-selector button { display: flex; align-items: center; gap: 9px; min-height: 48px; border: 1px solid #282e44; border-radius: 6px; background: transparent; color: #b5bbd0; padding: 8px 10px; font-size: 12px; }
+.palette-selector button[aria-pressed="true"] { border-color: #9a91cf; background: #101528; color: #ded8fa; }
+.palette-selector button:hover { background: #101528; }
+.palette-colors { display: inline-flex; overflow: hidden; border-radius: 50%; width: 27px; height: 27px; flex-shrink: 0; transform: rotate(-25deg); }
+.palette-colors i { width: 9px; height: 27px; }
+.builder-planet .planet-stage { height: clamp(360px,40vw,530px); }
+.builder-planet + .art-caption { margin-top: 26px; }
+.builder-planet ~ .art-download-wrap { text-align: center; }
+.builder-planet ~ .art-download-wrap .export-preview summary { justify-content: center; }
+.gravity-stage { width: 100%; height: auto; display: block; margin-top: 36px; overflow: visible; }
+.gravity-stage text { fill: #b5bbd0; font-family: var(--font-sans); font-size: 17px; }
+.gravity-stage .gravity-world-name { fill: #f3f0e9; font-family: var(--font-display); font-size: 32px; }
+.gravity-status { text-align: center; color: #c9c1f0; font-size: 13px; line-height: 1.8; margin-top: 22px; }
+.gravity-results { margin-top: 36px; }
+.gravity-results h2 { font-size: 36px; }
+.gravity-results .space-facts { margin-top: 16px; }
+@media (max-width: 767px) {
+  .builder-planet .planet-stage { height: clamp(280px,90vw,430px); }
+  .gravity-stage { margin-top: 0; }
+  .gravity-stage text { font-size: 26px; }
+  .gravity-stage .gravity-world-name { font-size: 38px; }
+}

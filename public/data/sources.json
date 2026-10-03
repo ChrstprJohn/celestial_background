@@ -1,0 +1,14 @@
+{
+  "constellations": {
+    "url": "https://raw.githubusercontent.com/ofrohn/d3-celestial/master/data/constellations.lines.json",
+    "sha256": "294F66BEF5D5CF50B1E17F16D2EFA1D97A15131612C68DD935ADEF6E7373E13C"
+  },
+  "stars": {
+    "url": "https://raw.githubusercontent.com/ofrohn/d3-celestial/master/data/stars.6.json",
+    "sha256": "0297B8FA3ADFBCE1DC26566F61C4ABCC1DF4F29C6A28729CA06B56D1C6D25602"
+  },
+  "retrieved": "2026-10-03",
+  "license": "d3-celestial.LICENSE",
+  "notes": "Star coordinates use equatorial J2000 degrees; magnitude affects point size. Astronomy Engine transforms to the observer horizon. Stellar proper motion is omitted.",
+  "project": "https://github.com/ofrohn/d3-celestial"
+}

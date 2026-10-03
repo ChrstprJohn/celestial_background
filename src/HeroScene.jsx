@@ -24,17 +24,6 @@ export default function HeroScene() {
   return (
     <div ref={layer} className={`hero-scene${running ? ' is-running' : ''}`} aria-hidden="true">
       <div className="galaxy-scene"><img src={GALAXY_IMAGE} alt="" width="1000" height="1100" fetchPriority="high" /></div>
-      <div className="hero-comets">
-        <span className="hero-comet" />
-        <span className="hero-comet" />
-        <span className="hero-comet" />
-        <span className="hero-comet" />
-        <span className="hero-comet" />
-        <span className="hero-comet" />
-        <span className="hero-comet" />
-        <span className="hero-comet" />
-        <span className="hero-comet" />
-      </div>
     </div>
   )
 }

@@ -39,7 +39,7 @@
 .planet-sources > div { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 9px; }
 .planet-sources a { display: inline-flex; align-items: center; gap: 4px; }
 .service-planet-preview { width: 100%; height: 100%; pointer-events: none; }
-.service-planet-preview .planet-stage { height: 280px; }
+.service-planet-preview .planet-stage { height: 100%; }
 .service-planet-preview .planet-viewer { height: 100%; }
 .planet-story { margin-top: 22px; position: relative; z-index: 1; }
 .planet-story summary { display: flex; align-items: center; gap: 12px; width: fit-content; min-height: 44px; list-style: none; cursor: pointer; color: #c9c1f0; font-size: 12px; }
@@ -61,5 +61,4 @@
   .planet-control-buttons button { width: 34px; }
   .planet-facts dd { font-size: 25px; }
   .planet-story { margin-top: 0; }
-  .service-planet-preview .planet-stage { height: 255px; }
 }

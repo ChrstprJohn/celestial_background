@@ -109,7 +109,7 @@ export default function PreviewCursor() {
       const dx = next.x - pointer.x
       const dy = next.y - pointer.y
       const distance = visible ? Math.hypot(dx, dy) : 0
-      interactive = Boolean(event.target.closest('a, button'))
+      interactive = Boolean(event.target.closest('a, button, summary, [role="button"]'))
       if (distance > 3) {
         const count = Math.min(Math.ceil(distance / 5), 10)
         for (let index = 0; index < count; index++) {

@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { ArrowLeft, ArrowUpRight, CalendarDays } from 'lucide-react'
+import { ArrowLeft, ArrowUpRight } from 'lucide-react'
+import DatePicker from './DatePicker.jsx'
 import MoonVisual from './MoonVisual.jsx'
 import { MOON_END, MOON_START, localToday, moonForDate, validateMoonDate } from './lib/moon.js'
 import { formatDate } from './lib/dates.js'
@@ -27,7 +28,7 @@ export default function MoonPage() {
         <p className="moon-description">A familiar world. A moment that’s yours.</p>
         <div id="moon-form" className="moon-form">
           <label htmlFor="moondate">Choose your date</label>
-          <div className="date-input-wrap"><CalendarDays size={19} strokeWidth={1.5} aria-hidden="true" /><input id="moondate" name="moondate" type="date" min={MOON_START} max={MOON_END} required value={date} onChange={(event) => discover(event.target.value)} aria-describedby={error ? 'moon-date-help moon-error' : 'moon-date-help'} aria-invalid={Boolean(error)} /></div>
+          <DatePicker id="moondate" name="moondate" label="Choose your date" min={MOON_START} max={MOON_END} today={localToday()} value={date} onChange={discover} describedBy={error ? 'moon-date-help moon-error' : 'moon-date-help'} invalid={Boolean(error)} />
           <p className="date-help" id="moon-date-help">Choose any day from 1900 to 2100.</p>
           {error && <p className="form-error" id="moon-error" role="alert">{error}</p>}
         </div>
