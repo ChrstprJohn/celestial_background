@@ -53,7 +53,7 @@ export default function LocationSharing() {
   return <section className="location-sharing" aria-labelledby="location-sharing-title">
     <div>
       <h2 id="location-sharing-title">Share where you’re visiting from</h2>
-      <p id="location-sharing-description">Help us understand where our visitors are from by sharing your current location. It’s optional, and your browser will ask permission. We only collect it once when you share—we don’t track your movement.</p>
+      <p id="location-sharing-description">Help us understand where our visitors are from. If you choose to share, we send your current location to BigDataCloud to find your city, and save it in our visitor analytics. It’s optional—we don’t track your movement.</p>
       <p role="status">{message}</p>
     </div>
     <div className="location-sharing-actions">
