@@ -3,11 +3,13 @@ import { Minus, Plus, RotateCcw } from 'lucide-react'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { planetTexture } from './lib/planets.js'
+import { cropPlanetImage } from './lib/planet-export.js'
+import { makeWorldTexture } from './lib/world-builder.js'
 
 const ZOOM_STEP = 1.1
 const MAX_ZOOM = 1.2
 
-export default function PlanetScene({ planet, decorative = false, onRetry }) {
+export default function PlanetScene({ planet, decorative = false, showFeedback = false, onRetry, captureRef, onCaptureReady, appearance }) {
   const host = useRef(null)
   const actions = useRef(null)
   const [status, setStatus] = useState('loading')
@@ -27,6 +29,8 @@ export default function PlanetScene({ planet, decorative = false, onRetry }) {
     let frame = 0
     let visible = true
     let loaded = false
+    const hasRings = appearance ? appearance.rings : planet.id === 'saturn'
+    const hasClouds = appearance ? appearance.clouds : planet.id === 'earth'
     const textures = []
     const materials = []
     const geometries = []
@@ -34,7 +38,7 @@ export default function PlanetScene({ planet, decorative = false, onRetry }) {
     renderer.outputColorSpace = THREE.SRGBColorSpace
     renderer.toneMapping = THREE.ACESFilmicToneMapping
     renderer.toneMappingExposure = 1.3
-    renderer.shadowMap.enabled = planet.id === 'saturn' && !decorative
+    renderer.shadowMap.enabled = hasRings && !decorative
     renderer.shadowMap.type = THREE.PCFShadowMap
     const canvas = renderer.domElement
     canvas.setAttribute('aria-hidden', 'true')
@@ -70,7 +74,7 @@ export default function PlanetScene({ planet, decorative = false, onRetry }) {
     sphere.castShadow = renderer.shadowMap.enabled
     sphere.receiveShadow = renderer.shadowMap.enabled
     sphere.rotation.y = planet.id === 'earth' ? 2.4 : 0.5
-    if (planet.id === 'saturn') sphere.scale.y = 0.9
+    if (hasRings) sphere.scale.y = 0.9
     if (planet.id === 'jupiter') sphere.scale.y = 0.935
     group.add(sphere)
 
@@ -100,12 +104,12 @@ export default function PlanetScene({ planet, decorative = false, onRetry }) {
       camera.aspect = width / height
       renderer.setSize(width, height)
       // Fit the complete subject at every rotation, including the ring edges.
-      const radius = planet.id === 'saturn' ? 2.36 : 1.12
+      const radius = hasRings ? 2.36 : 1.12
       const verticalAngle = THREE.MathUtils.degToRad(18)
       const fitAngle = Math.min(verticalAngle, Math.atan(Math.tan(verticalAngle) * camera.aspect))
       const defaultDistance = radius / Math.sin(fitAngle) * (decorative ? 1.05 : 1.25)
       // Two gentle enlargement steps, shared by all zoom inputs.
-      const globeRadius = planet.id === 'saturn' ? 2.32 : planet.id === 'earth' ? 1.008 : 1
+      const globeRadius = hasRings ? 2.32 : hasClouds ? 1.008 : 1
       controls.minDistance = Math.sqrt(globeRadius ** 2 + (defaultDistance ** 2 - globeRadius ** 2) / MAX_ZOOM ** 2)
       controls.maxDistance = defaultDistance
       if (!loaded || Math.abs(oldAspect - camera.aspect) > 0.02) {
@@ -135,11 +139,12 @@ export default function PlanetScene({ planet, decorative = false, onRetry }) {
     })
     async function prepare() {
       try {
-        const map = await loadTexture(planetTexture(planet.id))
+        const map = appearance ? new THREE.CanvasTexture(makeWorldTexture(appearance)) : await loadTexture(planetTexture(planet.id))
+        if (appearance) { map.colorSpace = THREE.SRGBColorSpace; textures.push(map) }
         if (disposed) return
         surface.map = map
         surface.needsUpdate = true
-        if (planet.id === 'saturn') {
+        if (hasRings) {
           const ringMap = await loadTexture('/textures/planets/saturn-ring.png')
           if (disposed) return
           const ringGeometry = new THREE.RingGeometry(1.23, 2.32, 192, 8)
@@ -158,7 +163,7 @@ export default function PlanetScene({ planet, decorative = false, onRetry }) {
           rings.rotation.x = -Math.PI / 2
           group.add(rings)
         }
-        if (planet.id === 'earth') {
+        if (hasClouds) {
           const clouds = await loadTexture('/textures/planets/earth-clouds.jpg')
           if (disposed) return
           const cloudMaterial = new THREE.MeshStandardMaterial({ alphaMap: clouds, transparent: true, opacity: 0.65, depthWrite: false, roughness: 1 })
@@ -170,6 +175,24 @@ export default function PlanetScene({ planet, decorative = false, onRetry }) {
         }
         resize()
         loaded = true
+        if (captureRef) captureRef.current = {
+          planetId: planet.id,
+          appearance,
+          capture() {
+            if (disposed || !loaded || renderer.getContext().isContextLost()) throw new Error('The planet view is not ready.')
+            // Copy immediately after a fresh render; WebGL clears its buffer after presentation.
+            // This also supports downloading when the planet has scrolled out of view.
+            renderer.render(scene, camera)
+            const image = document.createElement('canvas')
+            image.width = canvas.width
+            image.height = canvas.height
+            const context = image.getContext('2d')
+            if (!context) throw new Error('Image export is unavailable.')
+            context.drawImage(canvas, 0, 0)
+            return cropPlanetImage(image)
+          },
+        }
+        onCaptureReady?.(planet.id)
         setStatus('ready')
         invalidate()
       } catch {
@@ -184,7 +207,7 @@ export default function PlanetScene({ planet, decorative = false, onRetry }) {
       invalidate()
     }
     function zoomStep(direction) {
-      const radius = planet.id === 'saturn' ? 2.32 : planet.id === 'earth' ? 1.008 : 1
+      const radius = hasRings ? 2.32 : hasClouds ? 1.008 : 1
       const distance = camera.position.length()
       const base = controls.maxDistance ** 2 - radius ** 2
       const magnification = Math.sqrt(base / (distance ** 2 - radius ** 2))
@@ -210,7 +233,14 @@ export default function PlanetScene({ planet, decorative = false, onRetry }) {
       }
       if (keyActions[event.key]) { event.preventDefault(); keyActions[event.key]() }
     }
-    function contextLost(event) { event.preventDefault(); if (!disposed) setStatus('lost') }
+    function contextLost(event) {
+      event.preventDefault()
+      if (!disposed) {
+        if (captureRef) captureRef.current = null
+        onCaptureReady?.('')
+        setStatus('lost')
+      }
+    }
     container.addEventListener('keydown', keydown)
     canvas.addEventListener('webglcontextlost', contextLost)
     actions.current = { reset: () => controls.reset(), zoomStep }
@@ -219,6 +249,8 @@ export default function PlanetScene({ planet, decorative = false, onRetry }) {
 
     return () => {
       disposed = true
+      if (captureRef) captureRef.current = null
+      onCaptureReady?.('')
       cancelAnimationFrame(frame)
       observer.disconnect()
       intersection.disconnect()
@@ -236,12 +268,12 @@ export default function PlanetScene({ planet, decorative = false, onRetry }) {
       canvas.remove()
       actions.current = null
     }
-  }, [planet, decorative])
+  }, [planet, decorative, captureRef, onCaptureReady, appearance])
 
   return (
     <div className="planet-viewer">
       <div ref={host} className={`planet-stage${decorative ? ' planet-stage-decorative' : ''}`} aria-busy={status === 'loading'} role={decorative ? undefined : 'img'} aria-label={decorative ? undefined : `Interactive 3D ${planet.name}. Arrow keys rotate; plus and minus zoom; R resets.`} aria-hidden={decorative || undefined} tabIndex={decorative ? undefined : 0} />
-      {!decorative && status !== 'ready' && <div className="planet-stage-feedback" role="status">
+      {(!decorative || showFeedback) && status !== 'ready' && <div className="planet-stage-feedback" role="status">
         {status === 'loading' ? <><span className="planet-loading-orbit" aria-hidden="true" /><p>Preparing {planet.name}…</p></> : <>
           <p>{status === 'unsupported' ? 'The 3D view needs a browser with WebGL support.' : 'The planet view could not load.'}</p>
           <p className="planet-error-help">You can still explore the story and facts.</p>
