@@ -41,6 +41,8 @@ npm run dev
 
 Open the localhost URL shown by Vite. Stop the foreground server with Ctrl+C.
 
+PostHog analytics is enabled when `VITE_POSTHOG_TOKEN` is set in `.env.local` or your hosting build environment. Set `VITE_POSTHOG_HOST` to your project's ingestion host (US: `https://us.i.posthog.com`). Use a public project token, never a personal or secret API key. Pageviews include SPA navigation, and all events include `site_name: celestial`. Filter the Celestial dashboard by that event property when sharing a PostHog project with other websites. Session recording is disabled. Local visits also send analytics when the token is configured; remove the token to disable tracking. Set both variables on your host and rebuild to enable analytics on the deployed website.
+
 ```sh
 npm run lint
 npm test
