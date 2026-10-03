@@ -29,13 +29,12 @@ export default function useScrollReveal() {
         })
       }, { rootMargin: '0px 0px 32px 0px', threshold: .08 })
       targets.filter((target) => target !== video && !target.classList.contains('has-revealed')).forEach((target) => observer.observe(target))
-      if (video) {
+      if (video && !video.classList.contains('has-revealed')) {
         video.classList.add('is-reveal-ready')
         videoObserver = new IntersectionObserver(([entry]) => {
-          if (!entry.isIntersecting) {
-            video.classList.remove('is-revealing', 'has-revealed')
-          } else if (entry.intersectionRatio >= .25 && !video.classList.contains('has-revealed')) {
+          if (entry.isIntersecting && entry.intersectionRatio >= .25 && !video.classList.contains('has-revealed')) {
             video.classList.add('is-revealing', 'has-revealed')
+            videoObserver.unobserve(video)
           }
         }, { rootMargin: '0px 0px -48px 0px', threshold: [0, .25] })
         videoObserver.observe(video)
