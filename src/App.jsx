@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useRef, useState } from 'react'
-import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, CalendarDays, LoaderCircle, Orbit, Telescope } from 'lucide-react'
+import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, LoaderCircle, Orbit, Telescope } from 'lucide-react'
 import gsap from 'gsap'
 import axios from 'axios'
 import { fetchApod } from './lib/apod.js'
@@ -8,6 +8,11 @@ import BirthdayImage from './BirthdayImage.jsx'
 import Starfield from './Starfield.jsx'
 import HeroScene from './HeroScene.jsx'
 import PreviewCursor from './PreviewCursor.jsx'
+import ShootingStars from './ShootingStars.jsx'
+import DatePicker from './DatePicker.jsx'
+import DiscoveryArt from './DiscoveryArt.jsx'
+import { EXTRA_DISCOVERIES } from './lib/discoveries.js'
+import './discoveries.css'
 import useScrollReveal from './useScrollReveal.js'
 import MoonVisual from './MoonVisual.jsx'
 import LocationSharing from './LocationSharing.jsx'
@@ -23,6 +28,17 @@ const ShufflePage = lazy(() => import('./ShufflePage.jsx'))
 const SolarSystemPage = lazy(() => import('./SolarSystemPage.jsx'))
 const PetsPage = lazy(() => import('./PetsPage.jsx'))
 const PlanetScene = lazy(() => import('./PlanetScene.jsx'))
+const extraPages = {
+  '/build-your-planet': lazy(() => import('./BuildPlanetPage.jsx')),
+  '/gravity-playground': lazy(() => import('./GravityPage.jsx')),
+  '/cosmic-age': lazy(() => import('./CosmicAgePage.jsx')),
+  '/constellation-studio': lazy(() => import('./ConstellationStudioPage.jsx')),
+  '/space-detective': lazy(() => import('./SpaceDetectivePage.jsx')),
+  '/star-map': lazy(() => import('./StarMapPage.jsx')),
+  '/space-station': lazy(() => import('./SpaceStationPage.jsx')),
+  '/tonight': lazy(() => import('./TonightPage.jsx')),
+  '/cosmic-neighbors': lazy(() => import('./CosmicNeighborsPage.jsx')),
+}
 
 const services = [
   { title: 'Birthday sky', description: 'See NASA’s image from the day you were born.', href: '/birthday', action: 'Find your sky', art: 'galaxy' },
@@ -30,6 +46,7 @@ const services = [
   { title: 'Cosmic shuffle', description: 'A different corner of the universe with every click.', href: '/shuffle', action: 'Surprise me', art: 'shuffle' },
   { title: 'Solar System', description: 'Eight worlds. Get a little closer to each one.', href: '/solar-system', action: 'Explore the planets', art: 'planets' },
   { title: 'Cosmic pets', description: 'Meet a little collection of curious cosmic companions.', href: '/pets', action: 'Meet the pets', art: 'pets' },
+  ...EXTRA_DISCOVERIES.filter((service) => service.enabled),
 ]
 
 function PetsArt() {
@@ -104,7 +121,7 @@ function LandingPage() {
           {services.map(({ title, description, href, action, art }) => (
             <a key={href} href={href} className="service-card" data-scroll-reveal>
               <div className={`service-art${art === 'moon' ? ' service-art-moon' : ''}`} aria-hidden="true">
-                {art === 'moon' ? <MoonVisual fraction={.218} waxing decorative /> : art === 'planets' ? <SolarSystemArt /> : art === 'pets' ? <PetsArt /> : <img className="service-photo" src={art === 'shuffle' ? SHUFFLE_IMAGE : galaxyImage} alt="" loading="lazy" />}
+                {art === 'moon' ? <MoonVisual fraction={.218} waxing decorative /> : art === 'planets' ? <SolarSystemArt /> : art === 'pets' ? <PetsArt /> : art === 'galaxy' || art === 'shuffle' ? <img className="service-photo" src={art === 'shuffle' ? SHUFFLE_IMAGE : galaxyImage} alt="" loading="lazy" /> : <DiscoveryArt type={art} />}
               </div>
               <div className="service-copy"><h3>{title}</h3><p>{description}</p><span>{action} <ArrowRight size={18} aria-hidden="true" /></span></div>
             </a>
@@ -171,7 +188,7 @@ function BirthdayPage() {
         <p className="birthday-description">A little piece of the universe, from your first day.</p>
         <div id="birthday" className="birthday-form" aria-busy={loading}>
           <label htmlFor="birthdate">Your birthday</label>
-          <div className="date-input-wrap"><CalendarDays size={19} strokeWidth={1.5} aria-hidden="true" /><input id="birthdate" name="birthdate" type="date" required min={ARCHIVE_START} max={today} value={date} onChange={(event) => discover(event.target.value)} aria-describedby={error ? 'date-help lookup-error' : 'date-help'} aria-invalid={Boolean(error)} /></div>
+          <DatePicker id="birthdate" name="birthdate" label="Your birthday" min={ARCHIVE_START} max={today} today={today} value={date} onChange={discover} describedBy={error ? 'date-help lookup-error' : 'date-help'} invalid={Boolean(error)} />
           <p id="date-help" className="date-help">Available from June 16, 1995.</p>
           {error && <p id="lookup-error" className="form-error" role="alert">{error}</p>}
           <p className="date-help" role="status">{loading ? 'Looking up NASA’s picture for your selected date…' : ''}</p>
@@ -193,16 +210,19 @@ function BirthdayPage() {
 
 export default function App() {
   const root = useRef(null)
+  const pathname = window.location.pathname.replace(/\/$/, '') || '/'
+  const extraService = EXTRA_DISCOVERIES.find((service) => service.enabled && service.href === pathname)
+  const ExtraPage = extraService ? extraPages[pathname] : null
   const isBirthday = /^\/birthday\/?$/.test(window.location.pathname)
   const isMoon = /^\/moon\/?$/.test(window.location.pathname)
   const isShuffle = /^\/shuffle\/?$/.test(window.location.pathname)
   const isSolar = /^\/solar-system\/?$/.test(window.location.pathname)
   const isPets = /^\/pets\/?$/.test(window.location.pathname)
-  const isDiscovery = isBirthday || isMoon || isShuffle || isSolar || isPets
+  const isDiscovery = isBirthday || isMoon || isShuffle || isSolar || isPets || Boolean(ExtraPage)
 
   useEffect(() => {
-    document.title = isBirthday ? 'Birthday sky — Celestial' : isMoon ? 'Moon phase — Celestial' : isShuffle ? 'Cosmic shuffle — Celestial' : isSolar ? 'Solar System — Celestial' : isPets ? 'Cosmic pets — Celestial' : 'Celestial — Among the stars'
-    if (isMoon || isShuffle || isSolar || isPets) return
+    document.title = extraService ? `${extraService.title} — Celestial` : isBirthday ? 'Birthday sky — Celestial' : isMoon ? 'Moon phase — Celestial' : isShuffle ? 'Cosmic shuffle — Celestial' : isSolar ? 'Solar System — Celestial' : isPets ? 'Cosmic pets — Celestial' : 'Celestial — Among the stars'
+    if (extraService || isMoon || isShuffle || isSolar || isPets) return
     const context = gsap.context(() => {
       const media = gsap.matchMedia()
       media.add('(prefers-reduced-motion: no-preference)', () => {
@@ -217,18 +237,19 @@ export default function App() {
       })
     }, root)
     return () => context.revert()
-  }, [isBirthday, isMoon, isShuffle, isSolar, isPets])
+  }, [isBirthday, isMoon, isShuffle, isSolar, isPets, extraService])
 
   return (
     <div ref={root} className="site-shell">
       <Starfield />
-      {!isDiscovery && <PreviewCursor />}
-      <a href={isBirthday ? '#birthday' : isMoon ? '#moon-form' : isShuffle ? '#shuffle-button' : isSolar ? '#planet-showcase' : isPets ? '#pets-gallery' : '#services'} className="skip-link">{isBirthday ? 'Skip to birthday lookup' : isMoon ? 'Skip to Moon lookup' : isShuffle ? 'Skip to shuffle' : isSolar ? 'Skip to planet showcase' : isPets ? 'Skip to pets' : 'Skip to explore'}</a>
+      <ShootingStars />
+      <PreviewCursor />
+      <a href={ExtraPage ? '#discovery-controls' : isBirthday ? '#birthday' : isMoon ? '#moon-form' : isShuffle ? '#shuffle-button' : isSolar ? '#planet-showcase' : isPets ? '#pets-gallery' : '#services'} className="skip-link">{ExtraPage ? 'Skip to discovery controls' : isBirthday ? 'Skip to birthday lookup' : isMoon ? 'Skip to Moon lookup' : isShuffle ? 'Skip to shuffle' : isSolar ? 'Skip to planet showcase' : isPets ? 'Skip to pets' : 'Skip to explore'}</a>
       <header className="site-header">
         <a className="wordmark" href="/" aria-label="Celestial home"><Orbit size={27} strokeWidth={1.2} aria-hidden="true" /><span>celestial</span></a>
         <nav aria-label="Main navigation"><a href={isDiscovery ? '/#services' : '#services'}>Explore <ArrowUpRight size={15} aria-hidden="true" /></a></nav>
       </header>
-      <main>{isBirthday ? <BirthdayPage /> : isMoon ? <Suspense fallback={<p className="moon-route-loading" role="status">Opening your Moon…</p>}><MoonPage /></Suspense> : isShuffle ? <Suspense fallback={<p className="moon-route-loading" role="status">Opening Cosmic shuffle…</p>}><ShufflePage /></Suspense> : isSolar ? <Suspense fallback={<p className="moon-route-loading" role="status">Opening the Solar System…</p>}><SolarSystemPage /></Suspense> : isPets ? <Suspense fallback={<p className="moon-route-loading" role="status">The pets are arriving…</p>}><PetsPage /></Suspense> : <LandingPage />}</main>
+      <main>{ExtraPage ? <Suspense fallback={<p className="moon-route-loading" role="status">Opening {extraService.title}…</p>}><ExtraPage /></Suspense> : isBirthday ? <BirthdayPage /> : isMoon ? <Suspense fallback={<p className="moon-route-loading" role="status">Opening your Moon…</p>}><MoonPage /></Suspense> : isShuffle ? <Suspense fallback={<p className="moon-route-loading" role="status">Opening Cosmic shuffle…</p>}><ShufflePage /></Suspense> : isSolar ? <Suspense fallback={<p className="moon-route-loading" role="status">Opening the Solar System…</p>}><SolarSystemPage /></Suspense> : isPets ? <Suspense fallback={<p className="moon-route-loading" role="status">The pets are arriving…</p>}><PetsPage /></Suspense> : <LandingPage />}</main>
       <LocationSharing />
       <footer className="site-footer"><span className="footer-wordmark"><Orbit size={27} strokeWidth={1.2} aria-hidden="true" /><span>celestial</span></span>{isPets && <span>Little companions, made for Celestial.</span>}<span>Made by .dcd</span></footer>
     </div>
