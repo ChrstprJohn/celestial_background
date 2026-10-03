@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { MapPin } from 'lucide-react'
 import { analyticsEnabled, shareVisitorLocation } from './lib/analytics.js'
 import './location-sharing.css'
 
@@ -25,7 +26,7 @@ export default function LocationSharing() {
     return () => window.clearTimeout(timer)
   }, [state])
   if (!analyticsEnabled) return null
-  if (dismissed) return <button className="location-reopen" onClick={() => { setState('idle'); setMessage(''); setDismissed(false) }}>Share location</button>
+  if (dismissed) return <button className="location-reopen" aria-label="Share location" title="Share location" onClick={() => { setState('idle'); setMessage(''); setDismissed(false) }}><MapPin size={19} strokeWidth={1.5} aria-hidden="true" /></button>
   function share() {
     if (!window.isSecureContext || !navigator.geolocation) {
       setMessage('Location sharing is unavailable in this browser. You can keep exploring.')

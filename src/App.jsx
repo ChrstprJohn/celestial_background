@@ -6,6 +6,9 @@ import { fetchApod } from './lib/apod.js'
 import { ARCHIVE_START, nasaToday, validateDate } from './lib/dates.js'
 import BirthdayImage from './BirthdayImage.jsx'
 import Starfield from './Starfield.jsx'
+import HeroScene from './HeroScene.jsx'
+import PreviewCursor from './PreviewCursor.jsx'
+import useScrollReveal from './useScrollReveal.js'
 import MoonVisual from './MoonVisual.jsx'
 import LocationSharing from './LocationSharing.jsx'
 import './discovery-headings.css'
@@ -61,8 +64,8 @@ function EmptyPreview({ loading = false }) {
 function ShowcaseSection() {
   return (
     <section className="showcase-section" aria-labelledby="showcase-title">
-      <h2 id="showcase-title" className="showcase-title">See it come alive.</h2>
-      <div className="showcase-video-wrap">
+      <h2 id="showcase-title" className="showcase-title" data-scroll-reveal>See it come alive.</h2>
+      <div className="showcase-video-wrap" data-scroll-reveal>
         <video
           className="showcase-video"
           src="/brag.mp4"
@@ -78,12 +81,16 @@ function ShowcaseSection() {
 }
 
 function LandingPage() {
+  const landing = useScrollReveal()
   return (
-    <>
+    <div ref={landing} className="landing-content">
       <section className="landing-hero" aria-labelledby="hero-title">
-        <div className="galaxy-scene" aria-hidden="true"><img src={galaxyImage} alt="" width="1000" height="1100" fetchPriority="high" /></div>
+        <HeroScene />
         <div className="hero-copy">
-          <h1 id="hero-title">Your place<br />among the <em>stars.</em></h1>
+          <h1 id="hero-title" aria-label="Your place among the stars.">
+            <span className="hero-title-line"><span className="hero-title-word">Your</span>{' '}<span className="hero-title-word">place</span></span>
+            <span className="hero-title-line"><span className="hero-title-word">among</span>{' '}<span className="hero-title-word">the</span>{' '}<em className="hero-title-word">stars.</em></span>
+          </h1>
           <p>Find the sky on a day that matters.</p>
           <a href="#services" className="primary-button explore-button">Explore <ArrowDown size={18} aria-hidden="true" /></a>
         </div>
@@ -92,10 +99,10 @@ function LandingPage() {
       <ShowcaseSection />
 
       <section id="services" className="services-section" aria-labelledby="services-title" tabIndex={-1}>
-        <h2 id="services-title">Explore</h2>
+        <h2 id="services-title" data-scroll-reveal>Explore</h2>
         <div className="services-grid">
           {services.map(({ title, description, href, action, art }) => (
-            <a key={href} href={href} className="service-card">
+            <a key={href} href={href} className="service-card" data-scroll-reveal>
               <div className={`service-art${art === 'moon' ? ' service-art-moon' : ''}`} aria-hidden="true">
                 {art === 'moon' ? <MoonVisual fraction={.218} waxing decorative /> : art === 'planets' ? <SolarSystemArt /> : art === 'pets' ? <PetsArt /> : <img className="service-photo" src={art === 'shuffle' ? SHUFFLE_IMAGE : galaxyImage} alt="" loading="lazy" />}
               </div>
@@ -104,7 +111,7 @@ function LandingPage() {
           ))}
         </div>
       </section>
-    </>
+    </div>
   )
 }
 
@@ -199,7 +206,14 @@ export default function App() {
     const context = gsap.context(() => {
       const media = gsap.matchMedia()
       media.add('(prefers-reduced-motion: no-preference)', () => {
-        gsap.from('.hero-copy > *, .birthday-controls > *', { y: 18, autoAlpha: 0, stagger: 0.09, ease: 'expo.out', duration: 1 })
+        if (isBirthday) {
+          gsap.from('.birthday-controls > *', { y: 18, autoAlpha: 0, stagger: .09, ease: 'expo.out', duration: 1 })
+          return
+        }
+        const entrance = gsap.timeline({ defaults: { ease: 'expo.out', clearProps: 'transform,opacity,visibility,filter' } })
+        entrance.from('.hero-title-word', { y: 10, autoAlpha: 0, filter: 'blur(4px)', stagger: .18, duration: 1.1 })
+          .from('.hero-copy > p', { y: 8, autoAlpha: 0, duration: .8 }, 1.05)
+          .from('.hero-copy > a', { y: 8, autoAlpha: 0, duration: .7 }, 1.3)
       })
     }, root)
     return () => context.revert()
@@ -208,6 +222,7 @@ export default function App() {
   return (
     <div ref={root} className="site-shell">
       <Starfield />
+      {import.meta.env.DEV && !isDiscovery && <PreviewCursor />}
       <a href={isBirthday ? '#birthday' : isMoon ? '#moon-form' : isShuffle ? '#shuffle-button' : isSolar ? '#planet-showcase' : isPets ? '#pets-gallery' : '#services'} className="skip-link">{isBirthday ? 'Skip to birthday lookup' : isMoon ? 'Skip to Moon lookup' : isShuffle ? 'Skip to shuffle' : isSolar ? 'Skip to planet showcase' : isPets ? 'Skip to pets' : 'Skip to explore'}</a>
       <header className="site-header">
         <a className="wordmark" href="/" aria-label="Celestial home"><Orbit size={27} strokeWidth={1.2} aria-hidden="true" /><span>celestial</span></a>
@@ -215,7 +230,7 @@ export default function App() {
       </header>
       <main>{isBirthday ? <BirthdayPage /> : isMoon ? <Suspense fallback={<p className="moon-route-loading" role="status">Opening your Moon…</p>}><MoonPage /></Suspense> : isShuffle ? <Suspense fallback={<p className="moon-route-loading" role="status">Opening Cosmic shuffle…</p>}><ShufflePage /></Suspense> : isSolar ? <Suspense fallback={<p className="moon-route-loading" role="status">Opening the Solar System…</p>}><SolarSystemPage /></Suspense> : isPets ? <Suspense fallback={<p className="moon-route-loading" role="status">The pets are arriving…</p>}><PetsPage /></Suspense> : <LandingPage />}</main>
       <LocationSharing />
-      <footer className="site-footer"><span className="footer-wordmark"><Orbit size={27} strokeWidth={1.2} aria-hidden="true" /><span>celestial</span></span>{isPets && <span>Little companions, made for Celestial.</span>}<span>{isPets ? 'Independent project' : 'Independent project · Galaxy: ESO / VLT'}</span></footer>
+      <footer className="site-footer"><span className="footer-wordmark"><Orbit size={27} strokeWidth={1.2} aria-hidden="true" /><span>celestial</span></span>{isPets && <span>Little companions, made for Celestial.</span>}<span>Made by .dcd</span></footer>
     </div>
   )
 }

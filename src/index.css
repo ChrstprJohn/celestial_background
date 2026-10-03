@@ -37,9 +37,11 @@ h2 { font-size: clamp(40px, 4vw, 56px); line-height: 1.1; }
 .site-header nav { display: flex; align-items: center; gap: clamp(18px, 3vw, 32px); }
 .site-header nav a[aria-current="page"] { color: #c9c1f0; text-decoration: underline; text-underline-offset: 7px; }
 .landing-hero { position: relative; min-height: max(640px, calc(100svh - 96px)); display: grid; place-items: center; padding: 70px 24px 120px; overflow: hidden; }
-.galaxy-scene { position: absolute; width: min(1100px, 100vw); height: 100%; right: -15%; top: -4%; opacity: .32; pointer-events: none; mask-image: radial-gradient(ellipse at 55% 45%, #000 12%, transparent 67%); }
+.galaxy-scene { position: absolute; width: min(1100px, 100vw); height: 100%; right: -15%; top: -4%; opacity: .32; pointer-events: none; mask-image: radial-gradient(ellipse 48% 48% at 50% 50%, #000 12%, transparent 100%); }
 .galaxy-scene img { width: 100%; height: 100%; object-fit: cover; }
 .hero-copy { position: relative; text-align: center; }
+.hero-title-line { display: block; }
+.hero-title-word { display: inline-block; }
 .hero-copy > p { color: #b5bbd0; font-size: 15px; line-height: 1.8; margin-top: 24px; }
 .primary-button { display: inline-flex; align-items: center; justify-content: center; gap: 18px; min-height: 52px; padding: 0 26px; border: 0; border-radius: 6px; background: #c9c1f0; color: #101225; font-size: 13px; font-weight: 600; transition: background .2s ease; }
 .primary-button:hover { text-decoration: none; background: #e0daff; }

@@ -1,0 +1,16 @@
+@media (prefers-reduced-motion: no-preference) {
+  .landing-content [data-scroll-reveal].is-revealing { animation: celestial-rise 700ms cubic-bezier(.16, 1, .3, 1) var(--reveal-delay, 0ms) backwards; }
+  .showcase-video-wrap.is-reveal-ready:not(.has-revealed) { opacity: 0; transform: translate3d(0, 40px, 0) scale(.96); }
+  .landing-content .showcase-video-wrap.is-revealing { animation: celestial-video-reveal 1400ms cubic-bezier(.22, .61, .36, 1) backwards; }
+}
+
+@keyframes celestial-rise {
+  from { opacity: 0; transform: translate3d(0, 28px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes celestial-video-reveal {
+  from { opacity: 0; transform: translate3d(0, 40px, 0) scale(.96); }
+  35% { opacity: .3; }
+  to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+}

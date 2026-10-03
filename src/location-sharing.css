@@ -8,5 +8,5 @@
 .location-sharing .location-sharing-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
 .location-dismiss { min-height: 44px; padding: 8px 12px; background: transparent; border: 0; color: #c9c1f0; font-size: 13px; }
 .location-dismiss:hover { text-decoration: underline; }
-.location-reopen { position: fixed; bottom: 16px; right: 16px; z-index: 50; min-height: 44px; padding: 10px 16px; border: 1px solid #3f4664; border-radius: 6px; background: #101528; color: #c9c1f0; cursor: pointer; font-size: 13px; }
+.location-reopen { position: fixed; bottom: 16px; right: 16px; z-index: 50; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 1px solid #3f4664; border-radius: 6px; background: #101528; color: #c9c1f0; cursor: pointer; }
 .location-reopen:hover { background: #1a2036; }
