@@ -17,7 +17,7 @@
 .pet-loading, .pet-load-error { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #b5bbd0; font-size: 13px; }
 .pet-load-error { flex-direction: column; gap: 16px; }
 .pet-load-error button { display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px; border: 1px solid #4c5270; border-radius: 6px; background: #101528; color: #ded8fa; font-size: 12px; }
-.cosmic-pet figcaption { display: flex; flex-direction: column; flex: 1; min-width: 0; padding: 23px 26px 26px; border-top: 1px solid #282e44; }
+.cosmic-pet figcaption { display: flex; flex-direction: column; flex: 1; min-width: 0; padding: 16px; border-top: 1px solid #282e44; }
 .cosmic-pet h2 { font-size: 32px; line-height: 1.15; }
 .pet-card-actions { display: flex; justify-content: flex-end; margin-top: auto; padding-top: 19px; }
 .pet-download { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 42px; padding: 0 14px; border: 1px solid #4c5270; background: #101528; color: #ded8fa; font-size: 12px; line-height: 1; border-radius: 6px; transition: border-color .2s ease, background .2s ease; }
@@ -30,7 +30,8 @@
 .pets-keyboard-hint { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .pets-gallery:focus-visible + .pets-hint .pets-keyboard-hint { position: static; display: block; width: auto; height: auto; margin: 6px 0 0; clip-path: none; white-space: normal; }
 @media (pointer: coarse) { .pets-mouse-hint { display: none; } .pets-touch-hint { display: inline; } }
-@media (min-width: 1024px) { .pets-gallery { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 768px) { .pets-gallery { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 1200px) { .pets-gallery { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 18px; } .cosmic-pet h2 { font-size: 28px; } .pet-download { width: 100%; min-height: 44px; padding-inline: 6px; } }
 @media (max-width: 767px) {
   .pets-page { padding: 26px 24px 44px; }
   .pets-intro .back-link { margin-bottom: 28px; }

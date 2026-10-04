@@ -4,10 +4,11 @@ import { analyticsEnabled, shareVisitorLocation } from './lib/analytics.js'
 import './location-sharing.css'
 
 const choiceKey = 'celestial-location-choice'
+const seenKey = 'celestial-location-prompt-seen'
 
 function hasLocationChoice() {
   // Old "shared" choices were saved before delivery was acknowledged. Allow a retry.
-  try { const choice = window.localStorage.getItem(choiceKey); return Boolean(choice && choice !== 'shared') }
+  try { const choice = window.localStorage.getItem(choiceKey); return Boolean(window.localStorage.getItem(seenKey) || (choice && choice !== 'shared')) }
   catch { return false }
 }
 
@@ -20,6 +21,11 @@ export default function LocationSharing() {
   const [state, setState] = useState('idle')
   const [message, setMessage] = useState('')
   const [dismissed, setDismissed] = useState(hasLocationChoice)
+  useEffect(() => {
+    if (!analyticsEnabled) return
+    try { window.localStorage.setItem(seenKey, 'true') }
+    catch { /* Keep the prompt usable when storage is unavailable. */ }
+  }, [])
   useEffect(() => {
     if (state !== 'shared') return
     const timer = window.setTimeout(() => setDismissed(true), 3000)

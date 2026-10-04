@@ -1,8 +1,9 @@
 import { lazy, Suspense, useEffect, useRef, useState } from 'react'
-import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, LoaderCircle, Orbit, Telescope } from 'lucide-react'
+import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, LoaderCircle, Orbit, Shuffle, Telescope } from 'lucide-react'
 import gsap from 'gsap'
 import axios from 'axios'
 import { fetchApod } from './lib/apod.js'
+import { imageIdentity, nextDiscovery, prepareDiscoveryImage } from './lib/shuffle.js'
 import { ARCHIVE_START, nasaToday, validateDate } from './lib/dates.js'
 import BirthdayImage from './BirthdayImage.jsx'
 import Starfield from './Starfield.jsx'
@@ -41,9 +42,8 @@ const extraPages = {
 }
 
 const services = [
-  { title: 'Birthday sky', description: 'See NASA’s image from the day you were born.', href: '/birthday', action: 'Find your sky', art: 'galaxy' },
+  { title: 'Your birthday picture', description: 'Enter your birthday to see NASA’s picture from that date, or shuffle for a surprise.', href: '/birthday', action: 'Find my birthday picture', art: 'galaxy' },
   { title: 'Moon phase', description: 'See the Moon’s phase for any date you choose.', href: '/moon', action: 'Find your Moon', art: 'moon' },
-  { title: 'Cosmic shuffle', description: 'A different corner of the universe with every click.', href: '/shuffle', action: 'Surprise me', art: 'shuffle' },
   { title: 'Solar System', description: 'Eight worlds. Get a little closer to each one.', href: '/solar-system', action: 'Explore the planets', art: 'planets' },
   { title: 'Cosmic pets', description: 'Meet a little collection of curious cosmic companions.', href: '/pets', action: 'Meet the pets', art: 'pets' },
   ...EXTRA_DISCOVERIES.filter((service) => service.enabled),
@@ -73,7 +73,7 @@ function SolarSystemArt() {
 function EmptyPreview({ loading = false }) {
   return (
     <div className="empty-preview">
-      {loading ? <LoaderCircle className="loading-icon" size={32} strokeWidth={1.5} aria-hidden="true" /> : <Orbit size={40} strokeWidth={1} aria-hidden="true" />}<p>{loading ? 'Finding your sky' : 'Your sky awaits'}</p>
+      {loading ? <LoaderCircle className="loading-icon" size={32} strokeWidth={1.5} aria-hidden="true" /> : <Orbit size={40} strokeWidth={1} aria-hidden="true" />}<p>{loading ? 'Loading NASA’s picture' : 'Choose a date or shuffle'}</p>
     </div>
   )
 }
@@ -108,7 +108,7 @@ function LandingPage() {
             <span className="hero-title-line"><span className="hero-title-word">Your</span>{' '}<span className="hero-title-word">place</span></span>
             <span className="hero-title-line"><span className="hero-title-word">among</span>{' '}<span className="hero-title-word">the</span>{' '}<em className="hero-title-word">stars.</em></span>
           </h1>
-          <p>Find the sky on a day that matters.</p>
+          <p>Explore astronomy, planets, and a little imagination.</p>
           <a href="#services" className="primary-button explore-button">Explore <ArrowDown size={18} aria-hidden="true" /></a>
         </div>
       </section>
@@ -143,6 +143,8 @@ function VideoResult({ entry }) {
 
 function BirthdayPage() {
   const request = useRef(null)
+  const seenDates = useRef(new Set())
+  const seenImages = useRef(new Set())
   const [today] = useState(nasaToday)
   const [date, setDate] = useState(today)
   const [loading, setLoading] = useState(true)
@@ -180,22 +182,43 @@ function BirthdayPage() {
     }
   }
 
+  async function surprise() {
+    request.current?.abort()
+    const controller = new AbortController()
+    request.current = controller
+    setLoading(true)
+    setError('')
+    if (result) {
+      seenDates.current.add(result.date)
+      if (result.image) seenImages.current.add(imageIdentity(result.image))
+    }
+    try {
+      const entry = await nextDiscovery({ fetchEntry: fetchApod, prepareImage: prepareDiscoveryImage, seenDates: seenDates.current, seenImages: seenImages.current, signal: controller.signal, today })
+      if (!controller.signal.aborted) { setResult(entry); setDate(entry.date) }
+    } catch (issue) {
+      if (!controller.signal.aborted) setError(issue.message)
+    } finally {
+      if (!controller.signal.aborted) setLoading(false)
+    }
+  }
+
   return (
     <section className="birthday-workspace" aria-labelledby="birthday-title">
       <div className="birthday-controls">
         <a className="back-link" href="/#services"><ArrowLeft size={16} aria-hidden="true" /> Explore</a>
-        <h1 id="birthday-title">Your birthday.<br /><em>Your sky.</em></h1>
-        <p className="birthday-description">A little piece of the universe, from your first day.</p>
+        <h1 id="birthday-title">Your birthday.<br /><em>Your picture.</em></h1>
+        <p className="birthday-description">Choose your birthday or any date to see NASA’s Astronomy Picture of the Day. Or shuffle for a random archive image. Some dates feature videos.</p>
         <div id="birthday" className="birthday-form" aria-busy={loading}>
-          <label htmlFor="birthdate">Your birthday</label>
-          <DatePicker id="birthdate" name="birthdate" label="Your birthday" min={ARCHIVE_START} max={today} today={today} value={date} onChange={discover} describedBy={error ? 'date-help lookup-error' : 'date-help'} invalid={Boolean(error)} />
+          <label htmlFor="birthdate">Birthday or date</label>
+          <DatePicker id="birthdate" name="birthdate" label="Birthday or date" min={ARCHIVE_START} max={today} today={today} value={date} onChange={discover} describedBy={error ? 'date-help lookup-error' : 'date-help'} invalid={Boolean(error)} />
           <p id="date-help" className="date-help">Available from June 16, 1995.</p>
+          <button className="primary-button lookup-button" type="button" onClick={surprise} disabled={loading}>Shuffle image <Shuffle size={18} aria-hidden="true" /></button>
           {error && <p id="lookup-error" className="form-error" role="alert">{error}</p>}
           <p className="date-help" role="status">{loading ? 'Looking up NASA’s picture for your selected date…' : ''}</p>
         </div>
       </div>
 
-      <div className="image-workspace" role="region" aria-label="Birthday image preview" tabIndex={-1} aria-busy={loading}>
+      <div className="image-workspace" role="region" aria-label="NASA archive preview" tabIndex={-1} aria-busy={loading}>
         {result ? <>
           {result.mediaType === 'image' && result.image ? <BirthdayImage key={result.date} entry={result} /> : <VideoResult entry={result} />}
           <div className="result-attribution">
@@ -221,7 +244,7 @@ export default function App() {
   const isDiscovery = isBirthday || isMoon || isShuffle || isSolar || isPets || Boolean(ExtraPage)
 
   useEffect(() => {
-    document.title = extraService ? `${extraService.title} — Celestial` : isBirthday ? 'Birthday sky — Celestial' : isMoon ? 'Moon phase — Celestial' : isShuffle ? 'Cosmic shuffle — Celestial' : isSolar ? 'Solar System — Celestial' : isPets ? 'Cosmic pets — Celestial' : 'Celestial — Among the stars'
+    document.title = extraService ? `${extraService.title} — Celestial` : isBirthday ? 'Your birthday picture — Celestial' : isMoon ? 'Moon phase — Celestial' : isShuffle ? 'Cosmic shuffle — Celestial' : isSolar ? 'Solar System — Celestial' : isPets ? 'Cosmic pets — Celestial' : 'Celestial — Among the stars'
     if (extraService || isMoon || isShuffle || isSolar || isPets) return
     const context = gsap.context(() => {
       const media = gsap.matchMedia()

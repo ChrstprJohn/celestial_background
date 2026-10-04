@@ -24,7 +24,7 @@ export default function MoonPage() {
     <section className="moon-workspace" aria-labelledby="moon-title">
       <div className="moon-controls">
         <a className="back-link" href="/#services"><ArrowLeft size={16} aria-hidden="true" /> Explore</a>
-        <h1 id="moon-title">The Moon,<br /><em>on your day.</em></h1>
+        <h1 id="moon-title">Moon <em>phase.</em></h1>
         <p className="moon-description">A familiar world. A moment that’s yours.</p>
         <div id="moon-form" className="moon-form">
           <label htmlFor="moondate">Choose your date</label>

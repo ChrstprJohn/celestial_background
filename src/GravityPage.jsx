@@ -50,7 +50,7 @@ export default function GravityPage() {
   const y = (height) => 340 - height / maxHeight * 270
   const earthY = y(peaks ? earth.height : jumpHeightAt(time, earth.speed, 9.8))
   const worldY = y(peaks ? result.height : jumpHeightAt(time, result.speed, world.gravity))
-  return <DiscoveryLayout id="gravity" title="A little leap." emphasis="A different landing." description="Try the same jump on another world. See what gravity changes." controls={<>
+  return <DiscoveryLayout id="gravity" title="Gravity" emphasis="playground." description="Compare the same jump on different worlds." controls={<>
     <label htmlFor="gravity-mass">Your mass (kg)</label><input id="gravity-mass" type="number" inputMode="decimal" className="text-field" min="1" max="300" step="any" value={mass} aria-invalid={!valid} aria-describedby="gravity-mass-help" onChange={(event) => setMass(event.target.value)} />
     <p id="gravity-mass-help" className="date-help">Mass stays the same. Gravity changes how heavy you feel.</p>{!valid && <p className="form-error" role="alert">Enter a mass between 1 and 300 kg.</p>}
     <fieldset className="playground-fieldset"><legend>Choose a world</legend><div className="world-selector">{GRAVITY_WORLDS.map((item) => <button key={item.id} type="button" aria-pressed={selected === item.id} onClick={() => { reset(); setSelected(item.id) }}>{item.name}</button>)}</div></fieldset>
