@@ -1,0 +1,46 @@
+{
+  "provider": "Built-in image_gen; underlying model not exposed",
+  "constraintDelivery": "main-prompt constraints",
+  "dimensions": [
+    1254,
+    1254
+  ],
+  "composition": "Centered full silhouettes to match the existing cosmic pets",
+  "integrated": [
+    {
+      "name": "aurora",
+      "file": "public/pets/aurora.png",
+      "prompt": "Edit ONLY the pupils of the attached single cosmic character. Preserve its exact identity, silhouette, canvas framing, proportions, colors, surfaces, small smile and eye placement. Remove both dark pupils and their highlights completely, leaving two clean blank uniform cream oval eye whites (#fff0d9). Do not change the outline or size of either eye. No iris, pupil, dark remnants or marks inside the eye whites. Preserve the transparent background. Keep one complete centered upright character in the same square composition, no cropping, no added subjects, no text, no cast shadow. This is an animation-ready body with the pupils to be added separately."
+    },
+    {
+      "name": "pebble",
+      "file": "public/pets/pebble.png",
+      "prompt": "Edit ONLY the pupils of the attached single cosmic character. Preserve its exact identity, silhouette, canvas framing, proportions, colors, surfaces, small smile and eye placement. Remove both dark pupils and their highlights completely, leaving two clean blank uniform cream oval eye whites (#fff0d9). Do not change the outline or size of either eye. No iris, pupil, dark remnants or marks inside the eye whites. Preserve the transparent background. Keep one complete centered upright character in the same square composition, no cropping, no added subjects, no text, no cast shadow. This is an animation-ready body with the pupils to be added separately."
+    },
+    {
+      "name": "sol",
+      "file": "public/pets/sol.png",
+      "prompt": "Edit ONLY the pupils of the attached single cosmic character. Preserve its exact identity, silhouette, canvas framing, proportions, colors, surfaces, small smile and eye placement. Remove both dark pupils and their highlights completely, leaving two clean blank uniform cream oval eye whites (#fff0d9). Do not change the outline or size of either eye. No iris, pupil, dark remnants or marks inside the eye whites. Preserve the transparent background. Keep one complete centered upright character in the same square composition, no cropping, no added subjects, no text, no cast shadow. This is an animation-ready body with the pupils to be added separately."
+    }
+  ],
+  "samples": [
+    {
+      "name": "cosmo",
+      "prompt": "Create ONE new cute cosmic companion in a complete 1:1 square image, approximately 1536 x 1536. The attached ringed planet is a STYLE REFERENCE only; create a distinct character. Match its soft rounded celestial shapes, smooth gently dimensional pastel lavender and cyan surfaces, large cream oval eyes, tiny indigo smile and baby-like appeal. Two simple dark-indigo pupils look forward for this concept preview. Use very few large rounded shapes with one defining celestial feature. Keep character upright and centered, entire silhouette visible, occupying about 78% of canvas width with comfortable margins. One isolated character on genuinely transparent background. No text, watermark, cards, borders, scenery, background stars, external cast shadows, clothing, limbs, sharp tips, fine fragile details or extra subjects. Subject: COSMO, a tiny friendly flying saucer. A broad thick flattened lavender saucer body and a pale cyan smooth dome merged into one compact silhouette. The friendly face is on the large front-facing cyan dome, both eyes clear above the wide disc rim. No windows, panels, bolts, antennas, lights, beams, landing legs or occupant. Saucer rim is thick softly rounded, clearly distinct from a ringed planet. Calm friendly space explorer.",
+      "file": "output/mascot-samples/cosmo-concept.png",
+      "status": "Awaiting user review"
+    },
+    {
+      "name": "pulsar",
+      "prompt": "Create ONE new cute cosmic companion in a complete 1:1 square image, approximately 1536 x 1536. The attached ringed planet is a STYLE REFERENCE only; create a distinct character. Match its soft rounded celestial shapes, smooth gently dimensional pastel lavender and cyan surfaces, large cream oval eyes, tiny indigo smile and baby-like appeal. Two simple dark-indigo pupils look forward for this concept preview. Use very few large rounded shapes with one defining celestial feature. Keep character upright and centered, entire silhouette visible, occupying about 78% of canvas width with comfortable margins. One isolated character on genuinely transparent background. No text, watermark, cards, borders, scenery, background stars, external cast shadows, clothing, limbs, sharp tips, fine fragile details or extra subjects. Subject: PULSAR, a spinning neutron-star spirit. One round lavender star core with two broad pale cyan rounded polar light lobes pointing vertically upward and downward, integrated into one compact continuous silhouette. Short thick soft-ended lobes, not long thin beams. Face on the broad lavender central sphere, both eyes unobscured. No accretion ring, tail, orbit lines, spikes or decorative stars. Quiet energetic little beacon.",
+      "file": "output/mascot-samples/pulsar-concept.png",
+      "status": "Awaiting user review"
+    },
+    {
+      "name": "dusk",
+      "prompt": "Create ONE new cute cosmic companion in a complete 1:1 square image, approximately 1536 x 1536. The attached ringed planet is a STYLE REFERENCE only; create a distinct character. Match its soft rounded celestial shapes, smooth gently dimensional pastel lavender and cyan surfaces, large cream oval eyes, tiny indigo smile and baby-like appeal. Two simple dark-indigo pupils look forward for this concept preview. Use very few large rounded shapes with one defining celestial feature. Keep character upright and centered, entire silhouette visible, occupying about 78% of canvas width with comfortable margins. One isolated character on genuinely transparent background. No text, watermark, cards, borders, scenery, background stars, external cast shadows, clothing, limbs, sharp tips, fine fragile details or extra subjects. Subject: DUSK, a sleepy dwarf-planet companion inspired by Pluto. One compact round pale lavender world with a single large broad cyan heart-shaped lower surface region as its defining feature. The rounded heart is integrated directly into the body coloration, not an attached object; no scattered markings or detailed terrain. Big cream oval eyes with forward-facing indigo pupils and a tiny mellow smile. Slightly squat rounded silhouette, no rings, craters, ears, limbs or extra props. Gentle cozy distant-world personality.",
+      "file": "output/mascot-samples/dusk-concept.png",
+      "status": "Awaiting user review"
+    }
+  ]
+}

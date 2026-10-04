@@ -30,6 +30,21 @@ export const PETS = [
     image: '/pets/eclipse.png',
     eyes: [{ x: 39.4, y: 43.1, width: 11.1, height: 14.8 }, { x: 58.75, y: 43.1, width: 11.1, height: 14.8 }],
   },
+  {
+    id: 'aurora', name: 'Aurora', description: 'A ribbon of polar light. Dances softly across the night.',
+    image: '/pets/aurora.png',
+    eyes: [{ x: 42.4, y: 56.1, width: 9.7, height: 13.5 }, { x: 59.3, y: 56.1, width: 9.7, height: 13.5 }],
+  },
+  {
+    id: 'pebble', name: 'Pebble', description: 'A little asteroid with a soft spot for fellow space wanderers.',
+    image: '/pets/pebble.png',
+    eyes: [{ x: 38.9, y: 48.8, width: 12.7, height: 19.3 }, { x: 60.8, y: 48.8, width: 12.7, height: 19.3 }],
+  },
+  {
+    id: 'sol', name: 'Sol', description: 'A baby sun bringing a little warmth to every corner of the cosmos.',
+    image: '/pets/sol.png',
+    eyes: [{ x: 39.1, y: 48.8, width: 13, height: 18 }, { x: 60.7, y: 48.8, width: 13, height: 18 }],
+  },
 ]
 
 // A continuous direction, with a small neutral area and an elliptical travel limit.
