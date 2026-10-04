@@ -54,7 +54,7 @@ export default function PlanetScene({ planet, decorative = false, showFeedback =
     controls.cursorStyle = 'grab'
     controls.enabled = !decorative
     const group = new THREE.Group()
-    group.rotation.z = THREE.MathUtils.degToRad(planet.tilt)
+    group.rotation.z = THREE.MathUtils.degToRad(appearance?.tilt ?? planet.tilt)
     scene.add(group)
     scene.add(new THREE.AmbientLight(0xc8d2ef, 0.35))
     const sunlight = new THREE.DirectionalLight(0xfff1dd, 2.8)
@@ -166,7 +166,7 @@ export default function PlanetScene({ planet, decorative = false, showFeedback =
         if (hasClouds) {
           const clouds = await loadTexture('/textures/planets/earth-clouds.jpg')
           if (disposed) return
-          const cloudMaterial = new THREE.MeshStandardMaterial({ alphaMap: clouds, transparent: true, opacity: 0.65, depthWrite: false, roughness: 1 })
+          const cloudMaterial = new THREE.MeshStandardMaterial({ alphaMap: clouds, transparent: true, opacity: (appearance?.cloudOpacity ?? 65) / 100, depthWrite: false, roughness: 1 })
           materials.push(cloudMaterial)
           const cloudSphere = new THREE.Mesh(geometry, cloudMaterial)
           cloudSphere.scale.setScalar(1.008)

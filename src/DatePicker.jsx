@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { CalendarDays, ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react'
 import { formatDate } from './lib/dates.js'
 import { boundedDate, calendarDays, moveCalendarDay, moveCalendarMonth } from './lib/calendar.js'
@@ -69,6 +69,34 @@ export default function DatePicker({ id, name, label, value, min, max, today, on
   const [open, setOpen] = useState(false)
   const host = useRef(null)
   const trigger = useRef(null)
+
+  useLayoutEffect(() => {
+    if (!open) return
+    const calendar = host.current.querySelector('.date-calendar')
+    function position() {
+      const rect = trigger.current.getBoundingClientRect()
+      const viewport = window.visualViewport
+      const height = viewport?.height || window.innerHeight
+      const offset = viewport?.offsetTop || 0
+      const below = Math.max(0, height + offset - rect.bottom - 18)
+      const above = Math.max(0, rect.top - offset - 18)
+      const naturalHeight = calendar.scrollHeight + 2
+      const upward = below < naturalHeight && above >= naturalHeight
+      // Keep all six weeks visible. On short screens, let the page scroll
+      // around the dropdown instead of shrinking it into a clipped panel.
+      const inline = below < naturalHeight && !upward
+      calendar.dataset.placement = inline ? 'inline' : upward ? 'above' : 'below'
+      calendar.style.top = upward ? 'auto' : 'calc(100% + 10px)'
+      calendar.style.bottom = upward ? 'calc(100% + 10px)' : 'auto'
+    }
+    position()
+    window.addEventListener('resize', position)
+    window.visualViewport?.addEventListener('resize', position)
+    return () => {
+      window.removeEventListener('resize', position)
+      window.visualViewport?.removeEventListener('resize', position)
+    }
+  }, [open])
 
   useEffect(() => {
     if (!open) return

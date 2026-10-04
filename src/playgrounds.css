@@ -1,5 +1,14 @@
 .playground-fieldset { border: 0; padding: 0; margin: 24px 0 0; min-width: 0; }
 .playground-fieldset legend { margin-bottom: 12px; font-size: 13px; font-weight: 500; }
+.world-custom-colors { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 14px; }
+.world-custom-colors label { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b5bbd0; }
+.world-custom-colors input { width: 44px; height: 44px; padding: 4px; border: 1px solid #3f4664; border-radius: 6px; background: #101528; cursor: pointer; }
+.world-sliders { display: grid; gap: 18px; margin-top: 20px; }
+.world-sliders label { display: grid; grid-template-columns: 1fr auto; gap: 8px; font-size: 13px; }
+.world-sliders output { color: #c9c1f0; font-variant-numeric: tabular-nums; }
+.world-sliders input[type="range"] { grid-column: 1 / -1; width: 100%; min-height: 32px; accent-color: #c9c1f0; cursor: pointer; }
+.world-sliders .discovery-note { grid-column: 1 / -1; margin: 0; font-weight: 400; }
+.world-sliders > button { justify-self: start; }
 .palette-selector { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; }
 .palette-selector button { display: flex; align-items: center; gap: 9px; min-height: 48px; border: 1px solid #282e44; border-radius: 6px; background: transparent; color: #b5bbd0; padding: 8px 10px; font-size: 12px; }
 .palette-selector button[aria-pressed="true"] { border-color: #9a91cf; background: #101528; color: #ded8fa; }
@@ -10,6 +19,9 @@
 .builder-planet + .art-caption { margin-top: 26px; }
 .builder-planet ~ .art-download-wrap { text-align: center; }
 .builder-planet ~ .art-download-wrap .export-preview summary { justify-content: center; }
+@media (min-width: 768px) and (min-height: 700px) {
+  .discovery-workspace[aria-labelledby="world-builder-title"] .discovery-result { position: sticky; top: 24px; }
+}
 .gravity-stage { width: 100%; height: auto; display: block; margin-top: 36px; overflow: visible; }
 .gravity-stage text { fill: #b5bbd0; font-family: var(--font-sans); font-size: 17px; }
 .gravity-stage .gravity-world-name { fill: #f3f0e9; font-family: var(--font-display); font-size: 32px; }

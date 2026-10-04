@@ -27,6 +27,20 @@ test('generated worlds are repeatable, change with terrain/seed, and join at the
   for (let row = 0; row < 32; row++) assert.deepEqual(first.data.slice(row * 64 * 4, row * 64 * 4 + 4), first.data.slice((row * 64 + 63) * 4, (row * 64 + 64) * 4))
 })
 
+test('world customization changes the surface and preserves seamless ice caps', () => {
+  const base = worldPixels(DEFAULT_WORLD, 64, 32).data
+  for (const change of [{ oceanLevel: 0 }, { oceanLevel: 100 }, { detail: 6 }, { iceCaps: 40 }, { colors: { sea: '#ff0000', land: '#00ff00', high: '#0000ff' } }]) {
+    const pixels = worldPixels({ ...DEFAULT_WORLD, ...change }, 64, 32).data
+    assert.notDeepEqual(pixels, base)
+    for (let row = 0; row < 32; row++) {
+      assert.deepEqual(pixels.slice(row * 64 * 4, row * 64 * 4 + 4), pixels.slice((row * 64 + 63) * 4, (row * 64 + 64) * 4))
+    }
+  }
+  const icy = worldPixels({ ...DEFAULT_WORLD, iceCaps: 40 }, 64, 32).data
+  assert.deepEqual([...icy.slice(0, 4)], [235, 235, 235, 255])
+  assert.deepEqual(worldPixels({ ...DEFAULT_WORLD, terrain: 'gas', iceCaps: 50 }, 64, 32), worldPixels({ ...DEFAULT_WORLD, terrain: 'gas', iceCaps: 0 }, 64, 32))
+})
+
 test('PNG metadata retains image bytes and valid source/license chunk checksums', () => {
   const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a8KcAAAAASUVORK5CYII=', 'base64')
   const result = addPngMetadata(png, { Source: 'Solar System Scope', License: 'CC BY 4.0' })
