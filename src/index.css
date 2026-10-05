@@ -40,6 +40,9 @@ h2 { font-size: clamp(40px, 4vw, 56px); line-height: 1.1; }
 .galaxy-scene { position: absolute; width: min(1100px, 100vw); height: 100%; right: -15%; top: -4%; opacity: .32; pointer-events: none; mask-image: radial-gradient(ellipse 48% 48% at 50% 50%, #000 12%, transparent 100%); }
 .galaxy-scene img { width: 100%; height: 100%; object-fit: cover; }
 .deferred-preview { width: 100%; height: 100%; display: grid; place-items: center; min-width: 0; }
+.match-card-preview { display: flex; align-items: center; width: 90%; }
+.match-card-preview .moon-stage { width: 58%; flex-shrink: 0; }
+.match-card-preview .moon-stage + .moon-stage { margin-left: -16%; }
 .hero-copy { position: relative; text-align: center; }
 .hero-title-line { display: block; }
 .hero-title-word { display: inline-block; }

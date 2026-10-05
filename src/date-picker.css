@@ -31,6 +31,9 @@
 .calendar-footer > span { color: #a4abc2; font-size: 11px; }
 .calendar-footer button { min-height: 44px; padding: 0 10px; border: 0; border-radius: 6px; background: transparent; color: #c9c1f0; font-size: 12px; font-weight: 500; }
 .calendar-footer button:hover { background: #252b45; }
+.calendar-actions { display: flex; align-items: center; gap: 4px; }
+.calendar-footer .calendar-done { background: #c9c1f0; color: #101225; padding-inline: 14px; }
+.calendar-footer .calendar-done:hover { background: #e0daff; }
 .calendar-sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 @media (max-width: 767px) { .date-trigger { font-size: 16px; } }
 @container (max-width: 300px) {

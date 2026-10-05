@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Minus, Plus, RotateCcw } from 'lucide-react'
+import { Hand, Minus, Plus, RotateCcw } from 'lucide-react'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { planetTexture } from './lib/planets.js'
@@ -275,6 +275,7 @@ export default function PlanetScene({ planet, decorative = false, showFeedback =
 
   return (
     <div className="planet-viewer">
+      {!decorative && <p className="planet-rotation-hint"><Hand size={18} aria-hidden="true" />Drag or swipe the planet to rotate</p>}
       <div ref={host} className={`planet-stage${decorative ? ' planet-stage-decorative' : ''}`} aria-busy={status === 'loading'} role={decorative ? undefined : 'img'} aria-label={decorative ? undefined : `Interactive 3D ${planet.name}. Arrow keys rotate; plus and minus zoom; R resets.`} aria-hidden={decorative || undefined} tabIndex={decorative ? undefined : 0} />
       {(!decorative || showFeedback) && status !== 'ready' && <div className="planet-stage-feedback" role="status">
         {status === 'loading' ? <><span className="planet-loading-orbit" aria-hidden="true" /><p>Preparing {planet.name}…</p></> : <>
@@ -284,7 +285,7 @@ export default function PlanetScene({ planet, decorative = false, showFeedback =
         </>}
       </div>}
       {!decorative && <div className="planet-view-controls">
-        <p className="planet-drag-hint">Drag to rotate <span>·</span> Scroll or pinch to zoom</p>
+        <p className="planet-drag-hint">Scroll or pinch to zoom</p>
         <div className="planet-control-buttons">
           <button disabled={status !== 'ready' || zoomBounds.far} onClick={() => actions.current?.zoomStep(-1)} aria-label="Zoom out"><Minus size={17} /></button>
           <button disabled={status !== 'ready' || zoomBounds.near} onClick={() => actions.current?.zoomStep(1)} aria-label="Zoom in"><Plus size={17} /></button>

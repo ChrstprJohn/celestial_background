@@ -25,6 +25,7 @@ const SolarSystemPage = lazy(() => import('./SolarSystemPage.jsx'))
 const PetsPage = lazy(() => import('./PetsPage.jsx'))
 const PlanetScene = lazy(() => import('./PlanetScene.jsx'))
 const extraPages = {
+  '/moon-match': lazy(() => import('./MoonMatchPage.jsx')),
   '/build-your-planet': lazy(() => import('./BuildPlanetPage.jsx')),
   '/gravity-playground': lazy(() => import('./GravityPage.jsx')),
   '/cosmic-age': lazy(() => import('./CosmicAgePage.jsx')),
@@ -37,11 +38,12 @@ const extraPages = {
 }
 
 const services = [
-  { title: 'Your birthday picture', description: 'Enter your birthday to see NASA’s picture from that date, or shuffle for a surprise.', href: '/birthday', action: 'Find my birthday picture', art: 'galaxy' },
+  { title: 'Your birthday.', emphasis: 'Your picture.', description: 'Enter your birthday to see NASA’s picture from that date, or shuffle for a surprise.', href: '/birthday', action: 'Find my birthday picture', art: 'galaxy' },
   { title: 'Moon phase', description: 'See the Moon’s phase for any date you choose.', href: '/moon', action: 'Find your Moon', art: 'moon' },
-  { title: 'Solar System', description: 'Eight worlds. Get a little closer to each one.', href: '/solar-system', action: 'Explore the planets', art: 'planets' },
+  ...['/moon-match', '/cosmic-age', '/build-your-planet'].flatMap((href) => EXTRA_DISCOVERIES.filter((service) => service.enabled && service.href === href)),
   { title: 'Cosmic pets', description: 'Meet a little collection of curious cosmic companions.', href: '/pets', action: 'Meet the pets', art: 'pets' },
-  ...EXTRA_DISCOVERIES.filter((service) => service.enabled),
+  { title: 'Solar System', description: 'Eight worlds. Get a little closer to each one.', href: '/solar-system', action: 'Explore the planets', art: 'planets' },
+  ...EXTRA_DISCOVERIES.filter((service) => service.enabled && !['/moon-match', '/cosmic-age', '/build-your-planet'].includes(service.href)),
 ]
 
 function PetsArt() {
@@ -136,12 +138,12 @@ function LandingPage() {
       <section id="services" className="services-section" aria-labelledby="services-title" tabIndex={-1}>
         <h2 id="services-title" data-scroll-reveal>Explore</h2>
         <div className="services-grid">
-          {services.map(({ title, description, href, action, art }) => (
+          {services.map(({ title, emphasis, description, href, action, art }) => (
             <a key={href} href={href} className="service-card" data-scroll-reveal>
               <div className={`service-art${art === 'moon' ? ' service-art-moon' : ''}`} aria-hidden="true">
-                {art === 'moon' ? <NearViewport><MoonVisual fraction={.218} waxing decorative /></NearViewport> : art === 'planets' ? <SolarSystemArt /> : art === 'pets' ? <PetsArt /> : art === 'galaxy' || art === 'shuffle' ? <img className="service-photo" src={art === 'shuffle' ? SHUFFLE_IMAGE : galaxyImage} alt="" loading="lazy" decoding="async" /> : <DiscoveryArt type={art} />}
+                {art === 'moon-match' ? <NearViewport><div className="match-card-preview"><MoonVisual fraction={.5} waxing decorative /><MoonVisual fraction={.5} waxing={false} decorative /></div></NearViewport> : art === 'moon' ? <NearViewport><MoonVisual fraction={.218} waxing decorative /></NearViewport> : art === 'planets' ? <SolarSystemArt /> : art === 'pets' ? <PetsArt /> : art === 'galaxy' || art === 'shuffle' ? <img className="service-photo" src={art === 'shuffle' ? SHUFFLE_IMAGE : galaxyImage} alt="" loading="lazy" decoding="async" /> : <DiscoveryArt type={art} />}
               </div>
-              <div className="service-copy"><h3>{title}</h3><p>{description}</p><span>{action} <ArrowRight size={18} aria-hidden="true" /></span></div>
+              <div className="service-copy"><h3>{title}{emphasis && <><br /><em>{emphasis}</em></>}</h3><p>{description}</p><span>{action} <ArrowRight size={18} aria-hidden="true" /></span></div>
             </a>
           ))}
         </div>

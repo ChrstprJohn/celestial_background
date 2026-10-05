@@ -7,7 +7,7 @@ import './date-picker.css'
 const months = Array.from({ length: 12 }, (_, index) => new Intl.DateTimeFormat('en-US', { month: 'long', timeZone: 'UTC' }).format(new Date(Date.UTC(2000, index, 1))))
 const weekdays = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
 
-function Calendar({ id, label, value, min, max, today, onSelect }) {
+function Calendar({ id, label, value, min, max, today, onSelect, onDone }) {
   const [focused, setFocused] = useState(() => boundedDate(value || today, min, max))
   const focusDay = useRef(true)
   const dayButtons = useRef(new Map())
@@ -21,7 +21,9 @@ function Calendar({ id, label, value, min, max, today, onSelect }) {
 
   function navigate(offset, moveFocus = false) {
     focusDay.current = moveFocus
-    setFocused(moveCalendarMonth(focused, offset, min, max))
+    const next = moveCalendarMonth(focused, offset, min, max)
+    setFocused(next)
+    onSelect(next)
   }
 
   function dayKey(event) {
@@ -59,14 +61,15 @@ function Calendar({ id, label, value, min, max, today, onSelect }) {
         className={`calendar-day${day.slice(0, 7) !== focused.slice(0, 7) ? ' is-outside' : ''}${day === value ? ' is-selected' : ''}`}
         aria-label={formatDate(day)} aria-pressed={day === value} aria-current={day === today ? 'date' : undefined}
         tabIndex={day === focused ? 0 : -1} disabled={day < min || day > max}
-        onKeyDown={dayKey} onClick={() => onSelect(day)}>{Number(day.slice(8))}</button>)}
+        onKeyDown={dayKey} onClick={() => { focusDay.current = true; setFocused(day); onSelect(day) }}>{Number(day.slice(8))}</button>)}
     </div>
-    <div className="calendar-footer"><span>Pick a day to explore</span><button type="button" disabled={today < min || today > max} onClick={() => onSelect(today)}>Today</button></div>
+    <div className="calendar-footer"><span>Choose month, day & year</span><div className="calendar-actions"><button type="button" disabled={today < min || today > max} onClick={() => { focusDay.current = true; setFocused(today); onSelect(today) }}>Today</button><button type="button" className="calendar-done" onClick={onDone}>Done</button></div></div>
   </div>
 }
 
 export default function DatePicker({ id, name, label, value, min, max, today, onChange, describedBy, invalid }) {
   const [open, setOpen] = useState(false)
+  const [draft, setDraft] = useState(value)
   const host = useRef(null)
   const trigger = useRef(null)
 
@@ -118,9 +121,9 @@ export default function DatePicker({ id, name, label, value, min, max, today, on
     if (event.relatedTarget && !event.currentTarget.contains(event.relatedTarget)) setOpen(false)
   }}>
     <input type="hidden" name={name} value={value} />
-    <button ref={trigger} id={id} type="button" className="date-trigger" aria-haspopup="dialog" aria-expanded={open} aria-controls={open ? `${id}-calendar` : undefined} aria-describedby={[`${id}-value`, describedBy].filter(Boolean).join(' ')} aria-invalid={invalid} onClick={() => setOpen(!open)}>
+    <button ref={trigger} id={id} type="button" className="date-trigger" aria-haspopup="dialog" aria-expanded={open} aria-controls={open ? `${id}-calendar` : undefined} aria-describedby={[`${id}-value`, describedBy].filter(Boolean).join(' ')} aria-invalid={invalid} onClick={() => { if (!open) setDraft(boundedDate(value || today, min, max)); setOpen(!open) }}>
       <CalendarDays size={19} strokeWidth={1.5} aria-hidden="true" /><span id={`${id}-value`}>{value ? formatDate(value) : 'Choose a date'}</span><ChevronDown className="date-chevron" size={16} aria-hidden="true" />
     </button>
-    {open && <Calendar id={id} label={label} value={value} min={min} max={max} today={today} onSelect={(day) => { onChange(day); close() }} />}
+    {open && <Calendar id={id} label={label} value={draft} min={min} max={max} today={today} onSelect={setDraft} onDone={() => { onChange(draft); close() }} />}
   </div>
 }
