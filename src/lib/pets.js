@@ -45,6 +45,16 @@ export const PETS = [
     image: '/pets/sol.png',
     eyes: [{ x: 39.1, y: 48.8, width: 13, height: 18 }, { x: 60.7, y: 48.8, width: 13, height: 18 }],
   },
+  {
+    id: 'terra', name: 'Terra', description: 'A little Earth wearing polar lights. Always glad to welcome you home.',
+    image: '/pets/terra.png',
+    eyes: [{ x: 39.2, y: 56.3, width: 12.3, height: 16.3 }, { x: 60.2, y: 56.3, width: 12.3, height: 16.3 }],
+  },
+  {
+    id: 'spiral', name: 'Spiral', description: 'A tiny galaxy with a whole universe of stories tucked into its arms.',
+    image: '/pets/spiral.png',
+    eyes: [{ x: 41.1, y: 48.5, width: 9.6, height: 12.8 }, { x: 59.2, y: 49.2, width: 9.7, height: 12.8 }],
+  },
 ]
 
 // A continuous direction, with a small neutral area and an elliptical travel limit.
