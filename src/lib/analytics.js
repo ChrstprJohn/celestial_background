@@ -1,11 +1,30 @@
-import posthog from 'posthog-js'
 import { resolveLocation } from './location.js'
 
 const token = import.meta.env.VITE_POSTHOG_TOKEN
 
 export const analyticsEnabled = Boolean(token)
+let clientPromise
+function analyticsClient() {
+  if (!clientPromise) clientPromise = import('posthog-js').then(({ default: posthog }) => {
+    posthog.init(token, {
+      api_host: import.meta.env.VITE_POSTHOG_HOST || 'https://us.i.posthog.com',
+      capture_pageview: 'history_change',
+      person_profiles: 'identified_only',
+      disable_session_recording: true,
+      loaded: (client) => client.register({ site_name: 'celestial' }),
+      before_send: (event) => {
+        if (event) event.properties = { ...event.properties, site_name: 'celestial' }
+        return event
+      },
+    })
+    return posthog
+  }).catch((error) => { clientPromise = undefined; throw error })
+  return clientPromise
+}
 export async function shareVisitorLocation(coords) {
-  if (!token || posthog.has_opted_out_capturing()) throw new Error('Analytics is disabled; your location was not sent.')
+  if (!token) throw new Error('Analytics is disabled; your location was not sent.')
+  const posthog = await analyticsClient()
+  if (posthog.has_opted_out_capturing()) throw new Error('Analytics is disabled; your location was not sent.')
   const place = await resolveLocation(coords)
   if (posthog.has_opted_out_capturing()) throw new Error('Analytics is disabled; your location was not sent.')
   // This explicit opt-in event needs an HTTP acknowledgement before hiding the prompt.
@@ -35,15 +54,11 @@ export async function shareVisitorLocation(coords) {
 }
 
 if (token) {
-  posthog.init(token, {
-    api_host: import.meta.env.VITE_POSTHOG_HOST || 'https://us.i.posthog.com',
-    capture_pageview: 'history_change',
-    person_profiles: 'identified_only',
-    disable_session_recording: true,
-    loaded: (client) => client.register({ site_name: 'celestial' }),
-    before_send: (event) => {
-      if (event) event.properties = { ...event.properties, site_name: 'celestial' }
-      return event
-    },
-  })
+  const start = () => {
+    const load = () => { analyticsClient().catch(() => {}) }
+    if ('requestIdleCallback' in window) window.requestIdleCallback(load, { timeout: 3000 })
+    else window.setTimeout(load, 1000)
+  }
+  if (document.readyState === 'complete') start()
+  else window.addEventListener('load', start, { once: true })
 }

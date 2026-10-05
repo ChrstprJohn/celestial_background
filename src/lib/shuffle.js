@@ -1,4 +1,5 @@
 import { ARCHIVE_START, nasaToday } from './dates.js'
+import { imagePreviewUrl } from './image-preview.js'
 
 const DAY = 86400000
 
@@ -69,6 +70,6 @@ export function prepareDiscoveryImage(source, signal) {
     image.onload = () => { cleanup(); image.naturalWidth > 0 ? resolve() : reject(unavailable()) }
     image.onerror = () => { cleanup(); reject(unavailable()) }
     signal?.addEventListener('abort', cancel, { once: true })
-    image.src = source
+    image.src = imagePreviewUrl(source)
   })
 }

@@ -1,21 +1,14 @@
 import { lazy, Suspense, useEffect, useRef, useState } from 'react'
-import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, LoaderCircle, Orbit, Shuffle, Telescope } from 'lucide-react'
+import { ArrowDown, ArrowRight, ArrowUpRight, Orbit } from 'lucide-react'
 import gsap from 'gsap'
-import axios from 'axios'
-import { fetchApod } from './lib/apod.js'
-import { imageIdentity, nextDiscovery, prepareDiscoveryImage } from './lib/shuffle.js'
-import { ARCHIVE_START, nasaToday, validateDate } from './lib/dates.js'
-import BirthdayImage from './BirthdayImage.jsx'
 import Starfield from './Starfield.jsx'
 import HeroScene from './HeroScene.jsx'
 import PreviewCursor from './PreviewCursor.jsx'
 import ShootingStars from './ShootingStars.jsx'
-import DatePicker from './DatePicker.jsx'
 import DiscoveryArt from './DiscoveryArt.jsx'
 import { EXTRA_DISCOVERIES } from './lib/discoveries.js'
 import './discoveries.css'
 import useScrollReveal from './useScrollReveal.js'
-import MoonVisual from './MoonVisual.jsx'
 import LocationSharing from './LocationSharing.jsx'
 import './discovery-headings.css'
 import { GALAXY_IMAGE as galaxyImage, SHUFFLE_IMAGE } from './lib/featured.js'
@@ -25,6 +18,8 @@ import './solar-system.css'
 import './pet-eyes.css'
 
 const MoonPage = lazy(() => import('./MoonPage.jsx'))
+const BirthdayPage = lazy(() => import('./BirthdayPage.jsx'))
+const MoonVisual = lazy(() => import('./MoonVisual.jsx'))
 const ShufflePage = lazy(() => import('./ShufflePage.jsx'))
 const SolarSystemPage = lazy(() => import('./SolarSystemPage.jsx'))
 const PetsPage = lazy(() => import('./PetsPage.jsx'))
@@ -70,23 +65,46 @@ function SolarSystemArt() {
   return <div ref={host} className="service-planet-preview">{visible && <Suspense fallback={null}><PlanetScene planet={PLANETS[5]} decorative /></Suspense>}</div>
 }
 
-function EmptyPreview({ loading = false }) {
-  return (
-    <div className="empty-preview">
-      {loading ? <LoaderCircle className="loading-icon" size={32} strokeWidth={1.5} aria-hidden="true" /> : <Orbit size={40} strokeWidth={1} aria-hidden="true" />}<p>{loading ? 'Loading NASA’s picture' : 'Choose a date or shuffle'}</p>
-    </div>
-  )
+function NearViewport({ children }) {
+  const host = useRef(null)
+  const [visible, setVisible] = useState(false)
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) { setVisible(true); observer.disconnect() }
+    }, { rootMargin: '200px' })
+    observer.observe(host.current)
+    return () => observer.disconnect()
+  }, [])
+  return <div ref={host} className="deferred-preview">{visible && <Suspense fallback={null}>{children}</Suspense>}</div>
 }
 
 function ShowcaseSection() {
+  const video = useRef(null)
+  const [active, setActive] = useState(false)
+  useEffect(() => {
+    const element = video.current
+    let inView = false
+    const update = () => {
+      if (inView && !document.hidden) {
+        setActive(true)
+        element.play().catch(() => {})
+      } else element.pause()
+    }
+    const observer = new IntersectionObserver(([entry]) => { inView = entry.isIntersecting; update() }, { rootMargin: '100px' })
+    observer.observe(element)
+    document.addEventListener('visibilitychange', update)
+    return () => { observer.disconnect(); document.removeEventListener('visibilitychange', update); element.pause() }
+  }, [])
   return (
     <section className="showcase-section" aria-labelledby="showcase-title">
       <h2 id="showcase-title" className="showcase-title" data-scroll-reveal>See it come alive.</h2>
       <div className="showcase-video-wrap" data-scroll-reveal>
         <video
+          ref={video}
           className="showcase-video"
-          src="/brag.mp4"
-          autoPlay
+          src={active ? '/brag.mp4' : undefined}
+          preload="none"
+          autoPlay={active}
           muted
           loop
           playsInline
@@ -121,7 +139,7 @@ function LandingPage() {
           {services.map(({ title, description, href, action, art }) => (
             <a key={href} href={href} className="service-card" data-scroll-reveal>
               <div className={`service-art${art === 'moon' ? ' service-art-moon' : ''}`} aria-hidden="true">
-                {art === 'moon' ? <MoonVisual fraction={.218} waxing decorative /> : art === 'planets' ? <SolarSystemArt /> : art === 'pets' ? <PetsArt /> : art === 'galaxy' || art === 'shuffle' ? <img className="service-photo" src={art === 'shuffle' ? SHUFFLE_IMAGE : galaxyImage} alt="" loading="lazy" /> : <DiscoveryArt type={art} />}
+                {art === 'moon' ? <NearViewport><MoonVisual fraction={.218} waxing decorative /></NearViewport> : art === 'planets' ? <SolarSystemArt /> : art === 'pets' ? <PetsArt /> : art === 'galaxy' || art === 'shuffle' ? <img className="service-photo" src={art === 'shuffle' ? SHUFFLE_IMAGE : galaxyImage} alt="" loading="lazy" decoding="async" /> : <DiscoveryArt type={art} />}
               </div>
               <div className="service-copy"><h3>{title}</h3><p>{description}</p><span>{action} <ArrowRight size={18} aria-hidden="true" /></span></div>
             </a>
@@ -129,105 +147,6 @@ function LandingPage() {
         </div>
       </section>
     </div>
-  )
-}
-
-function VideoResult({ entry }) {
-  return (
-    <div className="video-result">
-      {entry.mediaType === 'video' && entry.video ? <iframe className="result-video" src={entry.video} title={entry.title} allow="fullscreen; encrypted-media; picture-in-picture" allowFullScreen referrerPolicy="strict-origin-when-cross-origin" /> : <Telescope size={40} strokeWidth={1.2} aria-hidden="true" />}
-      <p className="media-note">NASA shared {entry.mediaType === 'video' ? 'a video' : 'an image available on its website'} on this date. Open the original below.</p>
-    </div>
-  )
-}
-
-function BirthdayPage() {
-  const request = useRef(null)
-  const seenDates = useRef(new Set())
-  const seenImages = useRef(new Set())
-  const [today] = useState(nasaToday)
-  const [date, setDate] = useState(today)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
-  const [result, setResult] = useState(null)
-  useEffect(() => {
-    const controller = new AbortController()
-    request.current = controller
-    fetchApod(today, controller.signal).then((entry) => {
-      if (!controller.signal.aborted) setResult(entry)
-    }).catch((issue) => {
-      if (!axios.isCancel(issue) && !controller.signal.aborted) setError(issue.message)
-    }).finally(() => {
-      if (!controller.signal.aborted) setLoading(false)
-    })
-    return () => { controller.abort(); request.current?.abort() }
-  }, [today])
-
-  async function discover(selectedDate) {
-    setDate(selectedDate)
-    request.current?.abort()
-    const validation = validateDate(selectedDate, today)
-    if (validation) { setError(validation); setLoading(false); return }
-    const controller = new AbortController()
-    request.current = controller
-    setLoading(true)
-    setError('')
-    try {
-      const entry = await fetchApod(selectedDate, controller.signal)
-      if (!controller.signal.aborted) setResult(entry)
-    } catch (issue) {
-      if (!axios.isCancel(issue) && !controller.signal.aborted) setError(issue.message)
-    } finally {
-      if (!controller.signal.aborted) setLoading(false)
-    }
-  }
-
-  async function surprise() {
-    request.current?.abort()
-    const controller = new AbortController()
-    request.current = controller
-    setLoading(true)
-    setError('')
-    if (result) {
-      seenDates.current.add(result.date)
-      if (result.image) seenImages.current.add(imageIdentity(result.image))
-    }
-    try {
-      const entry = await nextDiscovery({ fetchEntry: fetchApod, prepareImage: prepareDiscoveryImage, seenDates: seenDates.current, seenImages: seenImages.current, signal: controller.signal, today })
-      if (!controller.signal.aborted) { setResult(entry); setDate(entry.date) }
-    } catch (issue) {
-      if (!controller.signal.aborted) setError(issue.message)
-    } finally {
-      if (!controller.signal.aborted) setLoading(false)
-    }
-  }
-
-  return (
-    <section className="birthday-workspace" aria-labelledby="birthday-title">
-      <div className="birthday-controls">
-        <a className="back-link" href="/#services"><ArrowLeft size={16} aria-hidden="true" /> Explore</a>
-        <h1 id="birthday-title">Your birthday.<br /><em>Your picture.</em></h1>
-        <p className="birthday-description">Choose your birthday or any date to see NASA’s Astronomy Picture of the Day. Or shuffle for a random archive image. Some dates feature videos.</p>
-        <div id="birthday" className="birthday-form" aria-busy={loading}>
-          <label htmlFor="birthdate">Birthday or date</label>
-          <DatePicker id="birthdate" name="birthdate" label="Birthday or date" min={ARCHIVE_START} max={today} today={today} value={date} onChange={discover} describedBy={error ? 'date-help lookup-error' : 'date-help'} invalid={Boolean(error)} />
-          <p id="date-help" className="date-help">Available from June 16, 1995.</p>
-          <button className="primary-button lookup-button" type="button" onClick={surprise} disabled={loading}>Shuffle image <Shuffle size={18} aria-hidden="true" /></button>
-          {error && <p id="lookup-error" className="form-error" role="alert">{error}</p>}
-          <p className="date-help" role="status">{loading ? 'Looking up NASA’s picture for your selected date…' : ''}</p>
-        </div>
-      </div>
-
-      <div className="image-workspace" role="region" aria-label="NASA archive preview" tabIndex={-1} aria-busy={loading}>
-        {result ? <>
-          {result.mediaType === 'image' && result.image ? <BirthdayImage key={result.date} entry={result} /> : <VideoResult entry={result} />}
-          <div className="result-attribution">
-            <a className="source-link" href={result.source} target="_blank" rel="noreferrer">NASA original <ArrowUpRight size={14} aria-hidden="true" /></a>
-            {result.credit && <p className="image-credit">{result.credit}</p>}
-          </div>
-        </> : <EmptyPreview loading={loading} />}
-      </div>
-    </section>
   )
 }
 
@@ -254,9 +173,7 @@ export default function App() {
           return
         }
         const entrance = gsap.timeline({ defaults: { ease: 'expo.out', clearProps: 'transform,opacity,visibility,filter' } })
-        entrance.from('.hero-title-word', { y: 10, autoAlpha: 0, filter: 'blur(4px)', stagger: .18, duration: 1.1 })
-          .from('.hero-copy > p', { y: 8, autoAlpha: 0, duration: .8 }, 1.05)
-          .from('.hero-copy > a', { y: 8, autoAlpha: 0, duration: .7 }, 1.3)
+        entrance.from('.hero-copy', { y: 10, duration: .65 })
       })
     }, root)
     return () => context.revert()
@@ -272,7 +189,7 @@ export default function App() {
         <a className="wordmark" href="/" aria-label="Celestial home"><Orbit size={27} strokeWidth={1.2} aria-hidden="true" /><span>celestial</span></a>
         <nav aria-label="Main navigation"><a href={isDiscovery ? '/#services' : '#services'}>Explore <ArrowUpRight size={15} aria-hidden="true" /></a></nav>
       </header>
-      <main>{ExtraPage ? <Suspense fallback={<p className="moon-route-loading" role="status">Opening {extraService.title}…</p>}><ExtraPage /></Suspense> : isBirthday ? <BirthdayPage /> : isMoon ? <Suspense fallback={<p className="moon-route-loading" role="status">Opening your Moon…</p>}><MoonPage /></Suspense> : isShuffle ? <Suspense fallback={<p className="moon-route-loading" role="status">Opening Cosmic shuffle…</p>}><ShufflePage /></Suspense> : isSolar ? <Suspense fallback={<p className="moon-route-loading" role="status">Opening the Solar System…</p>}><SolarSystemPage /></Suspense> : isPets ? <Suspense fallback={<p className="moon-route-loading" role="status">The pets are arriving…</p>}><PetsPage /></Suspense> : <LandingPage />}</main>
+      <main>{ExtraPage ? <Suspense fallback={<p className="moon-route-loading" role="status">Opening {extraService.title}…</p>}><ExtraPage /></Suspense> : isBirthday ? <Suspense fallback={<p className="moon-route-loading" role="status">Opening your birthday picture…</p>}><BirthdayPage /></Suspense> : isMoon ? <Suspense fallback={<p className="moon-route-loading" role="status">Opening your Moon…</p>}><MoonPage /></Suspense> : isShuffle ? <Suspense fallback={<p className="moon-route-loading" role="status">Opening Cosmic shuffle…</p>}><ShufflePage /></Suspense> : isSolar ? <Suspense fallback={<p className="moon-route-loading" role="status">Opening the Solar System…</p>}><SolarSystemPage /></Suspense> : isPets ? <Suspense fallback={<p className="moon-route-loading" role="status">The pets are arriving…</p>}><PetsPage /></Suspense> : <LandingPage />}</main>
       <LocationSharing />
       <footer className="site-footer"><span className="footer-wordmark"><Orbit size={27} strokeWidth={1.2} aria-hidden="true" /><span>celestial</span></span>{isPets && <span>Little companions, made for Celestial.</span>}<span>Made by .dcd</span></footer>
     </div>

@@ -8,6 +8,8 @@ import { makeWorldTexture } from './lib/world-builder.js'
 
 const ZOOM_STEP = 1.1
 const MAX_ZOOM = 1.2
+// Reuse decoded bundled images across planet changes; GPU textures still dispose.
+THREE.Cache.enabled = true
 
 export default function PlanetScene({ planet, decorative = false, showFeedback = false, onRetry, captureRef, onCaptureReady, appearance }) {
   const host = useRef(null)
@@ -139,14 +141,17 @@ export default function PlanetScene({ planet, decorative = false, showFeedback =
     })
     async function prepare() {
       try {
-        const map = appearance ? new THREE.CanvasTexture(makeWorldTexture(appearance)) : await loadTexture(planetTexture(planet.id))
-        if (appearance) { map.colorSpace = THREE.SRGBColorSpace; textures.push(map) }
+        const surfaceMap = appearance ? new THREE.CanvasTexture(makeWorldTexture(appearance)) : null
+        if (surfaceMap) { surfaceMap.colorSpace = THREE.SRGBColorSpace; textures.push(surfaceMap) }
+        const [map, ringMap, clouds] = await Promise.all([
+          surfaceMap || loadTexture(planetTexture(planet.id)),
+          hasRings ? loadTexture('/textures/planets/saturn-ring.png') : null,
+          hasClouds ? loadTexture('/textures/planets/earth-clouds.jpg') : null,
+        ])
         if (disposed) return
         surface.map = map
         surface.needsUpdate = true
         if (hasRings) {
-          const ringMap = await loadTexture('/textures/planets/saturn-ring.png')
-          if (disposed) return
           const ringGeometry = new THREE.RingGeometry(1.23, 2.32, 192, 8)
           const positions = ringGeometry.attributes.position
           const uv = ringGeometry.attributes.uv
@@ -164,8 +169,6 @@ export default function PlanetScene({ planet, decorative = false, showFeedback =
           group.add(rings)
         }
         if (hasClouds) {
-          const clouds = await loadTexture('/textures/planets/earth-clouds.jpg')
-          if (disposed) return
           const cloudMaterial = new THREE.MeshStandardMaterial({ alphaMap: clouds, transparent: true, opacity: (appearance?.cloudOpacity ?? 65) / 100, depthWrite: false, roughness: 1 })
           materials.push(cloudMaterial)
           const cloudSphere = new THREE.Mesh(geometry, cloudMaterial)

@@ -31,7 +31,8 @@ function projection(size, texture) {
   const key = `${size}:${texture.width}:${texture.height}`
   if (projections.has(key)) return projections.get(key)
   const radius = size * .46
-  const samples = []
+  const samples = new Float32Array(size * size * 5)
+  let count = 0
   for (let y = 0; y < size; y++) {
     for (let x = 0; x < size; x++) {
       const nx = (x + .5 - size / 2) / radius
@@ -43,10 +44,15 @@ function projection(size, texture) {
       const v = .5 - Math.asin(ny) / Math.PI
       const tx = Math.min(texture.width - 1, Math.floor(u * texture.width))
       const ty = Math.min(texture.height - 1, Math.floor(v * texture.height))
-      samples.push((y * size + x) * 4, (ty * texture.width + tx) * 4, nx, nz, Math.min(255, (1 - Math.sqrt(r2)) * radius * 255))
+      samples[count++] = (y * size + x) * 4
+      samples[count++] = (ty * texture.width + tx) * 4
+      samples[count++] = nx
+      samples[count++] = nz
+      samples[count++] = Math.min(255, (1 - Math.sqrt(r2)) * radius * 255)
     }
   }
-  const geometry = new Float32Array(samples)
+  const geometry = samples.subarray(0, count)
+  if (projections.size >= 3) projections.delete(projections.keys().next().value)
   projections.set(key, geometry)
   return geometry
 }
