@@ -1,0 +1,20 @@
+{
+  "provider": "Built-in image_gen; underlying model not exposed",
+  "dimensions": [
+    1254,
+    1254
+  ],
+  "prompt": "Edit ONLY the two eyes of this single astronomical character. Remove both dark pupils completely and any pupil highlights, leaving two clean blank uniform cream oval eye whites (#fff0d9). Preserve the exact outline, size and position of both eyes. Preserve the entire character identity, silhouette, colors, surface details, tiny indigo smile, full square canvas, centered upright framing and transparent background. Do not redesign anything or add subjects, objects, text, backgrounds or shadows. No pupils, irises, dark remnants or highlights within either eye white.",
+  "assets": [
+    {
+      "name": "terra",
+      "file": "public/pets/terra.png",
+      "reference": "output/mascot-samples/terra-concept.png"
+    },
+    {
+      "name": "spiral",
+      "file": "public/pets/spiral.png",
+      "reference": "output/mascot-samples/spiral-concept.png"
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 // Set enabled to false to remove a preview from Explore and disable its route.
 export const EXTRA_DISCOVERIES = [
+  { title: 'Moon match', description: 'Compare two birthday Moon phases and see how their light fits together. Just for fun.', href: '/moon-match', action: 'Compare birthdays', art: 'moon-match', enabled: true },
   { title: 'Cosmic age', description: 'See your age and next birthday in planetary years.', href: '/cosmic-age', action: 'Calculate your age', art: 'age', enabled: true },
   { title: 'Constellation studio', description: 'Connect a few stars. Make something yours.', href: '/constellation-studio', action: 'Connect the stars', art: 'studio', enabled: false },
   { title: 'Space detective', description: 'A little mystery. A universe of clues.', href: '/space-detective', action: 'Take a guess', art: 'detective', enabled: false },

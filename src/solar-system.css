@@ -15,6 +15,8 @@
 .planet-showcase { grid-area: model; min-width: 0; width: 100%; scroll-margin-top: 24px; }
 .planet-showcase:focus { outline: none; }
 .planet-viewer { position: relative; min-width: 0; width: 100%; }
+.planet-rotation-hint { display: flex; align-items: center; justify-content: center; gap: 9px; margin: 0 0 12px; color: #c9c1f0; font-size: 14px; line-height: 1.6; text-align: center; }
+.planet-rotation-hint svg { flex-shrink: 0; }
 .planet-stage { position: relative; height: clamp(440px, calc(100svh - 220px), 700px); width: 100%; touch-action: none; cursor: grab; }
 .planet-stage:active { cursor: grabbing; }
 .planet-stage canvas { position: absolute; max-width: none; display: block; pointer-events: none; }
@@ -23,7 +25,7 @@
 .planet-error-help { font-size: 11px; line-height: 1.6; }
 .planet-loading-orbit { width: 30px; height: 30px; border: 1px solid #3f4664; border-top-color: #c9c1f0; border-radius: 50%; animation: spin 1.2s linear infinite; }
 .planet-view-controls { position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 8px 14px; padding-block: 4px 16px; }
-.planet-drag-hint { color: #a4abc2; font-size: 10px; text-align: center; }
+.planet-drag-hint { color: #b5bbd0; font-size: 12px; text-align: center; }
 .planet-drag-hint span { padding-inline: 5px; }
 .planet-control-buttons { display: inline-flex; gap: 3px; }
 .planet-control-buttons button { display: grid; place-items: center; width: 36px; height: 36px; background: transparent; border: 1px solid transparent; border-radius: 6px; color: #c9c1f0; }

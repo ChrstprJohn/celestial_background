@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { ArrowUpRight, Download, LoaderCircle } from 'lucide-react'
 import axios from 'axios'
 import { formatDate } from './lib/dates.js'
+import { imagePreviewUrl } from './lib/image-preview.js'
 
 export default function BirthdayImage({ entry }) {
   const [imageFailed, setImageFailed] = useState(false)
@@ -54,7 +55,7 @@ export default function BirthdayImage({ entry }) {
 
   return (
     <figure className="birthday-image">
-      {imageFailed ? <div className="image-fallback"><p>The preview couldn’t load.</p><a href={entry.image} target="_blank" rel="noreferrer">Open original image <ArrowUpRight size={14} aria-hidden="true" /></a></div> : <img className="original-image" src={entry.image} alt={entry.alt} onError={() => setImageFailed(true)} />}
+      {imageFailed ? <div className="image-fallback"><p>The preview couldn’t load.</p><a href={entry.image} target="_blank" rel="noreferrer">Open original image <ArrowUpRight size={14} aria-hidden="true" /></a></div> : <img className="original-image" src={imagePreviewUrl(entry.image)} alt={entry.alt} decoding="async" onError={() => setImageFailed(true)} />}
       <div className="image-details">
         <figcaption><p className="result-date">{formatDate(entry.date)}</p><h2>{entry.title}</h2></figcaption>
         <button className="image-download" type="button" onClick={downloadImage} disabled={downloading}>{downloading ? <><LoaderCircle className="loading-icon" size={16} aria-hidden="true" /> Downloading</> : <><Download size={16} strokeWidth={1.5} aria-hidden="true" /> Download</>}</button>

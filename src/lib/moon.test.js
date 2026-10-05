@@ -20,6 +20,17 @@ test('known 2024 eclipse dates are nearly unilluminated and fully illuminated at
   assert.ok(fullMoon.fraction > .999)
 })
 
+test('example birthdays follow NASA historical phase dates', () => {
+  // NASA UT table: new Moon Sep 3, 2005; full Moon May 13, 2006.
+  // https://eclipse.gsfc.nasa.gov/phase/phase2001gmt.html
+  const first = moonForDate('2005-09-05')
+  const second = moonForDate('2006-05-15')
+  assert.equal(first.name, 'Waxing crescent')
+  assert.ok(first.fraction > .01 && first.fraction < .1)
+  assert.equal(second.name, 'Waning gibbous')
+  assert.ok(second.fraction > .9 && second.fraction < 1)
+})
+
 test('Moon shading reverses between waxing and waning and keeps the background transparent', () => {
   const size = 64
   const texture = { width: 16, height: 8, data: new Uint8ClampedArray(16 * 8 * 4).fill(200) }

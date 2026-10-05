@@ -1,4 +1,4 @@
-import { lazy, Suspense, useMemo, useRef, useState } from 'react'
+import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { Shuffle, RotateCcw } from 'lucide-react'
 import DiscoveryLayout, { ArtDownload, SourceNote } from './DiscoveryLayout.jsx'
 import { DEFAULT_WORLD, WORLD_PALETTES } from './lib/world-builder.js'
@@ -15,7 +15,11 @@ export default function BuildPlanetPage() {
   const [ready, setReady] = useState('')
   const [retry, setRetry] = useState(0)
   const capture = useRef(null)
-  const appearance = useMemo(() => world, [world])
+  const [appearance, setAppearance] = useState(DEFAULT_WORLD)
+  useEffect(() => {
+    const timer = setTimeout(() => setAppearance(world), 120)
+    return () => clearTimeout(timer)
+  }, [world])
   const displayName = name.trim() || 'Your new world'
   const palette = WORLD_PALETTES.find((item) => item.id === world.palette) || WORLD_PALETTES[0]
   const change = (property, value) => setWorld((current) => ({ ...current, [property]: value }))
@@ -47,7 +51,7 @@ export default function BuildPlanetPage() {
   </>}>
     <div className="builder-planet"><Suspense fallback={<p className="discovery-note">Preparing your world…</p>}><PlanetScene key={retry} planet={planet} appearance={appearance} captureRef={capture} onCaptureReady={setReady} onRetry={() => setRetry((value) => value + 1)} /></Suspense></div>
     <div className="art-caption" aria-live="polite"><h2>{displayName}</h2><p>{world.terrain === 'ocean' ? 'Oceans and continents' : world.terrain === 'rocky' ? 'A world of rocky terrain' : 'A world of swirling gas bands'}{world.rings ? ' · Ringed' : ''}{world.clouds ? ' · Clouded' : ''}</p></div>
-    <ArtDownload key={`${JSON.stringify(world)}-${displayName}`} label="Download my planet card" filename="celestial-my-planet.png" disabled={ready !== planet.id} makeImage={(filename) => {
+    <ArtDownload key={`${JSON.stringify(world)}-${displayName}`} label="Download my planet card" filename="celestial-my-planet.png" disabled={ready !== planet.id || appearance !== world} makeImage={(filename) => {
       if (capture.current?.appearance !== appearance) throw new Error('Your new world is still preparing.')
       return saveWorldPng({ image: capture.current.capture(), name: displayName, appearance }, filename)
     }} />

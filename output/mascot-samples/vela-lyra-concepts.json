@@ -1,0 +1,22 @@
+{
+  "provider": "Built-in image_gen; underlying model not exposed",
+  "dimensions": [
+    1254,
+    1254
+  ],
+  "composition": "Centered full silhouettes matching the existing gallery",
+  "samples": [
+    {
+      "name": "vela",
+      "prompt": "Create ONE new cosmic companion character, a complete 1:1 square image about 1536 by 1536. The attached existing ringed-planet character is a STYLE REFERENCE only. Match its soft rounded celestial forms, lavender and pale cyan surfaces, large cream oval eyes, tiny dark indigo smile, gentle smooth dimensional shading and lovable baby-like appeal. Make a distinct NEW character, not a planet or flying saucer. One clean compact continuous silhouette made from a few broad rounded shapes, immediately readable at small size. Keep one character upright and centered, full silhouette visible at approximately 78% canvas width with comfortable margins, on a genuinely transparent background. Two cream oval eyes with simple dark indigo pupils looking forward for a concept preview. No text, watermark, card, frame, scenery, external cast shadow, sharp tips, thin fragile lines, detailed anatomy, clothing or added props. Subject: VELA, a little cosmic jellyfish spirit drifting through the stars. One broad rounded lavender bell-shaped head with a scalloped pale-cyan lower rim, two large friendly cream eyes on the bell, and THREE short thick rounded softly curling cyan/lavender tentacle lobes merged into its underside. Tentacles are stubby and plush in silhouette, all ends rounded; no thin strings, no extra arms. A small galaxy-like swirl of lavender and cyan inside the broad bell surface, very restrained, not scattered stars. Face front-facing, calm sweet smile. Clearly a jellyfish silhouette, distinct from cloud, comet, flame or saucer.",
+      "file": "output/mascot-samples/vela-concept.png",
+      "status": "Awaiting review"
+    },
+    {
+      "name": "lyra",
+      "prompt": "Create ONE new cosmic companion character, a complete 1:1 square image about 1536 by 1536. The attached existing ringed-planet character is a STYLE REFERENCE only. Match its soft rounded celestial forms, lavender and pale cyan surfaces, large cream oval eyes, tiny dark indigo smile, gentle smooth dimensional shading and lovable baby-like appeal. Make a distinct NEW character, not a planet or flying saucer. One clean compact continuous silhouette made from a few broad rounded shapes, immediately readable at small size. Keep one character upright and centered, full silhouette visible at approximately 78% canvas width with comfortable margins, on a genuinely transparent background. Two cream oval eyes with simple dark indigo pupils looking forward for a concept preview. No text, watermark, card, frame, scenery, external cast shadow, sharp tips, thin fragile lines, detailed anatomy, clothing or added props. Subject: LYRA, a baby moon bunny inspired by the lunar rabbit and constellation stories. One compact lavender rounded bunny head and tiny merged round body, two broad long upright ears with completely blunt rounded tips and pale cyan inner-ear regions. Both ears visible, simple rounded cheeks, two large cream oval eyes and tiny indigo smile. No separate nose, whiskers, eyebrows, feet, paws or tail. One small broad pale-cyan crescent-shaped belly region integrated into the body coloration evokes moonlight without being an attached object. Keep cosmic pastel personality, calm curious expression, ultra simple broad forms, no costume or helmet.",
+      "file": "output/mascot-samples/lyra-concept.png",
+      "status": "Awaiting review"
+    }
+  ]
+}

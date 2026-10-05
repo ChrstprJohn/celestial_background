@@ -1,0 +1,18 @@
+{
+  "provider": "Built-in image_gen; underlying model not exposed",
+  "constraintDelivery": "main-prompt constraints",
+  "prompt": "Edit ONLY the two eyes of this one cosmic companion: remove the dark pupils and all pupil highlights entirely, leaving both existing eye whites as clean blank uniform cream ovals (#fff0d9). Preserve each eye's exact size, shape and position. Preserve the entire character identity, colors, silhouette, small indigo smile, surfaces, framing, full square canvas and transparent background. Keep one complete centered upright character exactly as in the reference. No irises, pupils, dark remnants or highlights inside the cream eye whites. Do not redesign anything or add objects, text, borders, scenery or external cast shadows.",
+  "composition": "Centered full silhouettes matching approved concept samples",
+  "assets": [
+    {
+      "name": "Cosmo",
+      "file": "public/pets/cosmo.png",
+      "source": "output/mascot-samples/cosmo-concept.png"
+    },
+    {
+      "name": "Dusk",
+      "file": "public/pets/dusk.png",
+      "source": "output/mascot-samples/dusk-concept.png"
+    }
+  ]
+}

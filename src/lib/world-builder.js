@@ -43,11 +43,16 @@ export function worldPixels(appearance, width = 768, height = 384) {
   return { data, width, height }
 }
 
+const surfaceCache = new Map()
 export function makeWorldTexture(appearance) {
+  const key = JSON.stringify([appearance.terrain, appearance.palette, appearance.seed, appearance.oceanLevel, appearance.detail, appearance.iceCaps, appearance.colors])
+  if (surfaceCache.has(key)) return surfaceCache.get(key)
   const pixels = worldPixels(appearance)
   const canvas = document.createElement('canvas')
   canvas.width = pixels.width
   canvas.height = pixels.height
   canvas.getContext('2d').putImageData(new ImageData(pixels.data, pixels.width, pixels.height), 0, 0)
+  if (surfaceCache.size >= 4) surfaceCache.delete(surfaceCache.keys().next().value)
+  surfaceCache.set(key, canvas)
   return canvas
 }

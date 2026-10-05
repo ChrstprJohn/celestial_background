@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowUpRight, LoaderCircle, Shuffle } from 'lucide-react'
 import { fetchApod } from './lib/apod.js'
 import { FEATURED_DISCOVERY } from './lib/featured.js'
 import { formatDate } from './lib/dates.js'
+import { imagePreviewUrl } from './lib/image-preview.js'
 import { imageIdentity, nextDiscovery, prepareDiscoveryImage } from './lib/shuffle.js'
 
 export default function ShufflePage() {
@@ -48,7 +49,7 @@ export default function ShufflePage() {
       <div className="shuffle-result">
         <figure className="shuffle-figure" aria-busy={loading}>
           <div className="shuffle-image-stage">
-            {imageFailed ? <div className="image-fallback"><p>The preview couldn’t load.</p><a href={result.image} target="_blank" rel="noreferrer">Open original image <ArrowUpRight size={14} aria-hidden="true" /></a></div> : <img className="shuffle-image" src={result.image} alt={result.alt || result.title} onError={() => setImageFailed(true)} />}
+            {imageFailed ? <div className="image-fallback"><p>The preview couldn’t load.</p><a href={result.image} target="_blank" rel="noreferrer">Open original image <ArrowUpRight size={14} aria-hidden="true" /></a></div> : <img className="shuffle-image" src={imagePreviewUrl(result.image)} alt={result.alt || result.title} decoding="async" onError={() => setImageFailed(true)} />}
           </div>
           <figcaption className="shuffle-details" aria-live="polite" aria-atomic="true"><p className="result-date">{formatDate(result.date)}</p><h2>{result.title}</h2></figcaption>
         </figure>

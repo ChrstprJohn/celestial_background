@@ -1,0 +1,19 @@
+{
+  "provider": "Built-in image_gen; underlying model not exposed",
+  "dimensions": [
+    1254,
+    1254
+  ],
+  "composition": "Centered full silhouettes matching existing cosmic pets",
+  "samples": [
+    {
+      "name": "spiral-galaxy",
+      "prompt": "Create ONE cute personified astronomical object as a full square image approximately 1536x1536. Use the attached existing cosmic companion as a STYLE REFERENCE only: rounded soft broad forms, lavender/cyan/cream palette, gently dimensional smooth illustration, two big cream oval eyes with dark indigo pupils looking forward, one tiny indigo smile. One complete centered upright character, full silhouette visible with comfortable margins, around 78% of canvas width, on a genuinely transparent background. Keep extremely simple, few large forms, readable at small size. Strictly an astronomical object, never an animal, creature species, plant, vehicle or astronaut. No limbs, ears, tentacles, clothing or props. No text, watermark, borders, frames, scenery, backdrop stars, external cast shadows or thin fragile details. Subject: a SPIRAL GALAXY companion named Spiral. A broad compact face-bearing lavender luminous galactic core surrounded by TWO thick pale cyan/lavender softly curved spiral arms, smoothly connected into one rounded pinwheel silhouette. Show the arms as broad curled masses with rounded blunt ends, no thin orbit ring. Face entirely unobscured on the center. Restrained cosmic glow within the body only; no scattered star dots, no galaxy cloud scallops. A clearly recognizable spiral galaxy rather than a ringed planet, cloud, animal or flower. Subtle depth matching the reference."
+    },
+    {
+      "name": "aurora-earth",
+      "prompt": "Create ONE cute personified astronomical object as a full square image approximately 1536x1536. Use the attached existing cosmic companion as a STYLE REFERENCE only: rounded soft broad forms, lavender/cyan/cream palette, gently dimensional smooth illustration, two big cream oval eyes with dark indigo pupils looking forward, one tiny indigo smile. One complete centered upright character, full silhouette visible with comfortable margins, around 78% of canvas width, on a genuinely transparent background. Keep extremely simple, few large forms, readable at small size. Strictly an astronomical object, never an animal, creature species, plant, vehicle or astronaut. No limbs, ears, tentacles, clothing or props. No text, watermark, borders, frames, scenery, backdrop stars, external cast shadows or thin fragile details. Subject: an EARTH companion named Terra. One smooth round blue-cyan globe, with TWO large extremely simplified soft lavender continent silhouettes integrated into its surface. The face is in the central lower hemisphere with both cream oval eyes completely clear. A single broad softly flowing lavender-to-cyan aurora ribbon hugs the upper polar surface as an integrated cap, never wraps around the whole globe as a ring. The ribbon stays short and thick with blunt rounded ends. No detailed geography, cloud clusters, satellite, atmosphere halo or background. Clearly a little Earth globe with polar aurora, not a generic ringed planet or animal."
+    }
+  ],
+  "status": "Preview only; not integrated"
+}

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Minus, Plus, RotateCcw } from 'lucide-react'
+import { Hand, Minus, Plus, RotateCcw } from 'lucide-react'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { planetTexture } from './lib/planets.js'
@@ -8,6 +8,8 @@ import { makeWorldTexture } from './lib/world-builder.js'
 
 const ZOOM_STEP = 1.1
 const MAX_ZOOM = 1.2
+// Reuse decoded bundled images across planet changes; GPU textures still dispose.
+THREE.Cache.enabled = true
 
 export default function PlanetScene({ planet, decorative = false, showFeedback = false, onRetry, captureRef, onCaptureReady, appearance }) {
   const host = useRef(null)
@@ -139,14 +141,17 @@ export default function PlanetScene({ planet, decorative = false, showFeedback =
     })
     async function prepare() {
       try {
-        const map = appearance ? new THREE.CanvasTexture(makeWorldTexture(appearance)) : await loadTexture(planetTexture(planet.id))
-        if (appearance) { map.colorSpace = THREE.SRGBColorSpace; textures.push(map) }
+        const surfaceMap = appearance ? new THREE.CanvasTexture(makeWorldTexture(appearance)) : null
+        if (surfaceMap) { surfaceMap.colorSpace = THREE.SRGBColorSpace; textures.push(surfaceMap) }
+        const [map, ringMap, clouds] = await Promise.all([
+          surfaceMap || loadTexture(planetTexture(planet.id)),
+          hasRings ? loadTexture('/textures/planets/saturn-ring.png') : null,
+          hasClouds ? loadTexture('/textures/planets/earth-clouds.jpg') : null,
+        ])
         if (disposed) return
         surface.map = map
         surface.needsUpdate = true
         if (hasRings) {
-          const ringMap = await loadTexture('/textures/planets/saturn-ring.png')
-          if (disposed) return
           const ringGeometry = new THREE.RingGeometry(1.23, 2.32, 192, 8)
           const positions = ringGeometry.attributes.position
           const uv = ringGeometry.attributes.uv
@@ -164,8 +169,6 @@ export default function PlanetScene({ planet, decorative = false, showFeedback =
           group.add(rings)
         }
         if (hasClouds) {
-          const clouds = await loadTexture('/textures/planets/earth-clouds.jpg')
-          if (disposed) return
           const cloudMaterial = new THREE.MeshStandardMaterial({ alphaMap: clouds, transparent: true, opacity: (appearance?.cloudOpacity ?? 65) / 100, depthWrite: false, roughness: 1 })
           materials.push(cloudMaterial)
           const cloudSphere = new THREE.Mesh(geometry, cloudMaterial)
@@ -272,6 +275,7 @@ export default function PlanetScene({ planet, decorative = false, showFeedback =
 
   return (
     <div className="planet-viewer">
+      {!decorative && <p className="planet-rotation-hint"><Hand size={18} aria-hidden="true" />Drag or swipe the planet to rotate</p>}
       <div ref={host} className={`planet-stage${decorative ? ' planet-stage-decorative' : ''}`} aria-busy={status === 'loading'} role={decorative ? undefined : 'img'} aria-label={decorative ? undefined : `Interactive 3D ${planet.name}. Arrow keys rotate; plus and minus zoom; R resets.`} aria-hidden={decorative || undefined} tabIndex={decorative ? undefined : 0} />
       {(!decorative || showFeedback) && status !== 'ready' && <div className="planet-stage-feedback" role="status">
         {status === 'loading' ? <><span className="planet-loading-orbit" aria-hidden="true" /><p>Preparing {planet.name}…</p></> : <>
@@ -281,7 +285,7 @@ export default function PlanetScene({ planet, decorative = false, showFeedback =
         </>}
       </div>}
       {!decorative && <div className="planet-view-controls">
-        <p className="planet-drag-hint">Drag to rotate <span>·</span> Scroll or pinch to zoom</p>
+        <p className="planet-drag-hint">Scroll or pinch to zoom</p>
         <div className="planet-control-buttons">
           <button disabled={status !== 'ready' || zoomBounds.far} onClick={() => actions.current?.zoomStep(-1)} aria-label="Zoom out"><Minus size={17} /></button>
           <button disabled={status !== 'ready' || zoomBounds.near} onClick={() => actions.current?.zoomStep(1)} aria-label="Zoom in"><Plus size={17} /></button>
