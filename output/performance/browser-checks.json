@@ -1,0 +1,24 @@
+[
+  {
+    "name": "desktop",
+    "preview": {
+      "src": "http://127.0.0.1:4175/pets/nebula-480.webp",
+      "width": 416
+    },
+    "pets": 12,
+    "download": "celestial-nebula.png",
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "name": "mobile",
+    "preview": {
+      "src": "http://127.0.0.1:4175/pets/nebula-480.webp",
+      "width": 163
+    },
+    "pets": 12,
+    "download": "celestial-nebula.png",
+    "overflow": false,
+    "errors": []
+  }
+]

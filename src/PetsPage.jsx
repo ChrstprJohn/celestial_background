@@ -55,7 +55,9 @@ const Pet = memo(function Pet({ pet, index }) {
       <div ref={portrait} className="pet-portrait" data-pet={pet.id} data-status={status}>
         <img
           ref={image}
-          src={visible ? `${pet.image}${retry ? `?retry=${retry}` : ''}` : undefined}
+          src={visible ? `/pets/${pet.id}-480.webp${retry ? `?retry=${retry}` : ''}` : undefined}
+          srcSet={visible ? `/pets/${pet.id}-480.webp${retry ? `?retry=${retry}` : ''} 480w, /pets/${pet.id}-960.webp${retry ? `?retry=${retry}` : ''} 960w` : undefined}
+          sizes="(min-width: 1440px) 416px, (min-width: 1024px) 29vw, (min-width: 768px) 44vw, calc((100vw - 64px) / 2)"
           alt={`${pet.name}, ${pet.description.toLowerCase()}`}
           width="1280" height="1280" draggable="false"
           loading={index >= 3 ? 'lazy' : 'eager'} decoding="async"

@@ -1,7 +1,11 @@
 // Export the fixed default face, regardless of the current cursor direction.
 // The generated character PNG remains untouched; pupils match the site's CSS.
 export async function defaultPetImage(image, pet) {
-  await image.decode()
+  // Display previews are smaller; download the untouched source at full resolution.
+  const original = new Image()
+  original.src = pet.image
+  await original.decode()
+  image = original
   const canvas = document.createElement('canvas')
   canvas.width = image.naturalWidth
   canvas.height = image.naturalHeight

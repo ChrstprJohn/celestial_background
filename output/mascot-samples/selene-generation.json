@@ -1,0 +1,8 @@
+{
+  "name": "Selene",
+  "status": "Preview only; awaiting user's instruction to integrate",
+  "tool": "Built-in image_gen",
+  "output": "output/mascot-samples/selene-concept.png",
+  "transparent_background": true,
+  "prompt": "Use case: stylized-concept. Asset type: a new preview-only character for the Celestial cosmic pets gallery. Create one adorable personified cosmic companion called Selene: a plump crescent moon curled gently around a tiny warm glowing star. The moon itself is the main character, with a soft silvery ivory surface, lavender shadow along its rounded edge, three subtle shallow lunar craters, two large expressive dark violet oval eyes with cream surrounds and tiny catchlights, and a small relaxed smile. The little star is an unpersonified simple rounded four-point celestial light nestled in the crescent's inner curve. Style: beautifully simple softly shaded collectible illustration, rounded plush forms, restrained detail, no limbs, no clothing, no rings or planet bands. Mood: quiet, sleepy, friendly, unmistakably lunar and cosmic. Composition: one cohesive character fully visible, centered in a square canvas with generous transparent margin. Clean silhouette readable at thumbnail size. Genuine transparent background, no scenery, no text, no watermark, no scattered decorative objects."
+}

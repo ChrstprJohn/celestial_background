@@ -1,0 +1,74 @@
+[
+  {
+    "pet": "nebula",
+    "original": 1250282,
+    "preview480": 33698,
+    "preview960": 114640
+  },
+  {
+    "pet": "orbit",
+    "original": 612577,
+    "preview480": 17054,
+    "preview960": 42100
+  },
+  {
+    "pet": "comet",
+    "original": 611875,
+    "preview480": 15372,
+    "preview960": 37130
+  },
+  {
+    "pet": "nova",
+    "original": 660728,
+    "preview480": 15000,
+    "preview960": 36870
+  },
+  {
+    "pet": "luna",
+    "original": 738401,
+    "preview480": 20408,
+    "preview960": 51272
+  },
+  {
+    "pet": "eclipse",
+    "original": 750525,
+    "preview480": 19850,
+    "preview960": 48480
+  },
+  {
+    "pet": "aurora",
+    "original": 649750,
+    "preview480": 16550,
+    "preview960": 39328
+  },
+  {
+    "pet": "pebble",
+    "original": 716495,
+    "preview480": 14704,
+    "preview960": 36306
+  },
+  {
+    "pet": "sol",
+    "original": 712090,
+    "preview480": 18826,
+    "preview960": 45818
+  },
+  {
+    "pet": "terra",
+    "original": 851188,
+    "preview480": 21010,
+    "preview960": 50484
+  },
+  {
+    "pet": "spiral",
+    "original": 871051,
+    "preview480": 24558,
+    "preview960": 59670
+  },
+  {
+    "pet": "wisp",
+    "original": 821274,
+    "preview480": 18058,
+    "preview960": 43000
+  }
+]

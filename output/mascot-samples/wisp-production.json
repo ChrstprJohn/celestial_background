@@ -1,0 +1,8 @@
+{
+  "name": "Wisp",
+  "status": "Integrated into Cosmic pets gallery",
+  "source": "output/mascot-samples/wisp-concept.png",
+  "output": "public/pets/wisp.png",
+  "tool": "Built-in image_gen",
+  "prompt": "Edit this exact approved Wisp cosmic pet image for web production. Change ONLY the two eye interiors: remove both dark violet pupils and all their white catchlights, filling those small areas with the surrounding warm cream eye color and its gentle shading so both eyes are completely blank cream ovals. Preserve the eye oval boundaries and exact positions. Keep every other pixel and feature unchanged as closely as possible: same lavender cloud body, pale cyan wisps, forehead star, smile, exact silhouette, composition, proportions, lighting, colors, square canvas and transparent margins. Do not redesign, recenter, crop, add features or change expression. Preserve genuine transparent background. No text."
+}
