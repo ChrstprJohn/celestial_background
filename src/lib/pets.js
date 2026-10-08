@@ -55,6 +55,11 @@ export const PETS = [
     image: '/pets/spiral.png',
     eyes: [{ x: 41.1, y: 48.5, width: 9.6, height: 12.8 }, { x: 59.2, y: 49.2, width: 9.7, height: 12.8 }],
   },
+  {
+    id: 'wisp', name: 'Wisp', description: 'A little cloud of cosmic dust keeping a newborn star close.',
+    image: '/pets/wisp.png',
+    eyes: [{ x: 40.95, y: 62.72, width: 12.4, height: 18.2 }, { x: 60.49, y: 62.64, width: 12.3, height: 18.2 }],
+  },
 ]
 
 // A continuous direction, with a small neutral area and an elliptical travel limit.

@@ -1,0 +1,9 @@
+{
+  "name": "Quasar",
+  "status": "Preview only; awaiting user's instruction to integrate",
+  "tool": "Built-in image_gen",
+  "reference": "public/pets/terra.png (style reference only)",
+  "output": "output/mascot-samples/quasar-concept.png",
+  "transparent_background": true,
+  "prompt": "Use case: stylized-concept. Asset type: preview concept for Celestial cosmic pets gallery, not yet integrated. Create one adorable personified quasar named Quasar, a plush rounded lavender cosmic core wearing a broad soft peach-gold luminous accretion halo around its middle, with two short soft cyan starlight jets rising above and below. Smooth softly shaded illustration matching the supplied cosmic pet reference's simple rounded heavy forms and friendly face. Large cream oval eyes with dark violet pupils and small catchlights, tiny curved smile, no limbs, no text. Single character centered in a square frame, generous transparent margin, fully visible halo and jets. Restrained details, clean silhouette readable at thumbnail size; no background scene, no scattered stars, no labels, no watermark. Input image is a style reference only: change the subject from Earth to a quasar. Genuine transparent background."
+}

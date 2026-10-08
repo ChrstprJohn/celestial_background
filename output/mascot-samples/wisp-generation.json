@@ -1,0 +1,12 @@
+{
+  "name": "Wisp",
+  "status": "Preview only; not integrated",
+  "tool": "Built-in image_gen",
+  "output": "output/mascot-samples/wisp-concept.png",
+  "references": [
+    "public/pets/comet.png",
+    "public/pets/aurora.png"
+  ],
+  "transparent_background": true,
+  "prompt": "Use case: stylized-concept. Asset type: new cosmic pet concept for the existing Celestial gallery, preview only. Input image 1 (Comet) and input image 2 (Aurora) are STYLE REFERENCES. Match their very simple smooth softly shaded rounded forms, lavender and pale cyan colors, small dark-violet curved smile, and minimal detail exactly. Create a NEW astronomical character named Wisp: a personified compact cloud of interstellar dust gently gathering around a newborn star. Its silhouette is a rounded pear-shaped lavender puff, with three broad pillowy lobes at the crown and two short pale-cyan wisps curling upward along the sides, all connected as one clean cohesive body. A single small softly glowing cream four-point star is embedded above its face like a tiny forehead marking. Two large vertical cream oval eyes with small centered dark violet oval pupils, tiny white catchlights; a tiny curved smile. Keep the face front-facing, evenly placed, calm and curious. This is a cosmic dust cloud, not an animal, ghost, Earth, moon, ringed planet or comet. No arms or legs. Use broad uninterrupted color surfaces and gentle dimensional shading, as in the references; no grain, realistic texture, craters, eyelashes, eyebrows, complex galaxy photographs, busy sparkles, jewelry, or extra objects. One character centered, square framing, fully visible with 10 percent transparent margins, crisp soft organic edges, readable as a small gallery thumbnail. Genuine transparent background. No words, labels, watermark, background scene or cast shadow."
+}
