@@ -4,15 +4,15 @@ import HeroScene from './HeroScene.jsx'
 import DiscoveryArt from './DiscoveryArt.jsx'
 import { EXTRA_DISCOVERIES } from './lib/discoveries.js'
 import useScrollReveal from './useScrollReveal.js'
+import CardObjectPreview from './CardObjectPreview.jsx'
 import { GALAXY_IMAGE as galaxyImage, SHUFFLE_IMAGE } from './lib/featured.js'
-import { PLANETS } from './lib/planets.js'
-import { PETS } from './lib/pets.js'
+import { PETS, pupilOffset } from './lib/pets.js'
 
 const MoonVisual = lazy(() => import('./MoonVisual.jsx'))
-const PlanetScene = lazy(() => import('./PlanetScene.jsx'))
+const MoonMatchPreview = lazy(() => import('./MoonMatchPreview.jsx'))
 
 const services = [
-  { title: 'Your birthday.', emphasis: 'Your picture.', description: 'Enter your birthday to see NASA’s picture from that date, or shuffle for a surprise.', href: '/birthday', action: 'Find my birthday picture', art: 'galaxy' },
+  { title: 'Your birthday.', emphasis: 'Your picture.', description: 'Enter your birthday to see NASA’s picture from that date.', href: '/birthday', action: 'Find my birthday picture', art: 'galaxy' },
   { title: 'Moon phase', description: 'See the Moon’s phase for any date you choose.', href: '/moon', action: 'Find your Moon', art: 'moon' },
   ...['/moon-match', '/cosmic-age', '/build-your-planet'].flatMap((href) => EXTRA_DISCOVERIES.filter((service) => service.enabled && service.href === href)),
   { title: 'Cosmic pets', description: 'Meet a little collection of curious cosmic companions.', href: '/pets', action: 'Meet the pets', art: 'pets' },
@@ -22,23 +22,48 @@ const services = [
 
 function PetsArt() {
   const pet = PETS[0]
-  return <div className="service-pet-preview">
+  const portrait = useRef(null)
+  useEffect(() => {
+    const container = portrait.current
+    const card = container.closest('.service-card')
+    const eyes = [...container.querySelectorAll('.pet-eye')]
+    const enabled = window.matchMedia('(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)')
+    let frame = 0
+    let pointer
+    function paint() {
+      frame = 0
+      for (const eye of eyes) {
+        const rect = eye.getBoundingClientRect()
+        const offset = pointer ? pupilOffset(pointer.x - rect.left - rect.width / 2, pointer.y - rect.top - rect.height / 2, rect.width, rect.height) : { x: 0, y: 0 }
+        eye.firstElementChild.style.transform = `translate(${offset.x}px, ${offset.y}px)`
+      }
+    }
+    function move(event) {
+      if (!enabled.matches || event.pointerType !== 'mouse') return
+      pointer = { x: event.clientX, y: event.clientY }
+      if (!frame) frame = requestAnimationFrame(paint)
+    }
+    function reset() { pointer = null; cancelAnimationFrame(frame); paint() }
+    card.addEventListener('pointermove', move, { passive: true })
+    card.addEventListener('pointerleave', reset)
+    enabled.addEventListener('change', reset)
+    window.addEventListener('blur', reset)
+    return () => {
+      cancelAnimationFrame(frame)
+      card.removeEventListener('pointermove', move)
+      card.removeEventListener('pointerleave', reset)
+      enabled.removeEventListener('change', reset)
+      window.removeEventListener('blur', reset)
+    }
+  }, [])
+  return <div ref={portrait} className="service-pet-preview">
     <img src={`/pets/${pet.id}-480.webp`} srcSet={`/pets/${pet.id}-480.webp 480w, /pets/${pet.id}-960.webp 960w`} sizes="(max-width: 600px) 45vw, 300px" alt="" width="1254" height="1254" loading="lazy" decoding="async" />
     <div className="pet-eyes">{pet.eyes.map((eye, index) => <span key={index} className="pet-eye" style={{ left: `${eye.x}%`, top: `${eye.y}%`, width: `${eye.width}%`, height: `${eye.height}%` }}><span className="pet-pupil" /></span>)}</div>
   </div>
 }
 
 function SolarSystemArt() {
-  const host = useRef(null)
-  const [visible, setVisible] = useState(false)
-  useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) { setVisible(true); observer.disconnect() }
-    }, { rootMargin: '100px' })
-    observer.observe(host.current)
-    return () => observer.disconnect()
-  }, [])
-  return <div ref={host} className="service-planet-preview">{visible && <Suspense fallback={null}><PlanetScene planet={PLANETS[5]} decorative /></Suspense>}</div>
+  return <div className="saturn-card-fallback" />
 }
 
 function NearViewport({ children }) {
@@ -93,6 +118,18 @@ function ShowcaseSection() {
 
 export default function LandingPage() {
   const landing = useScrollReveal()
+  useEffect(() => {
+    // The landing route is lazy-loaded, so the browser's initial anchor lookup
+    // can happen before Explore exists. Restore it after React mounts the page.
+    function restoreExplore() {
+      if (window.location.hash === '#services') {
+        landing.current?.querySelector('#services')?.scrollIntoView({ block: 'start', behavior: 'instant' })
+      }
+    }
+    restoreExplore()
+    window.addEventListener('hashchange', restoreExplore)
+    return () => window.removeEventListener('hashchange', restoreExplore)
+  }, [landing])
   return (
     <div ref={landing} className="landing-content">
       <section className="landing-hero" aria-labelledby="hero-title">
@@ -115,7 +152,9 @@ export default function LandingPage() {
           {services.map(({ title, emphasis, description, href, action, art }) => (
             <a key={href} href={href} className="service-card" data-scroll-reveal>
               <div className={`service-art${art === 'moon' ? ' service-art-moon' : ''}`} aria-hidden="true">
-                {art === 'moon-match' ? <NearViewport><div className="match-card-preview"><MoonVisual fraction={.5} waxing decorative /><MoonVisual fraction={.5} waxing={false} decorative /></div></NearViewport> : art === 'moon' ? <NearViewport><MoonVisual fraction={.218} waxing decorative /></NearViewport> : art === 'planets' ? <SolarSystemArt /> : art === 'pets' ? <PetsArt /> : art === 'galaxy' || art === 'shuffle' ? <img className="service-photo" src={art === 'shuffle' ? SHUFFLE_IMAGE : galaxyImage} alt="" loading="lazy" decoding="async" /> : <DiscoveryArt type={art} />}
+                <CardObjectPreview type={art}>
+                  {art === 'moon-match' ? <NearViewport><MoonMatchPreview /></NearViewport> : art === 'moon' ? <NearViewport><MoonVisual fraction={.218} waxing decorative /></NearViewport> : art === 'planets' ? <SolarSystemArt /> : art === 'pets' ? <PetsArt /> : art === 'galaxy' || art === 'shuffle' ? <img className="service-photo" src={art === 'shuffle' ? SHUFFLE_IMAGE : galaxyImage} alt="" loading="lazy" decoding="async" /> : <DiscoveryArt type={art} />}
+                </CardObjectPreview>
               </div>
               <div className="service-copy"><h3>{title}{emphasis && <><br /><em>{emphasis}</em></>}</h3><p>{description}</p><span>{action} <ArrowRight size={18} aria-hidden="true" /></span></div>
             </a>

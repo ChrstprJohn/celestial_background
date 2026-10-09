@@ -1,10 +1,21 @@
 .moon-result .moon-stage:not(.moon-stage-decorative) {
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   max-width: none;
   height: clamp(320px, calc(100svh - 370px), 520px);
   aspect-ratio: auto;
+}
+
+/* Keep the bitmap square even when the stage is a wide desktop rectangle. */
+.moon-result .moon-canvas {
+  width: auto;
+  height: 100%;
+  max-width: 100%;
+  aspect-ratio: 1;
+  object-fit: contain;
+  flex: 0 1 auto;
 }
 
 @media (max-width: 767px) {

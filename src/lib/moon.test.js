@@ -1,7 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { MOON_END, MOON_START, moonForDate, validateMoonDate } from './moon.js'
-import { drawMoon } from './moon-render.js'
+import { drawMoon, drawMoonMatch } from './moon-render.js'
 
 test('Moon dates accept historical birthdays and future dates, reject invalid dates and bounds', () => {
   for (const date of [MOON_START, MOON_END, '1969-07-20', '2024-02-29', '2099-12-31']) assert.equal(validateMoonDate(date), '')
@@ -52,4 +52,28 @@ test('Moon shading reverses between waxing and waning and keeps the background t
   assert.ok(rendered[left] < 10 && rendered[right] < 10)
   drawMoon(canvas, texture, 1, true)
   assert.ok(rendered[left] > 100 && rendered[right] > 100)
+})
+
+test('combining phases preserves gaps and lights opposite sides only when the phases complement', () => {
+  function surface() {
+    let frame
+    const context = {
+      createImageData: (width, height) => ({ data: new Uint8ClampedArray(width * height * 4) }),
+      putImageData: (image) => { frame = { data: new Uint8ClampedArray(image.data) } },
+      getImageData: () => ({ data: new Uint8ClampedArray(frame.data) }),
+    }
+    return { width: 64, height: 64, getContext: () => context }
+  }
+  const a = surface(), b = surface(), combined = surface()
+  const texture = { width: 16, height: 8, data: new Uint8ClampedArray(16 * 8 * 4).fill(200) }
+  const left = (32 * 64 + 16) * 4
+  const right = (32 * 64 + 48) * 4
+  drawMoonMatch(a, b, combined, texture, { fraction: .5, waxing: true }, { fraction: .5, waxing: true })
+  const same = combined.getContext('2d').getImageData().data
+  assert.ok(same[left] < 10, 'identical phases must keep their unlit side dark')
+  assert.ok(same[right] > 100)
+  drawMoonMatch(a, b, combined, texture, { fraction: .5, waxing: true }, { fraction: .5, waxing: false })
+  const opposite = combined.getContext('2d').getImageData().data
+  assert.ok(opposite[left] > 100 && opposite[right] > 100)
+  assert.equal(opposite[3], 0, 'the area outside the Moon stays transparent')
 })

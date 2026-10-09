@@ -4,7 +4,7 @@ import DiscoveryLayout, { ArtDownload, SourceNote } from './DiscoveryLayout.jsx'
 import DatePicker from './DatePicker.jsx'
 import { localToday, moonForDate, MOON_START } from './lib/moon.js'
 import { formatDate } from './lib/dates.js'
-import { drawMoon, loadMoonTexture } from './lib/moon-render.js'
+import { drawMoonMatch, loadMoonTexture } from './lib/moon-render.js'
 import { moonMatch } from './lib/moon-match.js'
 import { saveCanvasPng } from './lib/art-export.js'
 import { drawCollectibleBorder } from './lib/collectible-card.js'
@@ -44,13 +44,7 @@ export default function MoonMatchPage() {
     readyDates.current = ''
     loadMoonTexture().then((texture) => {
       if (!active) return
-      drawMoon(firstCanvas.current, texture, first.fraction, first.waxing)
-      drawMoon(secondCanvas.current, texture, second.fraction, second.waxing)
-      const ctx = combinedCanvas.current.getContext('2d')
-      const a = firstCanvas.current.getContext('2d').getImageData(0, 0, 480, 480)
-      const b = secondCanvas.current.getContext('2d').getImageData(0, 0, 480, 480)
-      for (let i = 0; i < a.data.length; i++) a.data[i] = Math.max(a.data[i], b.data[i])
-      ctx.putImageData(a, 0, 0)
+      drawMoonMatch(firstCanvas.current, secondCanvas.current, combinedCanvas.current, texture, first, second)
       readyDates.current = datesKey
       setStatus('ready')
     }).catch(() => { if (active) setStatus('error') })

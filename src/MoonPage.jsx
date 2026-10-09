@@ -23,7 +23,7 @@ export default function MoonPage() {
   return (
     <section className="moon-workspace" aria-labelledby="moon-title">
       <div className="moon-controls">
-        <a className="back-link" href="/#services"><ArrowLeft size={16} aria-hidden="true" /> Explore</a>
+        <a className="back-link" href="/#services"><ArrowLeft size={20} aria-hidden="true" /> Back</a>
         <h1 id="moon-title">Moon <em>phase.</em></h1>
         <p className="moon-description">A familiar world. A moment that’s yours.</p>
         <div id="moon-form" className="moon-form">

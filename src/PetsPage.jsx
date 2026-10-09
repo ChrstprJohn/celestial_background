@@ -235,7 +235,7 @@ export default function PetsPage() {
   return (
     <section className="pets-page" aria-labelledby="pets-title">
       <div className="pets-intro">
-        <a className="back-link" href="/"><ArrowLeft size={16} aria-hidden="true" /> Back to the stars</a>
+        <a className="back-link" href="/#services"><ArrowLeft size={20} aria-hidden="true" /> Back</a>
         <div className="pets-heading-row">
           <div><h1 id="pets-title">Cosmic <em>pets.</em></h1><p>Meet your little collection of cosmic companions.</p></div>
           <button className="pets-pause" type="button" aria-pressed={paused} onClick={() => setPaused(value => !value)}>

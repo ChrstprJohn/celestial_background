@@ -39,7 +39,7 @@ export default function ShufflePage() {
   return (
     <section className="shuffle-workspace" aria-labelledby="shuffle-title">
       <div className="shuffle-controls">
-        <a className="back-link" href="/#services"><ArrowLeft size={16} aria-hidden="true" /> Explore</a>
+        <a className="back-link" href="/#services"><ArrowLeft size={20} aria-hidden="true" /> Back</a>
         <h1 id="shuffle-title">Cosmic <em>shuffle.</em></h1>
         <p className="shuffle-description">Let the universe surprise you.</p>
         <button id="shuffle-button" className="primary-button lookup-button shuffle-button" type="button" onClick={surprise} disabled={loading}>{loading ? <>Finding a discovery <LoaderCircle className="loading-icon" size={18} aria-hidden="true" /></> : <>Surprise me <Shuffle size={18} aria-hidden="true" /></>}</button>

@@ -9,27 +9,6 @@ export default function MoonVisual({ fraction, waxing, label, decorative = false
   const [attempt, setAttempt] = useState(0)
 
   useEffect(() => {
-    if (decorative) return
-    const surface = canvas.current
-    const stage = surface.parentElement
-    function resize() {
-      const { width, height } = stage.getBoundingClientRect()
-      if (!width || !height) return
-      // Match the solar-system globe's default perspective fit (36° field of view).
-      const tangent = Math.tan(Math.PI / 10)
-      const radius = Math.max(1.12, 1.12 * height / width)
-      const distance = Math.hypot(0.24, 1) * radius / tangent * 1.1
-      const diameter = height / (tangent * Math.sqrt(distance ** 2 - 1))
-      // The textured disc occupies 92% of the square Moon canvas.
-      surface.style.width = `${diameter / 0.92}px`
-    }
-    const observer = new ResizeObserver(resize)
-    observer.observe(stage)
-    resize()
-    return () => observer.disconnect()
-  }, [decorative])
-
-  useEffect(() => {
     let active = true
     loadMoonTexture().then((texture) => {
       if (!active) return
