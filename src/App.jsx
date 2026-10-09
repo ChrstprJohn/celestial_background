@@ -9,6 +9,7 @@ import LocationSharing from './LocationSharing.jsx'
 import './discovery-headings.css'
 import './solar-system.css'
 import './pet-eyes.css'
+import './mobile-workspaces.css'
 
 const LandingPage = lazy(() => import('./LandingPage.jsx'))
 const MoonPage = lazy(() => import('./MoonPage.jsx'))
@@ -49,7 +50,7 @@ export default function App() {
       <Starfield />
       <ShootingStars />
       <PreviewCursor />
-      <a href={ExtraPage ? '#discovery-controls' : isBirthday ? '#birthday' : isMoon ? '#moon-form' : isShuffle ? '#shuffle-button' : isSolar ? '#planet-showcase' : isPets ? '#pets-gallery' : '#services'} className="skip-link">{ExtraPage ? 'Skip to discovery controls' : isBirthday ? 'Skip to birthday lookup' : isMoon ? 'Skip to Moon lookup' : isShuffle ? 'Skip to shuffle' : isSolar ? 'Skip to planet showcase' : isPets ? 'Skip to pets' : 'Skip to explore'}</a>
+      <a href={ExtraPage ? '#discovery-controls' : isBirthday ? '#birthday' : isMoon ? '#moon-form' : isShuffle ? '#shuffle-button' : isSolar ? '#planet-selection' : isPets ? '#pets-gallery' : '#services'} className="skip-link">{ExtraPage ? 'Skip to discovery controls' : isBirthday ? 'Skip to birthday lookup' : isMoon ? 'Skip to Moon lookup' : isShuffle ? 'Skip to shuffle' : isSolar ? 'Skip to planet selection' : isPets ? 'Skip to pets' : 'Skip to explore'}</a>
       <header className="site-header">
         <a className="wordmark" href="/" aria-label="Celestial home"><Orbit size={27} strokeWidth={1.2} aria-hidden="true" /><span>celestial</span></a>
         <nav aria-label="Main navigation"><a href={isDiscovery ? '/#services' : '#services'}>Explore <ArrowUpRight size={15} aria-hidden="true" /></a></nav>

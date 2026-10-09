@@ -1,0 +1,120 @@
+.mobile-controls-title, .mobile-preview-label { display: none; }
+.mobile-controls-title + label { margin-top: 0; }
+.match-preview > .match-score { margin-top: 32px; text-align: center; }
+
+@media (max-width: 767px), (max-width: 1023px) and (max-height: 500px) {
+  .mobile-workspace {
+    --mobile-stage-height: clamp(100px, 26svh, 220px);
+    --mobile-preview-offset: calc(var(--mobile-stage-height) + 116px);
+  }
+  .mobile-workspace.discovery-workspace, .mobile-workspace.solar-workspace {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 16px 24px 48px;
+  }
+  .mobile-workspace .discovery-sidebar, .mobile-workspace .planet-mobile-intro {
+    order: 0;
+    align-self: center;
+    width: 100%;
+    max-width: 480px;
+    margin-bottom: 16px;
+  }
+  .mobile-workspace .back-link { min-height: 44px; margin-bottom: 8px; }
+  .mobile-workspace .discovery-sidebar h1, .mobile-workspace .planet-introduction h1 { font-size: clamp(30px, 8.5vw, 36px); line-height: 1.1; }
+  .mobile-workspace h1 br { display: none; }
+  .mobile-workspace h1 em::before { content: ' '; }
+  .mobile-workspace .discovery-description, .mobile-workspace .planet-description { margin-top: 8px; max-width: 38ch; font-size: 13px; line-height: 1.7; }
+  .mobile-workspace .planet-subtitle { margin-top: 6px; font-size: 24px; }
+
+  /* Each preview is a direct flex item, so it stays pinned throughout the
+     controls and result details rather than stopping at a short result row. */
+  .mobile-workspace .discovery-result, .mobile-workspace .planet-sidebar { display: contents; }
+  .mobile-workspace .mobile-preview {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    order: 1;
+    width: calc(100% + 48px);
+    max-width: none;
+    margin-inline: -24px;
+    padding: 10px 24px 14px;
+    background: #070b17;
+    border-bottom: 1px solid #282e44;
+  }
+  .mobile-preview > :is(.builder-planet, .age-planet, .planet-viewer, .art-caption, .age-caption, .moon-match-visual) { max-width: 480px; margin-inline: auto; }
+  .mobile-workspace .mobile-preview .planet-stage { height: var(--mobile-stage-height); }
+  .mobile-preview .builder-planet, .mobile-preview .age-planet { min-height: var(--mobile-stage-height); }
+  .mobile-preview .planet-rotation-hint { position: absolute; top: 0; left: 0; right: 0; z-index: 1; margin: 0; font-size: 12px; pointer-events: none; }
+  .mobile-preview .planet-rotation-hint svg { width: 15px; height: 15px; }
+  .mobile-preview .planet-view-controls { position: absolute; right: 0; bottom: 0; padding: 0; }
+  .mobile-preview .planet-drag-hint { display: none; }
+  .mobile-preview .planet-control-buttons { gap: 0; background: #101528; border: 1px solid #282e44; border-radius: 6px; }
+  .mobile-preview .planet-control-buttons button { width: 44px; height: 44px; }
+  .mobile-workspace .mobile-preview .art-caption { margin-top: 8px; }
+  .mobile-preview .art-caption h2 { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; font-size: 24px; line-height: 1.15; overflow-wrap: anywhere; }
+  .mobile-preview .art-caption p { margin-top: 4px; font-size: 11px; }
+  .mobile-preview .age-number { margin-top: 8px; font-size: 34px; line-height: 1.2; }
+  .mobile-preview .age-number > span { display: inline; margin-top: 0; font-family: var(--font-sans); font-size: 16px; }
+  .mobile-workspace .mobile-preview-label { display: block; margin-top: 8px; font-family: var(--font-display); font-size: 24px; line-height: 1.2; text-align: center; }
+
+  .mobile-workspace > .discovery-controls, .mobile-workspace .planet-selection {
+    order: 2;
+    align-self: center;
+    width: 100%;
+    max-width: 480px;
+    min-width: 0;
+    margin-top: 0;
+    padding-top: 22px;
+  }
+  .mobile-workspace .mobile-controls-title { display: block; margin-bottom: 20px; font-family: var(--font-sans); font-size: 16px; font-weight: 500; line-height: 1.4; }
+  .mobile-workspace .planet-selector-label { margin: 0 0 12px; font-size: 16px; font-weight: 500; }
+  .mobile-workspace .discovery-result > :not(.mobile-preview), .mobile-workspace .planet-details {
+    order: 3;
+    align-self: center;
+    width: 100%;
+    max-width: 480px;
+    min-width: 0;
+  }
+  .mobile-workspace .discovery-result > .discovery-note { margin-top: 20px; }
+  .mobile-workspace .art-download-wrap > button { width: 100%; }
+  .mobile-workspace .match-actions { align-items: stretch; }
+  .mobile-workspace .match-actions .art-download-wrap { flex: 1 1 100%; }
+  .mobile-workspace .planet-details { margin-top: 24px; }
+  .mobile-workspace .gravity-results { margin-top: 24px; }
+  .mobile-workspace .gravity-results h2 { font-size: 30px; }
+  .mobile-workspace :is(input, button, a, select, summary, [tabindex]) { scroll-margin-top: var(--mobile-preview-offset); }
+  .mobile-workspace input[type="range"] { touch-action: pan-y; }
+  .mobile-workspace .planet-selection:focus { outline: none; }
+  /* Above-field popovers would sit behind the pinned preview. Keep calendars
+     in the page flow so all six weeks and the Done button remain reachable. */
+  .mobile-workspace .date-calendar { position: relative; top: auto !important; bottom: auto !important; margin-top: 10px; }
+
+  .mobile-workspace .match-preview { --moon-size: clamp(70px, 18svh, 140px); --mobile-preview-offset: calc(var(--moon-size) + 160px); }
+  .mobile-workspace:has(.match-preview) { --mobile-preview-offset: calc(clamp(70px, 18svh, 140px) + 160px); }
+  .match-preview .moon-match-visual { min-height: calc(var(--moon-size) + 86px); gap: 12px; }
+  .match-preview .moon-match-visual canvas { display: block; width: var(--moon-size); max-width: 100%; height: auto; margin-inline: auto; }
+  .match-preview .moon-match-visual h2 { font-size: 18px; margin-top: 4px; }
+  .match-preview .moon-match-visual figcaption span { display: block; margin-top: 6px; font-size: 11px; line-height: 1.5; }
+  .match-preview .moon-match-visual figcaption p { margin-top: 4px; font-size: 11px; line-height: 1.5; }
+  .match-preview .moon-match-visual.is-combined .match-moon, .match-preview .moon-match-visual.is-combined .match-combined { width: var(--moon-size); }
+  .match-preview .moon-match-visual.is-combined .match-combined figcaption { width: min(280px, calc(100vw - 48px)); position: relative; left: 50%; transform: translateX(-50%); }
+  .mobile-workspace .match-preview > .match-score { margin-top: 8px; font-size: 28px; line-height: 1.2; }
+  .match-preview .match-score span { display: inline; font-size: 12px; margin-top: 0; }
+  .mobile-workspace .match-summary { margin-top: 20px; }
+  .mobile-workspace .gravity-preview .gravity-stage { display: block; height: var(--mobile-stage-height); max-width: 480px; margin: 0 auto; }
+  .gravity-preview .gravity-status { margin: 6px auto 0; max-width: 40ch; font-size: 12px; line-height: 1.5; }
+  .gravity-preview .gravity-stage text { font-size: 26px; }
+  .gravity-preview .gravity-stage .gravity-world-name { font-size: 32px; }
+}
+
+@media (max-width: 767px) {
+  .site-header { height: 68px; }
+  .site-header :is(.wordmark, nav a) { min-height: 44px; }
+  .wordmark { font-size: 23px; }
+  .site-shell :is(.birthday-controls, .moon-controls, .shuffle-controls) h1 { font-size: clamp(36px, 10vw, 48px); }
+  .birthday-workspace, .moon-workspace, .shuffle-workspace { padding-top: 20px; }
+  .birthday-description, .moon-description, .shuffle-description { margin-top: 12px; }
+  .birthday-controls .back-link, .moon-controls .back-link, .shuffle-controls .back-link { min-height: 44px; margin-bottom: 16px; }
+}

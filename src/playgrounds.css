@@ -17,8 +17,9 @@
 .palette-colors i { width: 9px; height: 27px; }
 .builder-planet .planet-stage { height: clamp(360px,40vw,530px); }
 .builder-planet + .art-caption { margin-top: 26px; }
-.builder-planet ~ .art-download-wrap { text-align: center; }
-.builder-planet ~ .art-download-wrap .export-preview summary { justify-content: center; }
+.builder-preview + .art-download-wrap { text-align: center; }
+.builder-preview + .art-download-wrap .export-preview summary { justify-content: center; }
+
 @media (min-width: 768px) and (min-height: 700px) {
   .discovery-workspace[aria-labelledby="world-builder-title"] .discovery-result { position: sticky; top: 24px; }
 }
@@ -30,7 +31,6 @@
 .gravity-results h2 { font-size: 36px; }
 .gravity-results .space-facts { margin-top: 16px; }
 @media (max-width: 767px) {
-  .builder-planet .planet-stage { height: clamp(280px,90vw,430px); }
   .gravity-stage { margin-top: 0; }
   .gravity-stage text { font-size: 26px; }
   .gravity-stage .gravity-world-name { font-size: 38px; }
