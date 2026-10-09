@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { ArrowLeft, ArrowUpRight, ChevronDown } from 'lucide-react'
 import PlanetScene from './PlanetScene.jsx'
-import { PLANETS, PLANET_FACTS_SOURCE, TEXTURE_SOURCE, findPlanet, planetTexture } from './lib/planets.js'
+import { PLANETS, TEXTURE_SOURCE, findPlanet, planetTexture } from './lib/planets.js'
 
 export default function SolarSystemPage() {
   const [planet, setPlanet] = useState(() => findPlanet(new URLSearchParams(window.location.search).get('planet')))
@@ -55,7 +55,7 @@ export default function SolarSystemPage() {
         </dl>
         <PlanetStory planet={planet} />
         <div className="planet-sources">
-          <div><a href={PLANET_FACTS_SOURCE} target="_blank" rel="noreferrer">Facts: NASA <ArrowUpRight size={12} aria-hidden="true" /></a><a href={TEXTURE_SOURCE} target="_blank" rel="noreferrer">Textures: Solar System Scope · CC BY 4.0 <ArrowUpRight size={12} aria-hidden="true" /></a></div>
+          <div><a href={TEXTURE_SOURCE} target="_blank" rel="noreferrer">Textures: Solar System Scope · CC BY 4.0 <ArrowUpRight size={12} aria-hidden="true" /></a></div>
         </div>
       </section>
     </section>
@@ -66,6 +66,5 @@ function PlanetStory({ planet }) {
   return <details key={planet.id} className="planet-story">
     <summary>About {planet.name} <ChevronDown size={16} aria-hidden="true" /></summary>
     <p>{planet.story}</p>
-    <a className="source-link" href={`https://science.nasa.gov/${planet.id}/facts/`} target="_blank" rel="noreferrer">Explore {planet.name} with NASA <ArrowUpRight size={13} aria-hidden="true" /></a>
   </details>
 }

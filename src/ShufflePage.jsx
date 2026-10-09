@@ -53,7 +53,7 @@ export default function ShufflePage() {
           </div>
           <figcaption className="shuffle-details" aria-live="polite" aria-atomic="true"><p className="result-date">{formatDate(result.date)}</p><h2>{result.title}</h2></figcaption>
         </figure>
-        <div className="result-attribution shuffle-attribution"><a className="source-link" href={result.source} target="_blank" rel="noreferrer">NASA original <ArrowUpRight size={14} aria-hidden="true" /></a>{result.credit && <p className="image-credit">{result.credit}</p>}</div>
+        {result.credit && <div className="result-attribution shuffle-attribution"><p className="image-credit">{result.credit}</p></div>}
       </div>
     </section>
   )

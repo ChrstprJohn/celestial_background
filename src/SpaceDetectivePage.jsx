@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react'
 import DiscoveryPlanet from './DiscoveryPlanet.jsx'
 import { ArrowRight, Lightbulb, RotateCcw } from 'lucide-react'
-import DiscoveryLayout, { SourceNote } from './DiscoveryLayout.jsx'
+import DiscoveryLayout from './DiscoveryLayout.jsx'
 import MoonVisual from './MoonVisual.jsx'
 import { PLANETS } from './lib/planets.js'
 import { shuffledQuestions } from './lib/detective.js'
@@ -39,7 +39,7 @@ export default function SpaceDetectivePage() {
     {finished ? <div className="quiz-complete"><svg viewBox="0 0 400 400" aria-hidden="true"><circle cx="200" cy="200" r="128" fill="none" stroke="#3f4664" /><path d="M200 65 228 172 335 200 228 228 200 335 172 228 65 200 172 172Z" fill="#c9c1f0" /><circle cx="70" cy="80" r="4" fill="#f3f0e9" /><circle cx="330" cy="320" r="5" fill="#f3f0e9" /></svg><h2>Keep looking up.</h2></div> : <>
       <div className="quiz-art" aria-label="Mystery image or astronomy model" key={question.id}>
         {question.planet ? <DiscoveryPlanet planet={PLANETS.find((item) => item.id === question.planet)} /> : question.moon ? <MoonVisual fraction={.65} waxing label="A mystery astronomical object" /> : photoFailed ? <div className="discovery-empty"><p>The mystery image couldn’t load.</p><button className="secondary-button" onClick={() => setPhotoFailed(false)}>Try again</button></div> : <img src={question.image} alt="Mystery astronomy photograph: identify the object using its visible features." onError={() => setPhotoFailed(true)} />}
-      </div><p className="discovery-note">{question.image ? 'Astronomy photograph' : 'Illustrative astronomy model'}</p>{choice !== null && <><SourceNote href={question.source}>Learn about this discovery</SourceNote>{question.credit && <p className="discovery-note">Image credit: {question.credit}</p>}</>}
+      </div><p className="discovery-note">{question.image ? 'Astronomy photograph' : 'Illustrative astronomy model'}</p>{choice !== null && question.credit && <p className="discovery-note">Image credit: {question.credit}</p>}
     </>}
   </DiscoveryLayout>
 }

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { ArrowLeft, ArrowUpRight, LoaderCircle, Orbit, Telescope } from 'lucide-react'
+import { ArrowLeft, LoaderCircle, Orbit, Telescope } from 'lucide-react'
 import axios from 'axios'
 import { fetchApod } from './lib/apod.js'
 import { ARCHIVE_START, nasaToday, validateDate } from './lib/dates.js'
@@ -18,7 +18,7 @@ function VideoResult({ entry }) {
   return (
     <div className="video-result">
       {entry.mediaType === 'video' && entry.video ? <iframe className="result-video" src={entry.video} title={entry.title} allow="fullscreen; encrypted-media; picture-in-picture" allowFullScreen referrerPolicy="strict-origin-when-cross-origin" /> : <Telescope size={40} strokeWidth={1.2} aria-hidden="true" />}
-      <p className="media-note">NASA shared {entry.mediaType === 'video' ? 'a video' : 'an image available on its website'} on this date. Open the original below.</p>
+      <p className="media-note">{entry.mediaType === 'video' ? 'This date features a video.' : 'The image preview is unavailable for this date.'}</p>
     </div>
   )
 }
@@ -80,10 +80,7 @@ export default function BirthdayPage() {
       <div className="image-workspace" role="region" aria-label="NASA archive preview" tabIndex={-1} aria-busy={loading}>
         {result ? <>
           {result.mediaType === 'image' && result.image ? <BirthdayImage key={result.date} entry={result} /> : <VideoResult entry={result} />}
-          <div className="result-attribution">
-            <a className="source-link" href={result.source} target="_blank" rel="noreferrer">NASA original <ArrowUpRight size={14} aria-hidden="true" /></a>
-            {result.credit && <p className="image-credit">{result.credit}</p>}
-          </div>
+          {result.credit && <div className="result-attribution"><p className="image-credit">{result.credit}</p></div>}
         </> : <EmptyPreview loading={loading} />}
       </div>
     </section>

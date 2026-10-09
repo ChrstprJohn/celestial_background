@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { RefreshCw } from 'lucide-react'
-import DiscoveryLayout, { SourceNote } from './DiscoveryLayout.jsx'
+import DiscoveryLayout from './DiscoveryLayout.jsx'
 import DatePicker from './DatePicker.jsx'
 import AsteroidVisual from './AsteroidVisual.jsx'
 import { formatDate, nasaToday } from './lib/dates.js'
@@ -41,13 +41,13 @@ export default function CosmicNeighborsPage() {
     <p className="discovery-note" role="status">{loading ? 'Looking up NASA’s close approaches…' : result ? `${result.entries.length} recorded visitors for ${formatDate(result.date)}.` : 'Choose a date to explore the feed.'}</p>
     {error && <><p className="form-error" role="alert">{error}</p><button className="secondary-button" type="button" disabled={loading} onClick={() => discover(date)}><RefreshCw size={16} aria-hidden="true" /> Try again</button></>}
     {result?.entries.length > 0 && <><label htmlFor="asteroid-choice">Choose a visitor · nearest first</label><select id="asteroid-choice" className="text-field" value={selected || ''} onChange={(event) => setSelected(event.target.value)}>{result.entries.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></>}
-    <p className="discovery-note">“Near Earth” is an orbital classification. A close approach isn’t a prediction of an impact.</p><SourceNote href="https://api.nasa.gov/">NASA NeoWs</SourceNote>
+    <p className="discovery-note">“Near Earth” is an orbital classification. A close approach isn’t a prediction of an impact.</p>
   </>}>
     {asteroid ? <div aria-busy={loading}>
       <AsteroidVisual />
       <p className="discovery-note">Illustrative asteroid · {formatDate(result.date)}</p><h2 className="asteroid-name">{asteroid.name}</h2>
       <dl className="space-facts"><div><dt>Estimated diameter</dt><dd>{asteroid.minSize.toFixed(0)}–{asteroid.maxSize.toFixed(0)} <span>m</span></dd></div><div><dt>Closest approach</dt><dd>{asteroid.lunarDistances.toFixed(2)} <span>Moon distances</span></dd></div><div><dt>Speed relative to Earth</dt><dd>{asteroid.velocity.toLocaleString('en-US', { maximumFractionDigits: 0 })} <span>km/h</span></dd></div><div><dt>Distance from Earth</dt><dd>{asteroid.distance.toLocaleString('en-US', { maximumFractionDigits: 0 })} <span>km</span></dd></div></dl>
-      <p className="asteroid-comparison">About {Math.max(.1, size / 12).toFixed(1)} bus lengths across.</p><p className="discovery-note">Comparison uses the midpoint of NASA’s estimated diameter range and a 12-metre bus. The illustration isn’t a photograph or a measured shape.</p><SourceNote href={asteroid.source}>Explore this object at NASA JPL</SourceNote>
+      <p className="asteroid-comparison">About {Math.max(.1, size / 12).toFixed(1)} bus lengths across.</p><p className="discovery-note">Comparison uses the midpoint of NASA’s estimated diameter range and a 12-metre bus. The illustration isn’t a photograph or a measured shape.</p>
     </div> : <div className="discovery-empty" role="status">{loading ? 'Finding today’s visitors…' : result ? 'No approaches are listed for this date. Try another day.' : 'The asteroid feed will appear here when it’s available.'}</div>}
   </DiscoveryLayout>
 }
