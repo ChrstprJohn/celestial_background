@@ -11,3 +11,8 @@ export function imagePreviewUrl(source, size = 1280) {
     return url.href
   } catch { return source }
 }
+
+export function imagePreviewSources(source) {
+  if (imagePreviewUrl(source, 480) === source) return undefined
+  return [480, 800, 1280].map((size) => `${imagePreviewUrl(source, size)} ${size}w`).join(', ')
+}

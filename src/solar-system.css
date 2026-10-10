@@ -32,6 +32,16 @@
 .planet-control-buttons button:hover { border-color: #3f4664; background: #101528; }
 .planet-control-buttons button:disabled { cursor: default; opacity: .4; }
 .planet-control-buttons button:disabled:hover { border-color: transparent; background: transparent; }
+.planet-customize-link { display: inline-flex; align-items: center; gap: 7px; min-height: 44px; color: #c9c1f0; font-size: 12px; text-decoration: underline; text-underline-offset: 4px; }
+.planet-customize-link:hover { color: #f3f0e9; }
+.planet-customize-link svg { flex-shrink: 0; }
+/* Keep generous hit areas around the smaller visible zoom buttons. */
+.planet-viewer-customizable .planet-control-buttons { gap: 0; background: transparent; border: 0; }
+.planet-viewer-customizable .planet-control-buttons button { position: relative; isolation: isolate; border: 0; background: transparent; }
+.planet-viewer-customizable .planet-control-buttons button::before { content: ''; position: absolute; z-index: -1; width: 32px; height: 32px; border: 1px solid #282e44; border-radius: 6px; background: #101528; }
+.planet-viewer-customizable .planet-control-buttons button:hover::before { border-color: #3f4664; background: #1b2037; }
+.planet-viewer-customizable .planet-control-buttons button:disabled::before { border-color: #282e44; background: #101528; }
+.planet-viewer-customizable .planet-control-buttons svg { width: 15px; height: 15px; }
 .planet-facts { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 0; padding: 14px 0; border-top: 1px solid #282e44; gap: 14px 16px; }
 .planet-facts dt { font-size: 12px; color: #b5bbd0; margin-bottom: 7px; }
 .planet-facts dd { margin: 0; font-family: var(--font-display); font-size: 25px; line-height: 1.15; font-variant-numeric: tabular-nums; }

@@ -14,5 +14,5 @@ export const PLANETS = [
 
 export const PLANET_FACTS_SOURCE = 'https://nssdc.gsfc.nasa.gov/planetary/factsheet/'
 export const TEXTURE_SOURCE = 'https://www.solarsystemscope.com/textures/'
-export const planetTexture = (id) => `/textures/planets/${id}.jpg`
+export const planetTexture = (id, compact = false) => `/textures/planets/${id}${compact ? '-1024' : ''}.webp`
 export const findPlanet = (id) => PLANETS.find((planet) => planet.id === id) || PLANETS[5]

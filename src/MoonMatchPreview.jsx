@@ -6,7 +6,7 @@ import './moon-match.css'
 const first = moonForDate('2005-09-05')
 const second = moonForDate('2006-05-15')
 
-export default function MoonMatchPreview() {
+export default function MoonMatchPreview({ onReady }) {
   const host = useRef(null)
   const a = useRef(null), b = useRef(null), together = useRef(null)
   const [ready, setReady] = useState(false)
@@ -17,9 +17,11 @@ export default function MoonMatchPreview() {
       if (!active) return
       drawMoonMatch(a.current, b.current, together.current, texture, first, second)
       setReady(true)
+      setCombined(host.current.closest('.service-card').matches(':hover'))
+      onReady?.(true)
     }).catch(() => {})
     return () => { active = false }
-  }, [])
+  }, [onReady])
   useEffect(() => {
     const card = host.current.closest('.service-card')
     const motion = window.matchMedia('(min-width: 768px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)')

@@ -1,15 +1,14 @@
-import { lazy, Suspense, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { ArrowDown, ArrowRight } from 'lucide-react'
 import HeroScene from './HeroScene.jsx'
 import DiscoveryArt from './DiscoveryArt.jsx'
 import { EXTRA_DISCOVERIES } from './lib/discoveries.js'
 import useScrollReveal from './useScrollReveal.js'
 import CardObjectPreview from './CardObjectPreview.jsx'
-import { GALAXY_IMAGE as galaxyImage, SHUFFLE_IMAGE } from './lib/featured.js'
+import { SHUFFLE_IMAGE } from './lib/featured.js'
 import { PETS, pupilOffset } from './lib/pets.js'
 
-const MoonVisual = lazy(() => import('./MoonVisual.jsx'))
-const MoonMatchPreview = lazy(() => import('./MoonMatchPreview.jsx'))
+const staticPreviews = new Set(['galaxy', 'moon', 'moon-match', 'age', 'builder', 'planets', 'gravity'])
 
 const services = [
   { title: 'Your birthday.', emphasis: 'Your picture.', description: 'Enter your birthday to see NASA’s picture from that date.', href: '/birthday', action: 'Find my birthday picture', art: 'galaxy' },
@@ -62,40 +61,24 @@ function PetsArt() {
   </div>
 }
 
-function SolarSystemArt() {
-  return <div className="saturn-card-fallback" />
-}
-
-function NearViewport({ children }) {
-  const host = useRef(null)
-  const [visible, setVisible] = useState(false)
-  useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) { setVisible(true); observer.disconnect() }
-    }, { rootMargin: '200px' })
-    observer.observe(host.current)
-    return () => observer.disconnect()
-  }, [])
-  return <div ref={host} className="deferred-preview">{visible && <Suspense fallback={null}>{children}</Suspense>}</div>
-}
-
 function ShowcaseSection() {
   const video = useRef(null)
   const [active, setActive] = useState(false)
+  const [manual] = useState(() => window.matchMedia('(pointer: coarse), (prefers-reduced-motion: reduce)').matches || Boolean(navigator.connection?.saveData))
   useEffect(() => {
     const element = video.current
     let inView = false
     const update = () => {
-      if (inView && !document.hidden) {
+      if (!manual && inView && !document.hidden) {
         setActive(true)
         element.play().catch(() => {})
       } else element.pause()
     }
-    const observer = new IntersectionObserver(([entry]) => { inView = entry.isIntersecting; update() }, { rootMargin: '100px' })
+    const observer = new IntersectionObserver(([entry]) => { inView = entry.isIntersecting; update() }, { threshold: .25 })
     observer.observe(element)
     document.addEventListener('visibilitychange', update)
     return () => { observer.disconnect(); document.removeEventListener('visibilitychange', update); element.pause() }
-  }, [])
+  }, [manual])
   return (
     <section className="showcase-section" aria-labelledby="showcase-title">
       <h2 id="showcase-title" className="showcase-title" data-scroll-reveal>See it come alive.</h2>
@@ -103,9 +86,11 @@ function ShowcaseSection() {
         <video
           ref={video}
           className="showcase-video"
-          src={active ? '/brag.mp4' : undefined}
+          src={manual || active ? '/brag.mp4' : undefined}
+          poster="/previews/showcase.webp"
           preload="none"
           autoPlay={active}
+          controls={manual}
           muted
           loop
           playsInline
@@ -153,7 +138,7 @@ export default function LandingPage() {
             <a key={href} href={href} className="service-card" data-scroll-reveal>
               <div className={`service-art${art === 'moon' ? ' service-art-moon' : ''}`} aria-hidden="true">
                 <CardObjectPreview type={art}>
-                  {art === 'moon-match' ? <NearViewport><MoonMatchPreview /></NearViewport> : art === 'moon' ? <NearViewport><MoonVisual fraction={.218} waxing decorative /></NearViewport> : art === 'planets' ? <SolarSystemArt /> : art === 'pets' ? <PetsArt /> : art === 'galaxy' || art === 'shuffle' ? <img className="service-photo" src={art === 'shuffle' ? SHUFFLE_IMAGE : galaxyImage} alt="" loading="lazy" decoding="async" /> : <DiscoveryArt type={art} />}
+                  {staticPreviews.has(art) ? <img className="service-static-preview" src={`/previews/${art}.webp`} alt="" width="602" height="560" loading="lazy" decoding="async" /> : art === 'pets' ? <PetsArt /> : art === 'shuffle' ? <img className="service-photo" src={SHUFFLE_IMAGE} alt="" loading="lazy" decoding="async" /> : <DiscoveryArt type={art} />}
                 </CardObjectPreview>
               </div>
               <div className="service-copy"><h3>{title}{emphasis && <><br /><em>{emphasis}</em></>}</h3><p>{description}</p><span>{action} <ArrowRight size={18} aria-hidden="true" /></span></div>

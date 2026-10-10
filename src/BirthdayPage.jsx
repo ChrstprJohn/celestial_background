@@ -8,7 +8,7 @@ import DatePicker from './DatePicker.jsx'
 
 function EmptyPreview({ loading = false }) {
   return (
-    <div className="empty-preview">
+    <div className="empty-preview" role={loading ? 'status' : undefined}>
       {loading ? <LoaderCircle className="loading-icon" size={32} strokeWidth={1.5} aria-hidden="true" /> : <Orbit size={40} strokeWidth={1} aria-hidden="true" />}<p>{loading ? 'Loading NASA’s picture' : 'Choose a date'}</p>
     </div>
   )
@@ -30,6 +30,8 @@ export default function BirthdayPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [result, setResult] = useState(null)
+  const [imageStatus, setImageStatus] = useState('loading')
+  const busy = loading || Boolean(result?.mediaType === 'image' && result.image && imageStatus === 'loading')
   useEffect(() => {
     const controller = new AbortController()
     request.current = controller
@@ -51,6 +53,7 @@ export default function BirthdayPage() {
     const controller = new AbortController()
     request.current = controller
     setLoading(true)
+    setImageStatus('loading')
     setError('')
     try {
       const entry = await fetchApod(selectedDate, controller.signal)
@@ -77,9 +80,9 @@ export default function BirthdayPage() {
         </div>
       </div>
 
-      <div className="image-workspace" role="region" aria-label="NASA archive preview" tabIndex={-1} aria-busy={loading}>
-        {result ? <>
-          {result.mediaType === 'image' && result.image ? <BirthdayImage key={result.date} entry={result} /> : <VideoResult entry={result} />}
+      <div className="image-workspace" role="region" aria-label="NASA archive preview" tabIndex={-1} aria-busy={busy}>
+        {loading ? <EmptyPreview loading /> : result ? <>
+          {result.mediaType === 'image' && result.image ? <BirthdayImage key={result.date} entry={result} onStatusChange={setImageStatus} /> : <VideoResult entry={result} />}
           {result.credit && <div className="result-attribution"><p className="image-credit">{result.credit}</p></div>}
         </> : <EmptyPreview loading={loading} />}
       </div>

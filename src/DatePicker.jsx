@@ -72,6 +72,7 @@ export default function DatePicker({ id, name, label, value, min, max, today, on
   const [draft, setDraft] = useState(value)
   const host = useRef(null)
   const trigger = useRef(null)
+  const tabbing = useRef(false)
 
   useLayoutEffect(() => {
     if (!open) return
@@ -84,18 +85,30 @@ export default function DatePicker({ id, name, label, value, min, max, today, on
       const below = Math.max(0, height + offset - rect.bottom - 18)
       const above = Math.max(0, rect.top - offset - 18)
       const naturalHeight = calendar.scrollHeight + 2
-      const upward = below < naturalHeight && above >= naturalHeight
-      // Keep all six weeks visible. On short screens, let the page scroll
-      // around the dropdown instead of shrinking it into a clipped panel.
-      const inline = below < naturalHeight && !upward
+      const compact = window.matchMedia('(max-width: 767px), (pointer: coarse)').matches
+      const upward = !compact && below < naturalHeight && above >= naturalHeight
+      const inline = compact || (below < naturalHeight && !upward)
+      const workspace = host.current.closest('.sticky-preview-title, .sticky-moon-title')
+      const heading = workspace?.querySelector('h1')
+      const preview = workspace?.querySelector('.mobile-preview')
+      const pinnedHeight = heading && getComputedStyle(heading).position === 'sticky'
+        ? heading.getBoundingClientRect().height + (preview && getComputedStyle(preview).position === 'sticky' ? preview.getBoundingClientRect().height : 0)
+        : 0
+      // Reserve space for the pinned title/model, leaving Done on screen while
+      // dates scroll inside the calendar on short phones and landscape views.
+      const availableHeight = Math.max(140, height - pinnedHeight - 24)
       calendar.dataset.placement = inline ? 'inline' : upward ? 'above' : 'below'
+      calendar.style.maxHeight = `${Math.min(availableHeight, Math.max(180, Math.min(440, height * .6)))}px`
+      calendar.style.scrollMarginTop = `${pinnedHeight + 12}px`
       calendar.style.top = upward ? 'auto' : 'calc(100% + 10px)'
       calendar.style.bottom = upward ? 'calc(100% + 10px)' : 'auto'
     }
     position()
+    const frame = requestAnimationFrame(() => calendar.scrollIntoView({ block: 'nearest', behavior: 'instant' }))
     window.addEventListener('resize', position)
     window.visualViewport?.addEventListener('resize', position)
     return () => {
+      cancelAnimationFrame(frame)
       window.removeEventListener('resize', position)
       window.visualViewport?.removeEventListener('resize', position)
     }
@@ -103,11 +116,29 @@ export default function DatePicker({ id, name, label, value, min, max, today, on
 
   useEffect(() => {
     if (!open) return
-    function outside(event) {
-      if (!host.current.contains(event.target)) setOpen(false)
+    let gesture
+    function start(event) {
+      tabbing.current = false
+      gesture = !host.current.contains(event.target) ? { id: event.pointerId, x: event.clientX, y: event.clientY, scroll: window.scrollY, moved: false } : null
     }
-    document.addEventListener('pointerdown', outside)
-    return () => document.removeEventListener('pointerdown', outside)
+    function move(event) {
+      if (gesture?.id === event.pointerId && Math.hypot(event.clientX - gesture.x, event.clientY - gesture.y) > 10) gesture.moved = true
+    }
+    function end(event) {
+      if (gesture?.id === event.pointerId && !gesture.moved && Math.abs(window.scrollY - gesture.scroll) < 2 && !host.current.contains(event.target)) setOpen(false)
+      gesture = null
+    }
+    function cancel() { gesture = null }
+    document.addEventListener('pointerdown', start, { passive: true })
+    document.addEventListener('pointermove', move, { passive: true })
+    document.addEventListener('pointerup', end, { passive: true })
+    document.addEventListener('pointercancel', cancel, { passive: true })
+    return () => {
+      document.removeEventListener('pointerdown', start)
+      document.removeEventListener('pointermove', move)
+      document.removeEventListener('pointerup', end)
+      document.removeEventListener('pointercancel', cancel)
+    }
   }, [open])
 
   function close() {
@@ -116,9 +147,10 @@ export default function DatePicker({ id, name, label, value, min, max, today, on
   }
 
   return <div ref={host} className="date-picker" onKeyDown={(event) => {
+    tabbing.current = event.key === 'Tab'
     if (event.key === 'Escape' && open) { event.preventDefault(); event.stopPropagation(); close() }
   }} onBlur={(event) => {
-    if (event.relatedTarget && !event.currentTarget.contains(event.relatedTarget)) setOpen(false)
+    if (tabbing.current && event.relatedTarget && !event.currentTarget.contains(event.relatedTarget)) setOpen(false)
   }}>
     <input type="hidden" name={name} value={value} />
     <button ref={trigger} id={id} type="button" className="date-trigger" aria-haspopup="dialog" aria-expanded={open} aria-controls={open ? `${id}-calendar` : undefined} aria-describedby={[`${id}-value`, describedBy].filter(Boolean).join(' ')} aria-invalid={invalid} onClick={() => { if (!open) setDraft(boundedDate(value || today, min, max)); setOpen(!open) }}>

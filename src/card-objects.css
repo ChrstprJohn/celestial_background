@@ -1,6 +1,8 @@
 .card-object-preview { position: relative; width: 100%; height: 100%; min-width: 0; }
 .card-object-fallback { width: 100%; height: 100%; min-width: 0; min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); place-items: center; }
+.service-static-preview { display: block; width: 100%; height: 100%; object-fit: contain; }
 .card-object-scene { position: absolute; inset: 0; pointer-events: none; }
+.card-object-scene .planet-viewer, .card-object-scene .planet-stage { height: 100%; }
 .card-object-scene canvas { display: block; width: 100%; height: 100%; }
 .card-object-preview.has-object .card-object-fallback { visibility: hidden; }
 .saturn-card-fallback { width: 100%; aspect-ratio: 650 / 430; background: url('/previews/saturn-fallback.png') 91.139% 33.962% / 221.54% 223.26% no-repeat; }

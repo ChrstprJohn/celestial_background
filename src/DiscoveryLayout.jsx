@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react'
 import { saveSvgPng } from './lib/art-export.js'
 import './discoveries.css'
 
-export default function DiscoveryLayout({ id, title, emphasis, description, controls, children, wide = false, mobilePreview = false, resultFirst = mobilePreview, controlsTitle }) {
-  return <section className={`discovery-workspace${wide ? ' discovery-workspace-wide' : ''}${resultFirst ? ' discovery-result-first' : ''}${mobilePreview ? ' mobile-workspace' : ''}`} aria-labelledby={`${id}-title`}>
+export default function DiscoveryLayout({ id, title, emphasis, description, controls, children, wide = false, mobilePreview = false, resultFirst = mobilePreview, controlsTitle, stickyPreviewTitle = mobilePreview }) {
+  return <section className={`discovery-workspace${wide ? ' discovery-workspace-wide' : ''}${resultFirst ? ' discovery-result-first' : ''}${mobilePreview ? ' mobile-workspace' : ''}${stickyPreviewTitle ? ' sticky-preview-title' : ''}`} aria-labelledby={`${id}-title`}>
     <div className="discovery-sidebar">
       <a className="back-link" href="/#services"><ArrowLeft size={20} aria-hidden="true" /> Back</a>
       <h1 id={`${id}-title`}>{title}<br /><em>{emphasis}</em></h1>
