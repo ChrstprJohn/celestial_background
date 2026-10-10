@@ -121,7 +121,7 @@
   .discovery-result-first > .discovery-controls { margin-top: 0; max-width: 480px; width: 100%; justify-self: center; }
   .discovery-sidebar .back-link { margin-bottom: 28px; }
   .discovery-sidebar h1 { font-size: clamp(48px,12vw,64px); }
-  .discovery-description { font-size: 13px; }
+  .discovery-description { font-size: 16px; max-width: none; }
   .discovery-controls { margin-top: 26px; }
   .text-field { font-size: 16px; }
   .age-planet .planet-stage { height: clamp(250px,75vw,360px); }

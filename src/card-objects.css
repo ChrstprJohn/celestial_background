@@ -1,0 +1,15 @@
+.card-object-preview { position: relative; width: 100%; height: 100%; min-width: 0; }
+.card-object-fallback { width: 100%; height: 100%; min-width: 0; min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); place-items: center; }
+.card-object-scene { position: absolute; inset: 0; pointer-events: none; }
+.card-object-scene canvas { display: block; width: 100%; height: 100%; }
+.card-object-preview.has-object .card-object-fallback { visibility: hidden; }
+.saturn-card-fallback { width: 100%; aspect-ratio: 650 / 430; background: url('/previews/saturn-fallback.png') 91.139% 33.962% / 221.54% 223.26% no-repeat; }
+.card-moon-match { width: 100%; height: 100%; align-items: center; gap: 0; }
+.moon-match-visual.card-moon-match.is-combined .match-moon { top: 50%; transform-origin: center top; }
+.card-moon-match.is-combined .match-moon canvas { translate: 0 -50%; }
+.card-moon-match.is-combined .match-combined { width: 100%; }
+/* The gallery frames stay still; only the modeled objects respond to hover. */
+.landing-content .service-card:hover .service-photo { transform: none; }
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .service-pet-preview .pet-pupil { transition: transform 90ms ease-out; }
+}

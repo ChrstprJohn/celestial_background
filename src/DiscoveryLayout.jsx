@@ -6,7 +6,7 @@ import './discoveries.css'
 export default function DiscoveryLayout({ id, title, emphasis, description, controls, children, wide = false, mobilePreview = false, resultFirst = mobilePreview, controlsTitle }) {
   return <section className={`discovery-workspace${wide ? ' discovery-workspace-wide' : ''}${resultFirst ? ' discovery-result-first' : ''}${mobilePreview ? ' mobile-workspace' : ''}`} aria-labelledby={`${id}-title`}>
     <div className="discovery-sidebar">
-      <a className="back-link" href="/#services"><ArrowLeft size={16} aria-hidden="true" /> Explore</a>
+      <a className="back-link" href="/#services"><ArrowLeft size={20} aria-hidden="true" /> Back</a>
       <h1 id={`${id}-title`}>{title}<br /><em>{emphasis}</em></h1>
       <p className="discovery-description">{description}</p>
       {!resultFirst && <div id="discovery-controls" className="discovery-controls" tabIndex={-1}>{controls}</div>}

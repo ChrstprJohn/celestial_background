@@ -55,7 +55,7 @@
   .planet-details { max-width: 480px; width: 100%; margin-inline: auto; }
   .planet-sidebar .back-link { margin-bottom: 28px; }
   .planet-subtitle { font-size: 30px; }
-  .planet-description { font-size: 13px; margin-top: 17px; max-width: 28ch; }
+  .planet-description { font-size: 16px; margin-top: 20px; max-width: none; }
   .planet-selector-label { margin-top: 25px; }
   .planet-showcase { max-width: 480px; justify-self: center; }
   .planet-stage { height: clamp(280px, 85vw, 390px); }

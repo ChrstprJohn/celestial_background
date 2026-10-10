@@ -17,7 +17,7 @@ export function loadMoonTexture() {
         } catch (error) { reject(error) }
       }
       image.onerror = () => reject(new Error('The Moon surface could not load.'))
-      image.src = '/textures/moon-surface.jpg'
+      image.src = `${import.meta.env?.BASE_URL ?? '/'}textures/moon-surface.jpg`
     }).catch((error) => {
       texturePromise = undefined
       throw error
@@ -75,4 +75,16 @@ export function drawMoon(canvas, texture, fraction, waxing) {
     frame.data[pixel + 3] = geometry[i + 4]
   }
   context.putImageData(frame, 0, 0)
+}
+
+// Align both north-up phases and retain the brighter light at each pixel.
+// Shared by the comparison page and its animated discovery-card preview.
+export function drawMoonMatch(firstCanvas, secondCanvas, combinedCanvas, texture, first, second) {
+  drawMoon(firstCanvas, texture, first.fraction, first.waxing)
+  drawMoon(secondCanvas, texture, second.fraction, second.waxing)
+  const { width, height } = firstCanvas
+  const a = firstCanvas.getContext('2d').getImageData(0, 0, width, height)
+  const b = secondCanvas.getContext('2d').getImageData(0, 0, width, height)
+  for (let i = 0; i < a.data.length; i++) a.data[i] = Math.max(a.data[i], b.data[i])
+  combinedCanvas.getContext('2d').putImageData(a, 0, 0)
 }

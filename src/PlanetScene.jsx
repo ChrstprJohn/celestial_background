@@ -11,7 +11,7 @@ const MAX_ZOOM = 1.2
 // Reuse decoded bundled images across planet changes; GPU textures still dispose.
 THREE.Cache.enabled = true
 
-export default function PlanetScene({ planet, decorative = false, showFeedback = false, onRetry, captureRef, onCaptureReady, appearance }) {
+export default function PlanetScene({ planet, decorative = false, hoverPreview = true, showFeedback = false, onRetry, captureRef, onCaptureReady, appearance }) {
   const host = useRef(null)
   const actions = useRef(null)
   const [status, setStatus] = useState('loading')
@@ -31,6 +31,23 @@ export default function PlanetScene({ planet, decorative = false, showFeedback =
     let frame = 0
     let visible = true
     let loaded = false
+    const previewCard = decorative && hoverPreview ? container.closest('.service-card') : null
+    const previewMotion = window.matchMedia('(min-width: 768px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)')
+    let previewBounds
+    let previewHover = false
+    const previewTarget = { x: 0, y: 0 }
+    let previewElapsed = 0
+    let previewLast = 0
+    let previewVariant = -1
+    let defaultPreviewMap
+    let previewRings
+    let previewClouds
+    const variantMaps = []
+    const builderVariants = appearance && previewCard ? [
+      { ...appearance, terrain: 'rocky', palette: 'ember', rings: false, clouds: false, seed: 19, tilt: 12 },
+      { ...appearance, terrain: 'gas', palette: 'violet', rings: true, clouds: false, seed: 31, tilt: 32 },
+      { ...appearance, terrain: 'ocean', palette: 'dune', rings: false, clouds: true, seed: 47, oceanLevel: 70, tilt: 18 },
+    ] : []
     const hasRings = appearance ? appearance.rings : planet.id === 'saturn'
     const hasClouds = appearance ? appearance.clouds : planet.id === 'earth'
     const textures = []
@@ -76,12 +93,47 @@ export default function PlanetScene({ planet, decorative = false, showFeedback =
     sphere.castShadow = renderer.shadowMap.enabled
     sphere.receiveShadow = renderer.shadowMap.enabled
     sphere.rotation.y = planet.id === 'earth' ? 2.4 : 0.5
+    const initialSphereRotation = sphere.rotation.y
     if (hasRings) sphere.scale.y = 0.9
     if (planet.id === 'jupiter') sphere.scale.y = 0.935
     group.add(sphere)
 
-    function render() {
+    function changePreviewDesign(index) {
+      if (!builderVariants.length || !loaded || previewVariant === index) return
+      const variant = index < 0 ? appearance : builderVariants[index]
+      if (index >= 0 && !variantMaps[index]) {
+        const texture = new THREE.CanvasTexture(makeWorldTexture(variant))
+        texture.colorSpace = THREE.SRGBColorSpace
+        textures.push(texture)
+        variantMaps[index] = texture
+      }
+      surface.map = index < 0 ? defaultPreviewMap : variantMaps[index]
+      surface.needsUpdate = true
+      if (previewRings) previewRings.visible = variant.rings
+      if (previewClouds) previewClouds.visible = variant.clouds
+      group.rotation.z = THREE.MathUtils.degToRad(variant.tilt)
+      previewVariant = index
+    }
+
+    function render(time = performance.now()) {
       if (disposed || !visible || document.hidden || !loaded) return
+      let previewSettling = false
+      if (previewCard) {
+        const blend = previewHover ? .15 : .12
+        group.rotation.x += (previewTarget.x - group.rotation.x) * blend
+        group.rotation.y += (previewTarget.y - group.rotation.y) * blend
+        if (previewHover) sphere.rotation.y += .005
+        else {
+          const difference = THREE.MathUtils.euclideanModulo(initialSphereRotation - sphere.rotation.y + Math.PI, Math.PI * 2) - Math.PI
+          sphere.rotation.y += difference * .12
+          previewSettling = Math.abs(difference) > .001
+        }
+        if (previewHover && builderVariants.length) {
+          previewElapsed += previewLast ? Math.min((time - previewLast) / 1000, .05) : 0
+          previewLast = time
+          if (previewElapsed >= 1.5) changePreviewDesign(Math.floor((previewElapsed - 1.5) / 2.2) % builderVariants.length)
+        }
+      }
       camera.far = Math.max(50, camera.position.length() + 10)
       camera.updateProjectionMatrix()
       if (!decorative) {
@@ -93,10 +145,39 @@ export default function PlanetScene({ planet, decorative = false, showFeedback =
         })
       }
       renderer.render(scene, camera)
+      if (previewCard && (previewHover || previewSettling || Math.abs(group.rotation.x - previewTarget.x) > .001 || Math.abs(group.rotation.y - previewTarget.y) > .001)) invalidate()
     }
     function invalidate() {
-      if (!frame && !disposed) frame = requestAnimationFrame(() => { frame = 0; render() })
+      if (!frame && !disposed) frame = requestAnimationFrame((time) => { frame = 0; render(time) })
     }
+    function previewEnter() {
+      if (!previewMotion.matches) return
+      previewBounds = previewCard.getBoundingClientRect()
+      previewHover = true
+      previewElapsed = 0
+      previewLast = 0
+      invalidate()
+    }
+    function previewMove(event) {
+      if (!previewHover || !previewBounds || event.pointerType !== 'mouse') return
+      previewTarget.y = THREE.MathUtils.clamp((event.clientX - previewBounds.left) / previewBounds.width * 2 - 1, -1, 1) * .45
+      previewTarget.x = THREE.MathUtils.clamp((event.clientY - previewBounds.top) / previewBounds.height * 2 - 1, -1, 1) * .2
+      invalidate()
+    }
+    function previewLeave() {
+      previewHover = false
+      previewTarget.x = 0
+      previewTarget.y = 0
+      previewElapsed = 0
+      previewLast = 0
+      changePreviewDesign(-1)
+      if (!previewMotion.matches) { group.rotation.x = 0; group.rotation.y = 0; sphere.rotation.y = initialSphereRotation }
+      invalidate()
+    }
+    previewCard?.addEventListener('pointerenter', previewEnter)
+    previewCard?.addEventListener('pointermove', previewMove)
+    previewCard?.addEventListener('pointerleave', previewLeave)
+    previewMotion.addEventListener('change', previewLeave)
     function resize() {
       if (disposed) return
       const width = container.clientWidth
@@ -150,6 +231,7 @@ export default function PlanetScene({ planet, decorative = false, showFeedback =
         ])
         if (disposed) return
         surface.map = map
+        defaultPreviewMap = map
         surface.needsUpdate = true
         if (hasRings) {
           const ringGeometry = new THREE.RingGeometry(1.23, 2.32, 192, 8)
@@ -166,6 +248,7 @@ export default function PlanetScene({ planet, decorative = false, showFeedback =
           rings.castShadow = renderer.shadowMap.enabled
           rings.receiveShadow = renderer.shadowMap.enabled
           rings.rotation.x = -Math.PI / 2
+          previewRings = rings
           group.add(rings)
         }
         if (hasClouds) {
@@ -174,6 +257,7 @@ export default function PlanetScene({ planet, decorative = false, showFeedback =
           const cloudSphere = new THREE.Mesh(geometry, cloudMaterial)
           cloudSphere.scale.setScalar(1.008)
           cloudSphere.rotation.y = sphere.rotation.y
+          previewClouds = cloudSphere
           group.add(cloudSphere)
         }
         resize()
@@ -259,6 +343,10 @@ export default function PlanetScene({ planet, decorative = false, showFeedback =
       intersection.disconnect()
       document.removeEventListener('visibilitychange', invalidate)
       window.removeEventListener('resize', resize)
+      previewCard?.removeEventListener('pointerenter', previewEnter)
+      previewCard?.removeEventListener('pointermove', previewMove)
+      previewCard?.removeEventListener('pointerleave', previewLeave)
+      previewMotion.removeEventListener('change', previewLeave)
       container.removeEventListener('keydown', keydown)
       canvas.removeEventListener('webglcontextlost', contextLost)
       controls.dispose()
@@ -271,7 +359,7 @@ export default function PlanetScene({ planet, decorative = false, showFeedback =
       canvas.remove()
       actions.current = null
     }
-  }, [planet, decorative, captureRef, onCaptureReady, appearance])
+  }, [planet, decorative, hoverPreview, captureRef, onCaptureReady, appearance])
 
   return (
     <div className="planet-viewer">
