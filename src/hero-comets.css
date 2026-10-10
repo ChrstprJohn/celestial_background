@@ -39,7 +39,19 @@
 
 @media (pointer: coarse) {
   .hero-scene .galaxy-scene img { animation: none; }
+  /* Reuse the three small layers instead of rotating the large galaxy image.
+     Spread their starts evenly, keeping the original 1.56-second flight. */
+  .hero-comet { animation-name: hero-comet-mobile-fall; animation-duration: 6s; }
+  .hero-comet:nth-child(2) { animation-delay: 2.5s; }
+  .hero-comet:nth-child(3) { animation-delay: 4.5s; }
   .hero-comet:nth-child(n+4) { display: none; }
+}
+
+@keyframes hero-comet-mobile-fall {
+  0% { opacity: 0; transform: translate3d(0, 0, 0) rotate(58deg); }
+  3% { opacity: .8; }
+  17% { opacity: .55; }
+  26%, 100% { opacity: 0; transform: translate3d(110px, 176px, 0) rotate(58deg); }
 }
 
 @media (prefers-reduced-motion: reduce) {

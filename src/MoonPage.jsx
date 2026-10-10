@@ -2,6 +2,10 @@ import { useState } from 'react'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 import DatePicker from './DatePicker.jsx'
 import MoonVisual from './MoonVisual.jsx'
+import { ArtDownload } from './DiscoveryLayout.jsx'
+import { drawMoon, loadMoonTexture } from './lib/moon-render.js'
+import { saveCanvasPng } from './lib/art-export.js'
+import { drawCollectibleBorder } from './lib/collectible-card.js'
 import { MOON_END, MOON_START, localToday, moonForDate, validateMoonDate } from './lib/moon.js'
 import { formatDate } from './lib/dates.js'
 
@@ -19,6 +23,30 @@ export default function MoonPage() {
   }
 
   const illumination = `${(result.fraction * 100).toFixed(1)}% illuminated`
+
+  async function exportCard(filename) {
+    const [texture] = await Promise.all([loadMoonTexture(), document.fonts.ready])
+    const moon = document.createElement('canvas')
+    moon.width = 720; moon.height = 720
+    drawMoon(moon, texture, result.fraction, result.waxing)
+    const canvas = document.createElement('canvas')
+    canvas.width = 1080; canvas.height = 1350
+    const context = canvas.getContext('2d')
+    context.fillStyle = '#070b17'; context.fillRect(0, 0, 1080, 1350)
+    context.textAlign = 'center'; context.fillStyle = '#f3f0e9'; context.font = '90px "Instrument Serif"'
+    context.fillText('Your Moon.', 540, 205)
+    context.drawImage(moon, 180, 275, 720, 720)
+    context.fillStyle = '#c9c1f0'; context.font = '60px "Instrument Serif"'
+    context.fillText(result.name, 540, 1055)
+    context.fillStyle = '#b5bbd0'; context.font = '28px "DM Sans"'
+    context.fillText(formatDate(result.date), 540, 1115)
+    context.font = '24px "DM Sans"'; context.fillText(illumination, 540, 1170)
+    drawCollectibleBorder(context)
+    return saveCanvasPng(canvas, filename, {
+      Description: `${formatDate(result.date)}: ${result.name}, ${illumination}. Phase at 12:00 UTC; simplified north-up visualization.`,
+      Source: 'Astronomy Engine; Moon surface: three.js r150 examples texture.',
+    })
+  }
 
   return (
     <section className="moon-workspace sticky-moon-title" aria-labelledby="moon-title">
@@ -42,6 +70,7 @@ export default function MoonPage() {
             <p className="moon-illumination">{illumination}</p>
           </figcaption>
         </figure>
+        <ArtDownload key={result.date} label="Download my Moon card" filename={`celestial-moon-${result.date}.png`} makeImage={exportCard} />
         <p className="moon-reference">Phase visualization · 12:00 UTC · Simplified north-up view</p>
         <div className="moon-sources"><a href="https://github.com/cosinekitty/astronomy" target="_blank" rel="noreferrer">Astronomy Engine <ArrowUpRight size={12} aria-hidden="true" /></a><a href="https://github.com/mrdoob/three.js/blob/r150/examples/textures/planets/moon_1024.jpg" target="_blank" rel="noreferrer">Surface texture <ArrowUpRight size={12} aria-hidden="true" /></a></div>
       </div>

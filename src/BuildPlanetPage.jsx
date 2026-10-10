@@ -46,7 +46,6 @@ export default function BuildPlanetPage() {
       {world.clouds && <label htmlFor="world-clouds">Cloud thickness <output>{world.cloudOpacity}%</output><input id="world-clouds" type="range" min="0" max="100" value={world.cloudOpacity} onChange={(event) => change('cloudOpacity', Number(event.target.value))} /></label>}
       <label htmlFor="world-tilt">Planet tilt <output>{world.tilt}°</output><input id="world-tilt" type="range" min="0" max="90" value={world.tilt} onChange={(event) => change('tilt', Number(event.target.value))} /></label>
     </div>
-    <div className="button-row"><button className="secondary-button" type="button" onClick={surprise}><Shuffle size={16} />Surprise me</button><button className="secondary-button" type="button" onClick={() => { setWorld(DEFAULT_WORLD); setName('Asteria') }}><RotateCcw size={16} />Start over</button></div>
     <p className="discovery-note">This world comes from your imagination. Every landscape is generated here on your device.</p>
     <SourceNote href={TEXTURE_SOURCE}>Cloud and ring textures · Solar System Scope · CC BY 4.0</SourceNote>
   </>}>
@@ -54,9 +53,12 @@ export default function BuildPlanetPage() {
       <div className="builder-planet"><Suspense fallback={<p className="discovery-note">Preparing your world…</p>}><PlanetScene key={retry} planet={planet} appearance={appearance} captureRef={capture} onCaptureReady={setReady} controlsLink={controlsLink} onRetry={() => setRetry((value) => value + 1)} /></Suspense></div>
       <div className="art-caption" aria-live="polite"><h2>{displayName}</h2><p>{world.terrain === 'ocean' ? 'Oceans and continents' : world.terrain === 'rocky' ? 'A world of rocky terrain' : 'A world of swirling gas bands'}{world.rings ? ' · Ringed' : ''}{world.clouds ? ' · Clouded' : ''}</p></div>
     </div>
-    <ArtDownload key={`${JSON.stringify(world)}-${displayName}`} label="Download my planet card" filename="celestial-my-planet.png" disabled={ready !== planet.id || appearance !== world} makeImage={(filename) => {
+    <div className="builder-actions">
+      <div className="button-row"><button className="secondary-button" type="button" onClick={surprise}><Shuffle size={16} aria-hidden="true" />Surprise me</button><button className="secondary-button" type="button" onClick={() => { setWorld(DEFAULT_WORLD); setName('Asteria') }}><RotateCcw size={16} aria-hidden="true" />Start over</button></div>
+      <ArtDownload key={`${JSON.stringify(world)}-${displayName}`} label="Download my planet card" filename="celestial-my-planet.png" disabled={ready !== planet.id || appearance !== world} makeImage={(filename) => {
       if (capture.current?.appearance !== appearance) throw new Error('Your new world is still preparing.')
       return saveWorldPng({ image: capture.current.capture(), name: displayName, appearance }, filename)
     }} />
+    </div>
   </DiscoveryLayout>
 }

@@ -73,7 +73,6 @@ export default function MoonMatchPage() {
     <DatePicker id="match-first" name="first-birthday" label="Your birthday" value={firstDate} min={MOON_START} max={today} today={today} onChange={(date) => { if (date !== firstDate) { setStatus('loading'); setFirstDate(date) } }} />
     <label htmlFor="match-second">Their birthday</label>
     <DatePicker id="match-second" name="second-birthday" label="Their birthday" value={secondDate} min={MOON_START} max={today} today={today} onChange={(date) => { if (date !== secondDate) { setStatus('loading'); setSecondDate(date) } }} />
-    <button className="primary-button" type="button" disabled={status !== 'ready'} onClick={showTogether}>{combined ? <><Columns2 size={18} aria-hidden="true" />See both Moons</> : <><Combine size={18} aria-hidden="true" />Combine our Moons</>}</button>
     <p className="discovery-note">For fun. Moon phases don’t measure compatibility.</p>
   </>}>
     <div className="mobile-preview match-preview">
@@ -88,6 +87,7 @@ export default function MoonMatchPage() {
     </div>
     <div className="match-summary" aria-live="polite"><p>{match.fit >= 90 ? 'Nearly a full Moon, with little overlap.' : match.fit >= 60 ? 'Mostly filled, with some gaps or overlap.' : 'More gaps or overlap between your phases.'}</p><p className="discovery-note">Fit counts light from exactly one phase. Gaps and overlap lower the score.</p></div>
     <div className="match-actions">
+      <button className="primary-button" type="button" disabled={status !== 'ready'} onClick={showTogether}>{combined ? <><Columns2 size={18} aria-hidden="true" />See both Moons</> : <><Combine size={18} aria-hidden="true" />Combine our Moons</>}</button>
       {combined && <button type="button" className="secondary-button match-replay" disabled={status !== 'ready'} onClick={replayCollision}><RotateCcw size={16} aria-hidden="true" />Replay merge</button>}
       <ArtDownload key={datesKey} label="Download our Moon card" filename="celestial-moon-match.png" disabled={status !== 'ready'} makeImage={exportCard} />
     </div>

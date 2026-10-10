@@ -40,3 +40,11 @@ Raw measurements and screenshots are in ignored `test-results/perf-before.json` 
 - 52 title/tablet checks passed at 320×568, 390×844, 844×390, 768×1024, 820×1180, 1032×1376, 1376×1032, and 1440×900. They checked pinned headings and preview alignment, touch scrolling, calendar Done visibility/date selection, combining Moons, gravity controls, eight tablet/desktop routes, and the Moon page's footer spacing. Evidence is in ignored `test-results/sticky-tablet-results.json` and `test-results/check-sticky-tablet.cjs`.
 
 Physical iPhone/Android devices, Safari, and native download-to-disk behavior have not been tested.
+
+## Mobile background motion — October 10, 2026
+
+The galaxy remains still on touch devices because performance takes priority. A comparison in mobile Chromium at 390×844, DPR 3, and 6× CPU throttling tested static artwork against CSS rotation with and without a compositing hint. All variants stayed smooth in this environment, but rotation consistently increased rendering task time. These are local laboratory results, not measurements from a physical phone. Rotation does not change the image request or download size, so disabling it cannot itself explain a slow image download.
+
+Mobile shooting stars now reuse the same three visible elements on six-second cycles, staggered at 0.5, 2.5, and 4.5 seconds. This gives approximately one streak every two seconds instead of clustering three streaks near the beginning of a twelve-second cycle. Flight time remains 1.56 seconds, desktop motion stays unchanged, hidden tabs pause the animations, and reduced motion disables them. No new assets, particles, WebGL scenes, or JavaScript animation loop were added.
+
+Comparison data and the motion verification script are in ignored `test-results/galaxy-motion*.json` and `test-results/check-mobile-motion.cjs`.
