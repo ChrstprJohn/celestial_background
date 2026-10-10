@@ -1,24 +1,43 @@
 import { useEffect, useRef, useState } from 'react'
-import { Hand, Minus, Plus, RotateCcw } from 'lucide-react'
+import { ChevronDown, Hand, Minus, Plus, RotateCcw, SlidersHorizontal } from 'lucide-react'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { planetTexture } from './lib/planets.js'
 import { cropPlanetImage } from './lib/planet-export.js'
 import { makeWorldTexture } from './lib/world-builder.js'
+import { makeWorldTextureAsync } from './lib/world-texture.js'
 
 const ZOOM_STEP = 1.1
 const MAX_ZOOM = 1.2
 // Reuse decoded bundled images across planet changes; GPU textures still dispose.
 THREE.Cache.enabled = true
 
-export default function PlanetScene({ planet, decorative = false, hoverPreview = true, showFeedback = false, onRetry, captureRef, onCaptureReady, appearance }) {
+export default function PlanetScene({ planet, decorative = false, hoverPreview = true, showFeedback = false, onRetry, captureRef, onCaptureReady, appearance, controlsLink }) {
   const host = useRef(null)
   const actions = useRef(null)
   const [status, setStatus] = useState('loading')
   const [zoomBounds, setZoomBounds] = useState({ near: false, far: true })
 
+  function showControls(event) {
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
+    const target = document.querySelector(controlsLink.href)
+    if (!target) return
+    event.preventDefault()
+    target.focus({ preventScroll: true })
+    const preview = host.current?.closest('.mobile-preview')
+    if (preview && getComputedStyle(preview).position === 'sticky') {
+      const heading = preview.closest('.sticky-preview-title')?.querySelector('h1')
+      const offset = preview.getBoundingClientRect().height + (heading?.getBoundingClientRect().height || 0)
+      const label = target.querySelector('h2, .planet-selector-label') || target
+      window.scrollTo({ top: window.scrollY + label.getBoundingClientRect().top - offset - 8, behavior: 'instant' })
+    } else {
+      target.scrollIntoView({ block: 'start', behavior: 'instant' })
+    }
+  }
+
   useEffect(() => {
     const container = host.current
+    const compact = window.matchMedia('(max-width: 767px), (pointer: coarse)').matches || Boolean(navigator.connection?.saveData)
     let renderer
     try {
       renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
@@ -53,7 +72,7 @@ export default function PlanetScene({ planet, decorative = false, hoverPreview =
     const textures = []
     const materials = []
     const geometries = []
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2))
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, compact ? 1.5 : 2))
     renderer.outputColorSpace = THREE.SRGBColorSpace
     renderer.toneMapping = THREE.ACESFilmicToneMapping
     renderer.toneMappingExposure = 1.3
@@ -79,13 +98,13 @@ export default function PlanetScene({ planet, decorative = false, hoverPreview =
     const sunlight = new THREE.DirectionalLight(0xfff1dd, 2.8)
     sunlight.position.set(-4, 3, 3)
     sunlight.castShadow = renderer.shadowMap.enabled
-    sunlight.shadow.mapSize.set(1024, 1024)
+    sunlight.shadow.mapSize.set(compact ? 512 : 1024, compact ? 512 : 1024)
     Object.assign(sunlight.shadow.camera, { left: -3, right: 3, top: 3, bottom: -3, near: 0.1, far: 15 })
     sunlight.shadow.bias = -0.0002
     sunlight.shadow.normalBias = 0.015
     scene.add(sunlight)
 
-    const geometry = new THREE.SphereGeometry(1, 96, 64)
+    const geometry = new THREE.SphereGeometry(1, compact ? 48 : 96, compact ? 32 : 64)
     geometries.push(geometry)
     const surface = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.96, metalness: 0 })
     materials.push(surface)
@@ -134,8 +153,6 @@ export default function PlanetScene({ planet, decorative = false, hoverPreview =
           if (previewElapsed >= 1.5) changePreviewDesign(Math.floor((previewElapsed - 1.5) / 2.2) % builderVariants.length)
         }
       }
-      camera.far = Math.max(50, camera.position.length() + 10)
-      camera.updateProjectionMatrix()
       if (!decorative) {
         const distance = camera.position.length()
         setZoomBounds((current) => {
@@ -178,6 +195,7 @@ export default function PlanetScene({ planet, decorative = false, hoverPreview =
     previewCard?.addEventListener('pointermove', previewMove)
     previewCard?.addEventListener('pointerleave', previewLeave)
     previewMotion.addEventListener('change', previewLeave)
+    if (previewCard?.matches(':hover')) previewEnter()
     function resize() {
       if (disposed) return
       const width = container.clientWidth
@@ -191,6 +209,8 @@ export default function PlanetScene({ planet, decorative = false, hoverPreview =
       const verticalAngle = THREE.MathUtils.degToRad(18)
       const fitAngle = Math.min(verticalAngle, Math.atan(Math.tan(verticalAngle) * camera.aspect))
       const defaultDistance = radius / Math.sin(fitAngle) * (decorative ? 1.05 : 1.25)
+      camera.far = Math.max(50, defaultDistance + 10)
+      camera.updateProjectionMatrix()
       // Two gentle enlargement steps, shared by all zoom inputs.
       const globeRadius = hasRings ? 2.32 : hasClouds ? 1.008 : 1
       controls.minDistance = Math.sqrt(globeRadius ** 2 + (defaultDistance ** 2 - globeRadius ** 2) / MAX_ZOOM ** 2)
@@ -215,26 +235,28 @@ export default function PlanetScene({ planet, decorative = false, hoverPreview =
       loader.load(url, (texture) => {
         if (disposed) { texture.dispose(); resolve(null); return }
         texture.colorSpace = THREE.SRGBColorSpace
-        texture.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy())
+        texture.anisotropy = Math.min(compact ? 2 : 8, renderer.capabilities.getMaxAnisotropy())
         textures.push(texture)
         resolve(texture)
       }, undefined, reject)
     })
     async function prepare() {
       try {
-        const surfaceMap = appearance ? new THREE.CanvasTexture(makeWorldTexture(appearance)) : null
+        const worldCanvas = appearance ? await makeWorldTextureAsync(appearance, compact ? 512 : 768) : null
+        if (disposed) return
+        const surfaceMap = worldCanvas ? new THREE.CanvasTexture(worldCanvas) : null
         if (surfaceMap) { surfaceMap.colorSpace = THREE.SRGBColorSpace; textures.push(surfaceMap) }
         const [map, ringMap, clouds] = await Promise.all([
-          surfaceMap || loadTexture(planetTexture(planet.id)),
+          surfaceMap || loadTexture(planetTexture(planet.id, compact)),
           hasRings ? loadTexture('/textures/planets/saturn-ring.png') : null,
-          hasClouds ? loadTexture('/textures/planets/earth-clouds.jpg') : null,
+          hasClouds ? loadTexture(`/textures/planets/earth-clouds${compact ? '-1024' : ''}.webp`) : null,
         ])
         if (disposed) return
         surface.map = map
         defaultPreviewMap = map
         surface.needsUpdate = true
         if (hasRings) {
-          const ringGeometry = new THREE.RingGeometry(1.23, 2.32, 192, 8)
+          const ringGeometry = new THREE.RingGeometry(1.23, 2.32, compact ? 96 : 192, compact ? 4 : 8)
           const positions = ringGeometry.attributes.position
           const uv = ringGeometry.attributes.uv
           for (let i = 0; i < positions.count; i++) {
@@ -362,7 +384,7 @@ export default function PlanetScene({ planet, decorative = false, hoverPreview =
   }, [planet, decorative, hoverPreview, captureRef, onCaptureReady, appearance])
 
   return (
-    <div className="planet-viewer">
+    <div className={`planet-viewer${controlsLink ? ' planet-viewer-customizable' : ''}`}>
       {!decorative && <p className="planet-rotation-hint"><Hand size={18} aria-hidden="true" />Drag or swipe the planet to rotate</p>}
       <div ref={host} className={`planet-stage${decorative ? ' planet-stage-decorative' : ''}`} aria-busy={status === 'loading'} role={decorative ? undefined : 'img'} aria-label={decorative ? undefined : `Interactive 3D ${planet.name}. Arrow keys rotate; plus and minus zoom; R resets.`} aria-hidden={decorative || undefined} tabIndex={decorative ? undefined : 0} />
       {(!decorative || showFeedback) && status !== 'ready' && <div className="planet-stage-feedback" role="status">
@@ -373,6 +395,7 @@ export default function PlanetScene({ planet, decorative = false, hoverPreview =
         </>}
       </div>}
       {!decorative && <div className="planet-view-controls">
+        {controlsLink && <a className="planet-customize-link" href={controlsLink.href} onClick={showControls}><SlidersHorizontal size={15} aria-hidden="true" />{controlsLink.label}<ChevronDown size={14} aria-hidden="true" /></a>}
         <p className="planet-drag-hint">Scroll or pinch to zoom</p>
         <div className="planet-control-buttons">
           <button disabled={status !== 'ready' || zoomBounds.far} onClick={() => actions.current?.zoomStep(-1)} aria-label="Zoom out"><Minus size={17} /></button>

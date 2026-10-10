@@ -36,6 +36,7 @@ export default function PreviewCursor() {
 
     function resize() {
       reset()
+      if (!available.matches) { canvas.width = canvas.height = 1; width = height = 0; return }
       width = window.innerWidth
       height = window.innerHeight
       const ratio = Math.min(window.devicePixelRatio || 1, 2)
@@ -100,7 +101,8 @@ export default function PreviewCursor() {
     }
 
     function move(event) {
-      if (!available.matches || event.pointerType !== 'mouse' || document.hidden || event.target.closest('input, textarea, select, [contenteditable], iframe')) {
+      if (!available.matches) return
+      if (event.pointerType !== 'mouse' || document.hidden || event.target.closest('input, textarea, select, [contenteditable], iframe')) {
         reset()
         return
       }
@@ -134,7 +136,7 @@ export default function PreviewCursor() {
     window.addEventListener('blur', reset)
     window.addEventListener('resize', resize)
     document.addEventListener('visibilitychange', reset)
-    available.addEventListener('change', reset)
+    available.addEventListener('change', resize)
     return () => {
       reset()
       window.removeEventListener('pointermove', move)
@@ -142,7 +144,7 @@ export default function PreviewCursor() {
       window.removeEventListener('blur', reset)
       window.removeEventListener('resize', resize)
       document.removeEventListener('visibilitychange', reset)
-      available.removeEventListener('change', reset)
+      available.removeEventListener('change', resize)
     }
   }, [])
 

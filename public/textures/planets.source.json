@@ -3,7 +3,7 @@
   "source": "https://www.solarsystemscope.com/textures/",
   "license": "CC BY 4.0",
   "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
-  "modifications": "None to source files; mapped onto illustrative 3D meshes with fixed lighting.",
+  "modifications": "Original JPEG/PNG source files are unchanged. WebP derivatives use lossy compression; -1024 variants are proportionally resized to at most 1024 by 512 pixels.",
   "assets": [
     {
       "file": "earth-clouds.jpg",
@@ -64,6 +64,170 @@
       "origin": "https://www.solarsystemscope.com/textures/download/2k_venus_atmosphere.jpg",
       "downloadedFrom": "https://www.simplespacedata.org/texture/solarsystemscope/venus_atmosphere/latest/2k_venus_atmosphere.jpg",
       "sha256": "225012ad4911730605c4e189ca2a3bf674fce50cc48aab4102b936b47d6991ac"
+    }
+  ],
+  "derivatives": [
+    {
+      "file": "earth-1024.webp",
+      "original": "earth.jpg",
+      "dimensions": [
+        1024,
+        512
+      ],
+      "sha256": "d34579150a3d6a9a5d6c2c0c61bf75ec5441d82bf27acdf5494d5caac05eeb1f"
+    },
+    {
+      "file": "earth-clouds-1024.webp",
+      "original": "earth-clouds.jpg",
+      "dimensions": [
+        1024,
+        512
+      ],
+      "sha256": "1e73f7e61223bb05b482e4488961a2923a1f7ab0f56573ee215a3abff2fd8e8f"
+    },
+    {
+      "file": "earth-clouds.webp",
+      "original": "earth-clouds.jpg",
+      "dimensions": [
+        2048,
+        1024
+      ],
+      "sha256": "da92e9b0af925d29edf48839bdaef160094edc6ea19b1d411a75135a7bbcd6a2"
+    },
+    {
+      "file": "earth.webp",
+      "original": "earth.jpg",
+      "dimensions": [
+        2048,
+        1024
+      ],
+      "sha256": "0c94c154921e9086f9b0a5d5df8a54756f6d2fccd20fabf6b5781583ea66a175"
+    },
+    {
+      "file": "jupiter-1024.webp",
+      "original": "jupiter.jpg",
+      "dimensions": [
+        1024,
+        512
+      ],
+      "sha256": "309cee9086ea3df124dad688d3aaf01df5806f3f67cbd227833d9d5e3f67d764"
+    },
+    {
+      "file": "jupiter.webp",
+      "original": "jupiter.jpg",
+      "dimensions": [
+        2048,
+        1024
+      ],
+      "sha256": "8a00e3abcc82e587eadb1e8d22e0c51fc46c3bde665b8a1fbcaba240a01f5510"
+    },
+    {
+      "file": "mars-1024.webp",
+      "original": "mars.jpg",
+      "dimensions": [
+        1024,
+        512
+      ],
+      "sha256": "6cbceeca5ec4df6b6ad9f53662b0482fc6eb1e0b684e4463d4ecbf00ddaa7ab1"
+    },
+    {
+      "file": "mars.webp",
+      "original": "mars.jpg",
+      "dimensions": [
+        2048,
+        1024
+      ],
+      "sha256": "8df57e13cf6f097bf0525894a03d1803b4676f871030e29548a381fe799ace0b"
+    },
+    {
+      "file": "mercury-1024.webp",
+      "original": "mercury.jpg",
+      "dimensions": [
+        1024,
+        512
+      ],
+      "sha256": "6649834fe219b00197682f11bbbe8c1eb07b0085bbde39ddd526ebf25f95dc57"
+    },
+    {
+      "file": "mercury.webp",
+      "original": "mercury.jpg",
+      "dimensions": [
+        2048,
+        1024
+      ],
+      "sha256": "619b184ba511c611e9bdf347b9d1807d7a5ac2b6c13fe6f7a340931459a0f45c"
+    },
+    {
+      "file": "neptune-1024.webp",
+      "original": "neptune.jpg",
+      "dimensions": [
+        1024,
+        512
+      ],
+      "sha256": "c9fa68963c15dcb7b8826eb5f0cadcf338693188de2709f67af0a17964e9aed1"
+    },
+    {
+      "file": "neptune.webp",
+      "original": "neptune.jpg",
+      "dimensions": [
+        2048,
+        1024
+      ],
+      "sha256": "15957e39dc727ee7c0a393e7c40a764da816bb8ec83dbbbe1a0d4b06cb95002a"
+    },
+    {
+      "file": "saturn-1024.webp",
+      "original": "saturn.jpg",
+      "dimensions": [
+        1024,
+        512
+      ],
+      "sha256": "a9db9d49d2288ea88b9342bb73b96ffd7b2a9d98437bda4aa9328f81b09a7e5f"
+    },
+    {
+      "file": "saturn.webp",
+      "original": "saturn.jpg",
+      "dimensions": [
+        2048,
+        1024
+      ],
+      "sha256": "4aaf46c408aeacadb9718d703daa089b79b1a4bcf6ec210e9dcaf979fafb1f0e"
+    },
+    {
+      "file": "uranus-1024.webp",
+      "original": "uranus.jpg",
+      "dimensions": [
+        1024,
+        512
+      ],
+      "sha256": "434b05ae97fa5513e7847db7c99f5e2502c605c9a74b106bf1ec881796f4b866"
+    },
+    {
+      "file": "uranus.webp",
+      "original": "uranus.jpg",
+      "dimensions": [
+        2048,
+        1024
+      ],
+      "sha256": "d481097cb8bdc53dad702769619b437685a353080b9b8f113bed145f0cb4baf6"
+    },
+    {
+      "file": "venus-1024.webp",
+      "original": "venus.jpg",
+      "dimensions": [
+        1024,
+        512
+      ],
+      "sha256": "8405b9ef18e1102a7c3c560ed5dcafa2ea0f3ce7ed7c8740b29e0ac290355f59"
+    },
+    {
+      "file": "venus.webp",
+      "original": "venus.jpg",
+      "dimensions": [
+        2048,
+        1024
+      ],
+      "sha256": "c532329e1e477a0d8e28f5f3bdd72a1749f1acda2fd3406a27f254dc10b09f4f"
     }
   ]
 }

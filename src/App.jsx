@@ -10,6 +10,7 @@ import './discovery-headings.css'
 import './solar-system.css'
 import './pet-eyes.css'
 import './mobile-workspaces.css'
+import usePagePath from './usePagePath.js'
 
 const LandingPage = lazy(() => import('./LandingPage.jsx'))
 const MoonPage = lazy(() => import('./MoonPage.jsx'))
@@ -29,16 +30,17 @@ const extraPages = {
   '/tonight': lazy(() => import('./TonightPage.jsx')),
   '/cosmic-neighbors': lazy(() => import('./CosmicNeighborsPage.jsx')),
 }
+const routes = new Set(['/', '/birthday', '/moon', '/shuffle', '/solar-system', '/pets', ...EXTRA_DISCOVERIES.filter((service) => service.enabled).map((service) => service.href)])
 
 export default function App() {
-  const pathname = window.location.pathname.replace(/\/$/, '') || '/'
+  const pathname = usePagePath(routes)
   const extraService = EXTRA_DISCOVERIES.find((service) => service.enabled && service.href === pathname)
   const ExtraPage = extraService ? extraPages[pathname] : null
-  const isBirthday = /^\/birthday\/?$/.test(window.location.pathname)
-  const isMoon = /^\/moon\/?$/.test(window.location.pathname)
-  const isShuffle = /^\/shuffle\/?$/.test(window.location.pathname)
-  const isSolar = /^\/solar-system\/?$/.test(window.location.pathname)
-  const isPets = /^\/pets\/?$/.test(window.location.pathname)
+  const isBirthday = pathname === '/birthday'
+  const isMoon = pathname === '/moon'
+  const isShuffle = pathname === '/shuffle'
+  const isSolar = pathname === '/solar-system'
+  const isPets = pathname === '/pets'
   const isDiscovery = isBirthday || isMoon || isShuffle || isSolar || isPets || Boolean(ExtraPage)
 
   useEffect(() => {

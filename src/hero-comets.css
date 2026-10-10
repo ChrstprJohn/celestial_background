@@ -37,6 +37,11 @@
   .hero-comet:nth-child(9) { top: 80%; left: 19%; width: 20px; }
 }
 
+@media (pointer: coarse) {
+  .hero-scene .galaxy-scene img { animation: none; }
+  .hero-comet:nth-child(n+4) { display: none; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hero-scene .galaxy-scene img { animation: none; transform: none; }
   .hero-comets { display: none; }

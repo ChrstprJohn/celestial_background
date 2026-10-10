@@ -28,11 +28,11 @@ export default function CardObjectScene({ type, onReady }) {
     let disposed = false
     let loaded = false
     let visible = true
-    let hovering = false
+    let hovering = card.matches(':hover')
     let frame = 0
     let last = 0
     let spin = 0
-    let bounds
+    let bounds = hovering ? card.getBoundingClientRect() : null
     let fallTime = 0
     const fallingBodies = []
     let orbitTime = 0
@@ -174,7 +174,7 @@ export default function CardObjectScene({ type, onReady }) {
           sun.material.emissiveIntensity = .55
           const radii = [.48, .74, 1, 1.25, 1.58, 1.92, 2.27, 2.6]
           const sizes = [.065, .095, .105, .08, .2, .17, .13, .125]
-          const maps = await Promise.all(PLANETS.map((planet) => new THREE.TextureLoader().loadAsync(planetTexture(planet.id)).catch(() => null)))
+          const maps = await Promise.all(PLANETS.map((planet) => new THREE.TextureLoader().loadAsync(planetTexture(planet.id, true)).catch(() => null)))
           if (disposed) { maps.forEach((map) => map?.dispose()); return }
           PLANETS.forEach((planet, index) => {
             const map = maps[index]

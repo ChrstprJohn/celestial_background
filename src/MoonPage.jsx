@@ -21,7 +21,7 @@ export default function MoonPage() {
   const illumination = `${(result.fraction * 100).toFixed(1)}% illuminated`
 
   return (
-    <section className="moon-workspace" aria-labelledby="moon-title">
+    <section className="moon-workspace sticky-moon-title" aria-labelledby="moon-title">
       <div className="moon-controls">
         <a className="back-link" href="/#services"><ArrowLeft size={20} aria-hidden="true" /> Back</a>
         <h1 id="moon-title">Moon <em>phase.</em></h1>

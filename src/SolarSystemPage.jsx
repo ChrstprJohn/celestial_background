@@ -3,6 +3,8 @@ import { ArrowLeft, ArrowUpRight, ChevronDown } from 'lucide-react'
 import PlanetScene from './PlanetScene.jsx'
 import { PLANETS, TEXTURE_SOURCE, findPlanet, planetTexture } from './lib/planets.js'
 
+const controlsLink = { href: '#planet-selection', label: 'Choose a planet' }
+
 export default function SolarSystemPage() {
   const [planet, setPlanet] = useState(() => findPlanet(new URLSearchParams(window.location.search).get('planet')))
   const [retry, setRetry] = useState(0)
@@ -26,7 +28,7 @@ export default function SolarSystemPage() {
   }
 
   return (
-    <section className="solar-workspace mobile-workspace" aria-label="Solar System showcase">
+    <section className="solar-workspace mobile-workspace sticky-preview-title" aria-label="Solar System showcase">
       <aside className="planet-sidebar">
         <div className="planet-mobile-intro">
           <a className="back-link" href="/#services"><ArrowLeft size={20} aria-hidden="true" /> Back</a>
@@ -48,8 +50,7 @@ export default function SolarSystemPage() {
       </aside>
 
       <article id="planet-showcase" className="planet-showcase mobile-preview" tabIndex={-1}>
-        <PlanetScene key={`${planet.id}-${retry}`} planet={planet} onRetry={() => setRetry((value) => value + 1)} />
-        <p className="mobile-preview-label" aria-live="polite">{planet.name}</p>
+        <PlanetScene key={`${planet.id}-${retry}`} planet={planet} controlsLink={controlsLink} onRetry={() => setRetry((value) => value + 1)} />
       </article>
       <section className="planet-details" aria-label={`About ${planet.name}`}>
         <dl className="planet-facts" aria-label={`${planet.name} facts`}>
