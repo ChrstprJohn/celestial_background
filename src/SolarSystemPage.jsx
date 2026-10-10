@@ -26,25 +26,30 @@ export default function SolarSystemPage() {
   }
 
   return (
-    <section className="solar-workspace" aria-label="Solar System showcase">
+    <section className="solar-workspace mobile-workspace" aria-label="Solar System showcase">
       <aside className="planet-sidebar">
-        <a className="back-link" href="/#services"><ArrowLeft size={20} aria-hidden="true" /> Back</a>
-        <div className="planet-introduction" aria-live="polite" aria-atomic="true">
-          <h1>{planet.name}</h1>
-          <p className="planet-subtitle">{planet.subtitle}</p>
-          <p className="planet-description">{planet.description}</p>
+        <div className="planet-mobile-intro">
+          <a className="back-link" href="/#services"><ArrowLeft size={20} aria-hidden="true" /> Back</a>
+          <div className="planet-introduction" aria-live="polite" aria-atomic="true">
+            <h1>{planet.name}</h1>
+            <p className="planet-subtitle">{planet.subtitle}</p>
+            <p className="planet-description">{planet.description}</p>
+          </div>
         </div>
-        <p className="planet-selector-label">Choose your planet</p>
-        <nav className="planet-list" aria-label="Choose a planet">
-          {PLANETS.map((item) => <button key={item.id} className={`planet-choice${item.id === planet.id ? ' is-selected' : ''}`} aria-pressed={item.id === planet.id} onClick={() => choose(item)}>
-            <span className={`planet-thumbnail planet-thumbnail-${item.id}`} aria-hidden="true" style={{ backgroundImage: `url(${planetTexture(item.id)})`, backgroundColor: item.color }} />
-            <span>{item.name}</span>
-          </button>)}
-        </nav>
+        <div className="planet-selection" id="planet-selection" tabIndex={-1}>
+          <p className="planet-selector-label">Choose your planet</p>
+          <nav className="planet-list" aria-label="Choose a planet">
+            {PLANETS.map((item) => <button key={item.id} className={`planet-choice${item.id === planet.id ? ' is-selected' : ''}`} aria-pressed={item.id === planet.id} onClick={() => choose(item)}>
+              <span className={`planet-thumbnail planet-thumbnail-${item.id}`} aria-hidden="true" style={{ backgroundImage: `url(${planetTexture(item.id)})`, backgroundColor: item.color }} />
+              <span>{item.name}</span>
+            </button>)}
+          </nav>
+        </div>
       </aside>
 
-      <article id="planet-showcase" className="planet-showcase" tabIndex={-1}>
+      <article id="planet-showcase" className="planet-showcase mobile-preview" tabIndex={-1}>
         <PlanetScene key={`${planet.id}-${retry}`} planet={planet} onRetry={() => setRetry((value) => value + 1)} />
+        <p className="mobile-preview-label" aria-live="polite">{planet.name}</p>
       </article>
       <section className="planet-details" aria-label={`About ${planet.name}`}>
         <dl className="planet-facts" aria-label={`${planet.name} facts`}>

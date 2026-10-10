@@ -59,8 +59,9 @@ export default function LocationSharing() {
   }
   return <section className="location-sharing" aria-labelledby="location-sharing-title">
     <div>
-      <h2 id="location-sharing-title">Share where you’re visiting from</h2>
-      <p id="location-sharing-description">Help us understand where our visitors are from. If you choose to share, we send your current location to BigDataCloud to find your city, and save it in our visitor analytics. It’s optional—we don’t track your movement.</p>
+      <h2 id="location-sharing-title"><span className="location-desktop-copy">Share where you’re visiting from</span><span className="location-mobile-copy">Share your location</span></h2>
+      <p id="location-sharing-description"><span className="location-desktop-copy">Help us understand where our visitors are from. If you choose to share, we send your current location to BigDataCloud to find your city, and save it in our visitor analytics. It’s optional—we don’t track your movement.</span><span className="location-mobile-copy">Help us understand where visitors are from. Sharing is optional.</span></p>
+      <details className="location-mobile-details"><summary>How location is used</summary><p>We send your current location to BigDataCloud to find your city and save it in our visitor analytics. We don’t track your movement.</p></details>
       <p role="status">{message}</p>
     </div>
     <div className="location-sharing-actions">
