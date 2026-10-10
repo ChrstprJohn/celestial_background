@@ -7,7 +7,9 @@
 .date-trigger:focus-visible { outline-offset: 3px; }
 .date-chevron { transition: transform .2s; }
 .date-trigger[aria-expanded="true"] .date-chevron { transform: rotate(180deg); }
-.date-calendar { position: absolute; top: calc(100% + 10px); left: 0; z-index: 10; width: 100%; max-height: min(440px, 60dvh); overflow-y: auto; overscroll-behavior-y: auto; touch-action: pan-y; scroll-margin-top: var(--mobile-preview-offset, 12px); padding: 14px; border: 1px solid #3f4664; border-radius: 14px; background: #101528; color: #f3f0e9; }
+.date-calendar { position: absolute; top: calc(100% + 10px); left: 0; z-index: 10; display: flex; flex-direction: column; width: 100%; max-height: min(440px, calc(100dvh - 24px)); overflow: hidden; scroll-margin-top: var(--mobile-preview-offset, 12px); border: 1px solid #3f4664; border-radius: 14px; background: #101528; color: #f3f0e9; }
+.calendar-scroll { min-height: 0; overflow-y: auto; overscroll-behavior-y: contain; touch-action: pan-y; -webkit-overflow-scrolling: touch; scrollbar-gutter: stable; padding: 14px; }
+.calendar-scroll :is(button, select) { touch-action: pan-y; }
 .date-calendar[data-placement="inline"] { position: relative; top: auto !important; bottom: auto !important; margin-top: 10px; }
 .calendar-heading { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-bottom: 12px; }
 .calendar-selects, .calendar-navigation { display: flex; align-items: center; gap: 4px; }
@@ -27,7 +29,7 @@
 .calendar-day:focus-visible, .calendar-select select:focus-visible, .calendar-navigation button:focus-visible { outline-offset: -2px; }
 .date-calendar button:disabled { color: #a4abc2; opacity: .4; cursor: default; }
 .date-calendar button:disabled:hover { background: transparent; }
-.calendar-footer { position: sticky; bottom: -14px; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 10px -14px -14px; padding: 8px 14px 14px; border-top: 1px solid #282e44; background: #101528; }
+.calendar-footer { flex-shrink: 0; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 14px; border-top: 1px solid #282e44; background: #101528; }
 .calendar-footer > span { color: #a4abc2; font-size: 11px; }
 .calendar-footer button { min-height: 44px; padding: 0 10px; border: 0; border-radius: 6px; background: transparent; color: #c9c1f0; font-size: 12px; font-weight: 500; }
 .calendar-footer button:hover { background: #252b45; }

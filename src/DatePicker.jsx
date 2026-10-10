@@ -40,6 +40,7 @@ function Calendar({ id, label, value, min, max, today, onSelect, onDone }) {
   }
 
   return <div id={`${id}-calendar`} className="date-calendar" role="dialog" aria-label={`${label} calendar`}>
+    <div className="calendar-scroll">
     <div className="calendar-heading">
       <div className="calendar-selects">
         <span className="calendar-select"><select aria-label="Month" value={month} onChange={(event) => navigate(Number(event.target.value) - month)}>
@@ -63,6 +64,7 @@ function Calendar({ id, label, value, min, max, today, onSelect, onDone }) {
         tabIndex={day === focused ? 0 : -1} disabled={day < min || day > max}
         onKeyDown={dayKey} onClick={() => { focusDay.current = true; setFocused(day); onSelect(day) }}>{Number(day.slice(8))}</button>)}
     </div>
+    </div>
     <div className="calendar-footer"><span>Choose month, day & year</span><div className="calendar-actions"><button type="button" disabled={today < min || today > max} onClick={() => { focusDay.current = true; setFocused(today); onSelect(today) }}>Today</button><button type="button" className="calendar-done" onClick={onDone}>Done</button></div></div>
   </div>
 }
@@ -84,7 +86,7 @@ export default function DatePicker({ id, name, label, value, min, max, today, on
       const offset = viewport?.offsetTop || 0
       const below = Math.max(0, height + offset - rect.bottom - 18)
       const above = Math.max(0, rect.top - offset - 18)
-      const naturalHeight = calendar.scrollHeight + 2
+      const naturalHeight = calendar.querySelector('.calendar-scroll').scrollHeight + calendar.querySelector('.calendar-footer').offsetHeight + 2
       const compact = window.matchMedia('(max-width: 767px), (pointer: coarse)').matches
       const upward = !compact && below < naturalHeight && above >= naturalHeight
       const inline = compact || (below < naturalHeight && !upward)
@@ -96,9 +98,9 @@ export default function DatePicker({ id, name, label, value, min, max, today, on
         : 0
       // Reserve space for the pinned title/model, leaving Done on screen while
       // dates scroll inside the calendar on short phones and landscape views.
-      const availableHeight = Math.max(140, height - pinnedHeight - 24)
+      const availableHeight = Math.max(100, height - pinnedHeight - 24)
       calendar.dataset.placement = inline ? 'inline' : upward ? 'above' : 'below'
-      calendar.style.maxHeight = `${Math.min(availableHeight, Math.max(180, Math.min(440, height * .6)))}px`
+      calendar.style.maxHeight = `${Math.min(availableHeight, 440)}px`
       calendar.style.scrollMarginTop = `${pinnedHeight + 12}px`
       calendar.style.top = upward ? 'auto' : 'calc(100% + 10px)'
       calendar.style.bottom = upward ? 'calc(100% + 10px)' : 'auto'

@@ -64,21 +64,37 @@ function PetsArt() {
 function ShowcaseSection() {
   const video = useRef(null)
   const [active, setActive] = useState(false)
-  const [manual] = useState(() => window.matchMedia('(pointer: coarse), (prefers-reduced-motion: reduce)').matches || Boolean(navigator.connection?.saveData))
+  const [blocked, setBlocked] = useState(false)
+  const [manual] = useState(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches || Boolean(navigator.connection?.saveData))
   useEffect(() => {
     const element = video.current
     let inView = false
     const update = () => {
       if (!manual && inView && !document.hidden) {
         setActive(true)
-        element.play().catch(() => {})
+        if (!element.getAttribute('src')) return
+        element.muted = true
+        element.play().then(() => setBlocked(false)).catch((error) => {
+          if (error.name === 'NotAllowedError') setBlocked(true)
+        })
       } else element.pause()
     }
     const observer = new IntersectionObserver(([entry]) => { inView = entry.isIntersecting; update() }, { threshold: .25 })
     observer.observe(element)
     document.addEventListener('visibilitychange', update)
-    return () => { observer.disconnect(); document.removeEventListener('visibilitychange', update); element.pause() }
-  }, [manual])
+    window.addEventListener('pageshow', update)
+    element.addEventListener('canplay', update)
+    // A browser may require the first touch before allowing muted playback.
+    document.addEventListener('pointerdown', update, { passive: true })
+    return () => {
+      observer.disconnect()
+      document.removeEventListener('visibilitychange', update)
+      window.removeEventListener('pageshow', update)
+      element.removeEventListener('canplay', update)
+      document.removeEventListener('pointerdown', update)
+      element.pause()
+    }
+  }, [manual, active])
   return (
     <section className="showcase-section" aria-labelledby="showcase-title">
       <h2 id="showcase-title" className="showcase-title" data-scroll-reveal>See it come alive.</h2>
@@ -90,7 +106,7 @@ function ShowcaseSection() {
           poster="/previews/showcase.webp"
           preload="none"
           autoPlay={active}
-          controls={manual}
+          controls={manual || blocked}
           muted
           loop
           playsInline

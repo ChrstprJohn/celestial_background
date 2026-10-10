@@ -19,6 +19,9 @@
 .builder-planet + .art-caption { margin-top: 26px; }
 .builder-preview + .art-download-wrap { text-align: center; }
 .builder-preview + .art-download-wrap .export-preview summary { justify-content: center; }
+.builder-actions { text-align: center; }
+.builder-actions .button-row { justify-content: center; }
+.builder-actions .export-preview summary { justify-content: center; }
 
 @media (min-width: 768px) and (min-height: 700px) {
   .discovery-workspace[aria-labelledby="world-builder-title"] .discovery-result { position: sticky; top: 24px; }
